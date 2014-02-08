@@ -105,15 +105,16 @@ print $line;
 print "Count: ".$count."\n";
 $happy = "happy";
 $sad = "sad";
-$love = "love";
+$computer = "computer";
 $happyFollower = mcw($happy);
 $sadFollower = mcw($sad);
-$loveFollower = mcw($love);
-print "\"song\" follows \"love\": ".$HoH{love}{song}." times\n"; 
-print "The most common word to follow \"happy\" is: ".$happyFollower."\n";
-print "The most common word to follow \"sad\" is: ".$sadFollower."\n";
-print "The most common word to follow \"love\" is: ".$loveFollower."\n";
-print "\"song\" follows \"love\": ".$HoH{love}{song}." times\n"; 
+$computerFollower = mcw($computer); 
+$numComputerFollowers = numberWordsFollowing($computer);
+print "The most common word to follow \"happy\" is: ".$happyFollower.".\n";
+print "The most common word to follow \"sad\" is: ".$sadFollower.".\n";
+print "Unique words following \"computer\": ".$numComputerFollowers.".\n";
+print "The most common word to follow \"computer\" is: ".$computerFollower.".\n";
+print "\"".$computerFollower."\" follows \"computer\": ".$HoH{$computer}{$computerFollower}." times.\n"; 
 print "File parsed. Bigram model built.\n\n";
 
 
@@ -168,6 +169,17 @@ sub titleBuilder{
 	}	
 	return $titleString;
 }
+sub numberWordsFollowing{
+	my $word = $_[0];
+	my $numFollowers = 0;
+	if (exists $HoH{$word}){
+		foreach my $follower (keys $HoH{$word}){
+			$numFollowers +=1;
+		}
+	}
+	return $numFollowers;
+}
+	
 
 
 
