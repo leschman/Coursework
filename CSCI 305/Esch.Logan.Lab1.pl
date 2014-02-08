@@ -138,18 +138,20 @@ sub mcw{
 	my $biggestCountSoFar = 0;
 	my $mostCommonWordSoFar;
 	my $word = $_[0];
-	foreach my $follower (keys $HoH{$word}){
-	#check for ties. 
-		if($HoH{$word}{$follower} == $biggestCountSoFar){
-			#tie found, flip coin.
-			if(rand(1) >= .5){
-				#swap values.
+	if (exists $HoH{$word}){
+		foreach my $follower (keys $HoH{$word}){
+		#check for ties. 
+			if($HoH{$word}{$follower} == $biggestCountSoFar){
+				#tie found, flip coin.
+				if(rand(1) >= .5){
+					#swap values.
+					$mostCommonWordSoFar = $follower;
+				}
+			
+			}elsif($HoH{$word}{$follower} > $biggestCountSoFar){
+				$biggestCountSoFar = $HoH{$word}{$follower};
 				$mostCommonWordSoFar = $follower;
 			}
-		
-		}elsif($HoH{$word}{$follower} > $biggestCountSoFar){
-			$biggestCountSoFar = $HoH{$word}{$follower};
-			$mostCommonWordSoFar = $follower;
 		}
 	}
 	return $mostCommonWordSoFar;
@@ -161,7 +163,7 @@ sub titleBuilder{
 	my $counter = 0;
 	while($counter < 20){
 		$nextWord = mcw($nextWord);
-		$titleString = $titleString.$nextWord;
+		$titleString = $titleString." ".$nextWord;
 		$counter += 1;
 	}	
 	return $titleString;
