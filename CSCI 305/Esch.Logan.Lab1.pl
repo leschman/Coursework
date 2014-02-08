@@ -9,6 +9,7 @@
 # Replace the string value of the following variable with your names.
 my $name = "Logan Esch";
 print "CSCI 305 Lab 1 submitted by $name \n\n";
+print "Running... please wait.\n\n";
 
 # Checks for the argument, fail if none given
 if($#ARGV != 0) {
@@ -82,12 +83,16 @@ while($line = <INFILE>) {
 		$firstWord, $secondWord;
 		#split the title into individual words.
 		@words = split(/ /, $title);
-		
+		#set the first word to the first word in the title.
+		$firstWord = shift(@words);
 		#loop through the new array and add to HoH.
-		
-		
-		print $title."\n";
+		foreach $secondWord (@words){
+			$HoH{$firstWord}{$secondWord} += 1;
+			$firstWord = $secondWord;
+		}		
+		#print $title."\n";
 		$count = $count + 1;
+		
 	}
 }
 
@@ -97,7 +102,8 @@ close INFILE;
 # At this point (hopefully) you will have finished processing the song 
 # title file and have populated your data structure of bigram counts.
 print $line;
-print $count;
+print "Count: ".$count."\n";
+print "\"song\" follows \"love\": ".$HoH{love}{song}." times\n"; 
 print "File parsed. Bigram model built.\n\n";
 
 
