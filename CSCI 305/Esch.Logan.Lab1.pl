@@ -130,7 +130,7 @@ while ($input ne "q"){
 # MORE OF YOUR CODE HERE....
 
 sub mostCommonFollower{
-	print "finding follower of: ".$_[0]."\n";
+	#print "finding follower of: ".$_[0]."\n";
 	$biggestCountSoFar = 0;
 	$mostCommonWordSoFar;
 	foreach $follower (keys $HoH{$_[0]}){
