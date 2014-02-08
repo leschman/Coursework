@@ -103,6 +103,15 @@ close INFILE;
 # title file and have populated your data structure of bigram counts.
 print $line;
 print "Count: ".$count."\n";
+$happy = "happy";
+$sad = "sad";
+$love = "love";
+$happyFollower = mostCommonFollower($happy);
+$sadFollower = mostCommonFollower($sad);
+$loveFollower = mostCommonFollower($love);
+print "The most common word to follow \"happy\" is: ".$happyFollower."\n";
+print "The most common word to follow \"sad\" is: ".$sadFollower."\n";
+print "The most common word to follow \"love\" is: ".$loveFollower."\n";
 print "\"song\" follows \"love\": ".$HoH{love}{song}." times\n"; 
 print "File parsed. Bigram model built.\n\n";
 
@@ -119,3 +128,19 @@ while ($input ne "q"){
 }
 
 # MORE OF YOUR CODE HERE....
+
+sub mostCommonFollower{
+	print "finding follower of: ".$_[0]."\n";
+	$biggestCountSoFar = 0;
+	$mostCommonWordSoFar;
+	foreach $follower (keys $HoH{$_[0]}){
+		if($HoH{$_[0]}{$follower} > $biggestCountSoFar){
+			$biggestCountSoFar = $HoH{$_[0]}{$follower};
+			$mostCommonWordSoFar = $follower;
+		}
+	}
+	print $mostCommonWordSoFar;
+	return $mostCommonWordSoFar;
+}
+
+
