@@ -106,9 +106,10 @@ print "Count: ".$count."\n";
 $happy = "happy";
 $sad = "sad";
 $love = "love";
-$happyFollower = mostCommonFollower($happy);
-$sadFollower = mostCommonFollower($sad);
-$loveFollower = mostCommonFollower($love);
+$happyFollower = mcw($happy);
+$sadFollower = mcw($sad);
+$loveFollower = mcw($love);
+print "\"song\" follows \"love\": ".$HoH{love}{song}." times\n"; 
 print "The most common word to follow \"happy\" is: ".$happyFollower."\n";
 print "The most common word to follow \"sad\" is: ".$sadFollower."\n";
 print "The most common word to follow \"love\" is: ".$loveFollower."\n";
@@ -122,25 +123,47 @@ $input = <STDIN>;
 chomp($input);
 print "\n";	
 while ($input ne "q"){
-	# Replace these lines with some useful code
-	print "Not yet implemented.  Goodbye.\n";
-	$input = 'q';
+	print titleBuilder($input)."\n";
+	print "Enter a word [Enter 'q' to quit]: ";
+	$input = <STDIN>;
+	chomp($input);
+	print "\n";	
 }
 
 # MORE OF YOUR CODE HERE....
 
-sub mostCommonFollower{
-	print "finding follower of: ".$_[0]."\n";
-	$biggestCountSoFar = 0;
-	$mostCommonWordSoFar;
-	foreach $follower (keys $HoH{$_[0]}){
-		if($HoH{$_[0]}{$follower} > $biggestCountSoFar){
-			$biggestCountSoFar = $HoH{$_[0]}{$follower};
+sub mcw{
+	#print "finding follower of: ".$_[0]."\n";
+	my $biggestCountSoFar = 0;
+	my $mostCommonWordSoFar;
+	my $word = $_[0];
+	foreach my $follower (keys $HoH{$word}){
+	#check for ties. 
+		if($HoH{$word}{$follower} = $biggestCountSoFar){
+			#tie found, flip coin.
+			if(rand(1) >= .5){
+				#swap values.
+				$mostCommonWordSoFar = $follower;
+			}
+		
+		}elsif($HoH{$word}{$follower} > $biggestCountSoFar){
+			$biggestCountSoFar = $HoH{$word}{$follower};
 			$mostCommonWordSoFar = $follower;
 		}
 	}
-	print $mostCommonWordSoFar;
 	return $mostCommonWordSoFar;
+}
+
+sub titleBuilder{
+	my $nextWord = $_[0];
+	my $titleString = $nextWord;
+	my $counter = 0;
+	while($counter < 20){
+		$nextWord = mcw($nextWord);
+		$titleString = $titleString.$nextWord;
+		$counter += 1;
+	}	
+	return $titleString;
 }
 
 
