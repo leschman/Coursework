@@ -139,7 +139,7 @@ sub mcw{
 	my $word = $_[0];
 	foreach my $follower (keys $HoH{$word}){
 	#check for ties. 
-		if($HoH{$word}{$follower} = $biggestCountSoFar){
+		if($HoH{$word}{$follower} == $biggestCountSoFar){
 			#tie found, flip coin.
 			if(rand(1) >= .5){
 				#swap values.
