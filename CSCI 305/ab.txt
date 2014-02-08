@@ -1,0 +1,6 @@
+<SEP> <SEP> <SEP>a b(xxx)c
+<SEP> <SEP> <SEP>a b(xxx)c
+<SEP> <SEP> <SEP>a b(xxx)c
+<SEP> <SEP> <SEP>a b(xxx)c
+<SEP> <SEP> <SEP>a b(xxx)c
+<SEP> <SEP> <SEP>abd(xxx)c
