@@ -1,0 +1,18 @@
+Question 1: The word that most often follows "happy" is "birthday."
+Question 2: The word that most often follows "sad" is "song."
+Question 3: There are 58 unique words that follow "computer."
+Question 4: The word that most often follows "computer" is "love."
+Question 5: "Love" follows "computer 13 times.
+Question 6: Using the starting word "Happy" the song title is:
+			"happy birthday song for the world is a little girl in the world is a little girl in the world is."
+Question 7: Using the starting word "Sad" the song title is:
+			"sad song for the world is a little girl in the world is a little girl in the world is a."
+Question 8: Using the starting word "Hey" the song title is:
+			"hey hey hey hey hey hey hey hey hey hey hey hey hey hey hey hey hey hey hey hey."
+Question 9: Using the starting word "little" the song title is:
+			"little girl in the world is a little girl in the world is a little girl in the world is a."
+Question 10: 	"dig it up the world is a little girl in the world is a little girl in the world is a."
+				"bible for the world is a little girl in the world is a little girl in the world is a little."
+				"love you are you are you are you are you are you are you are you are you are you are."
+				"compass rose of the world is a little girl in the world is a little girl in the world is a."
+				"montana sacra nova baby i love you are you are you are you are you are you are you are."
