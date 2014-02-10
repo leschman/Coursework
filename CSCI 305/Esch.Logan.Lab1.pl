@@ -72,6 +72,55 @@ while($line = <INFILE>) {
 	$title =~s/\%//g;
 	$title =~s/\#//g;
 	$title =~s/\|//g;
+	
+	#filter out common words.
+	$title =~s/ +a +/ /g;
+	$title =~s/ +an +/ /g;
+	$title =~s/ +and +/ /g;
+	$title =~s/ +by +/ /g;
+	$title =~s/ +for +/ /g;
+	$title =~s/ +from +/ /g;
+	$title =~s/ +in +/ /g;
+	$title =~s/ +of +/ /g;
+	$title =~s/ +on +/ /g;
+	$title =~s/ +or +/ /g;
+	$title =~s/ +out +/ /g;
+	$title =~s/ +the +/ /g;
+	$title =~s/ +to +/ /g;
+	$title =~s/ +with +/ /g;
+	
+	#filter out common words at start of lines.
+	$title =~s/^a +//g;
+	$title =~s/^an +//g;
+	$title =~s/^and +//g;
+	$title =~s/^by +//g;
+	$title =~s/^for +//g;
+	$title =~s/^from +//g;
+	$title =~s/^in +//g;
+	$title =~s/^of +//g;
+	$title =~s/^on +//g;
+	$title =~s/^or +//g;
+	$title =~s/^out +//g;
+	$title =~s/^the +//g;
+	$title =~s/^to +//g;
+	$title =~s/^with +//g;
+	
+	#filter out common words at end of lines.
+	$title =~s/ +a$//g;
+	$title =~s/ +an$//g;
+	$title =~s/ +and$//g;
+	$title =~s/ +by$//g;
+	$title =~s/ +for$//g;
+	$title =~s/ +from$//g;
+	$title =~s/ +in$//g;
+	$title =~s/ +of$//g;
+	$title =~s/ +on$//g;
+	$title =~s/ +or$//g;
+	$title =~s/ +out$//g;
+	$title =~s/ +the$//g;
+	$title =~s/ +to$//g;
+	$title =~s/ +with$//g;
+	
 	#skip songs with non-English characters. 
 	$_ = $title;
 	if(/[^\w\s\']/){
@@ -90,7 +139,7 @@ while($line = <INFILE>) {
 			$HoH{$firstWord}{$secondWord} += 1;
 			$firstWord = $secondWord;
 		}		
-		#print $title."\n";
+		print $title."\n";
 		$count = $count + 1;
 		
 	}
