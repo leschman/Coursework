@@ -17,11 +17,32 @@ Question 10: 	"dig it up the world is a little girl in the world is a little gir
 				"compass rose of the world is a little girl in the world is a little girl in the world is a."
 				"montana sacra nova baby i love you are you are you are you are you are you are you are."
 				"orange blossom white christmas song for the world is a little girl in the world is a little girl in the."
-				"buttkiss the world is a little girl in the world is a little girl in the world is a little."
+				"hobbit."
 				"wake up the world is a little girl in the world is a little girl in the world is a little."
 				"elk child is a little girl in the world is a little girl in the world is a little girl in."
 				"cell block party time to the world is a little girl in the world is a little girl in the world."
 
 				The main problem is that common words like "up" and "the" all redirect titles into a loop of
 				"is a little girl in the world", which then takes the title over. 
-Question 11
+Question 11:	Using the starting word "little" the song title is:
+				"little girl you are you are you are you are you are you are you are you are you are."
+Question 12: 	Not in spirit, it broke up the original cycle and replaced it with "you are". 
+Question 13:	Using the starting word "love" the song title is:
+				"love you are you are you are you are you are you are you are you are you are you."
+Question 14: 	"dig it up your love you are you are you are you are you are you are you are you."
+				"bible belt buckle up your love you are you are you are you are you are you are you are."
+				"love you are you are you are you are you are you are you are you are you are you are."
+				"compass rose garden eden som en la vida es el amor de la vida es el amor de la vida es."
+				"montana sacra nova baby i love you are you are you are you are you are you are you are."
+				"orange blossom white christams song you are you are you are you are you are you are you are you."
+				"hobbit."
+				"wake up your love you are you are you are you are you are you are you are you."
+				"elk child is my heart is my heart is my heart is my heart is my heart is my heart."
+				"cell block party time is my heart is my heart is my heart is my heart is my heart is my."
+				This did not solve the problem encountered in question 10. The problem is that loops occur in 
+				the bigram counts, like you follows are and are follows you. a solution would be to have code 
+				in the method that builds the titles that checks to see if the word it is about to add is already
+				part of that title, and if so to pick the word with the next highest count. To do this it would 
+				probably be best to also sort the second words in the bigrams as the words are reached building titles.
+Question 15:	"hobbit."				
+				
