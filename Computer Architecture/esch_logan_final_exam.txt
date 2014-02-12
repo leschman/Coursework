@@ -1,0 +1,53 @@
+Logan Esch, 01861303 Final Exam
+
+Question 1:
+Processor pipelining allows for the speed up of instruction execution by executing instructions in many smaller faster stages, and then stacking execution so many instructions are being executed at once in different parts of hardware. Longer pipelines allow for greater throughput as more instructions are executed at once, while they increase the penalty of stalls. While there are several factors that can reduce the speed up gained by using a pipeline, two of the most prominent are Data Hazards and Branch Prediction. 
+
+Data Hazards are when the execution of instructions must be stalled while waiting for a previous instruction to complete. An example would be the following:
+
+add $S0, $t0, $t1
+sub $t2, $s0, $t3
+lw  $t3, 0($s2)
+
+In the above code there are 3 data hazards, the sub instruction needs to know what $s0 is before it can complete, the lw needs to know what address to load from ($s2), and any instructions after the lw maybe stalled because lw and sw instructions take a long time, even with caching. There are several things that can be done to reduce the effects of data hazards. one is called forwarding, which is where once data is available in from the execution phase it can be looped back through the execution phase in the next instruction. This would eliminate dependencies between the add and sub, and between the sub and lw instructions. Instruction reordering can reduce the impact of loadword instructions. For example, placing code that is not dependent on the information loaded by the lw after the loadword reduces stalls. this can be done ether by the programmer, the complier, or in some cases the processor. 
+
+Branch Prediction hazards come from not knowing which branch to take. It can be avoided ether by using one of the branch prediction techniques described in question 2 to guess what the outcome of the branch would be, or by using delayed branching as MIPS does where the outcome of the branch takes effect after another instruction independent of the branch has been executed. Delayed branching has the advantage of not stalling. 
+
+Question 2:
+Static branch prediction is simply assuming that a branch is or is not taken (typically the second) and then executing based on that prediction. One advantage is that the hardware is simpler and less expensive than dynamic prediction, another is that since the hardware is simpler, it can be faster and reduce the cost of the control stages of the pipeline, which are often the limiting factor in pipeline speeds. The disadvantage is when it comes to loops always predicting that a branch inst taken is really inefficient since the pipelines need to be flushed after an incorrect guess. 
+
+Dynamic Branch prediction uses branch prediction buffers or history tables to keep track of what was previously taken on a branch and then guessing the outcome based on that. The advantages are that this can be more accurate for loops. Dynamic branch prediction must typically be wrong many times in a row for its default guess to change. The disadvantages are that it is more expensive as the hardware is more complex and will take more space, the hardware would also be a slower than just hard-wiring the guess.
+
+Question 4:
+Temporal locality is the idea that data that is accessed will typically need to be accessed again soon. Spacial locality on the other hand is the idea that data near data that is accessed will typically need to be accessed soon. The larger any cache is, the higher its hit rate will be. Blocks go hand in hand with spacial locality, because blocks size determines how much information near the information accessed will be stored in cache. Generally slightly larger blocks benefit spacial locality since more information near previous information can be available. As blocksize increases though, the likelihood that the information will be spatially near previous information decreases, so there is a happy medium. temporal locality benefits from smaller block sizes that allow more of the previously accessed data to be available in the cache. 
+
+Question 5: 
+sw $t0, 0($s0)
+ALUSrc, 
+MemWrite
+ALUOP Bus: Code for sw. 
+
+beq $t0, $t1, L1
+Branch, 
+ALUOP Bus: Code for beq. 
+
+A hazard detection unit with branch prediction. 
+
+Question 6:
+WAW, $t0, 
+RAW, $t0,
+
+l.s 	$f0, 0($s0) #f
+lw 		$t0, 0($s1) #a
+lw 		$t1, 0($s2) #b
+add		$t2, $t0 $t1 #a+b
+div 	$t2, $t2, $t1
+mfhi 	$t2	#x = (a+b)%b
+cvt.s.w $f1, $t0 # convert $t0 to a float. 
+div.s	$f1, $f0, $f1 #y=f/a
+cvt.w.s $t3, $f1 # convert to int. 
+move	$a0, $t2
+move 	$a1, $t3
+jal 	func
+move 	$a0, $v0
+jal 	func

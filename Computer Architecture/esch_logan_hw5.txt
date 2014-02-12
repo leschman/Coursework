@@ -1,0 +1,50 @@
+5.2.1a
+Each 32-bit integer takes 4 bytes, (32/8) therefore a 16-byte cache line can store 4 32-bit integers. 
+
+5.2.2a
+Variables "I" and "J" both exhibit temporal locality as they are both referenced multiple times throughout the code. 
+
+5.2.3a
+The array addresses accessed exhibit spacial locality as the code loops through the arrays and adds them together. 
+
+5.2.4a
+there are (8000*8 = 64000) elements in array A and (8000*1=8000) elements in array B. 
+so in total there are (64000+8000=72000) elements. 
+Each cache line can store 4 elements (see 5.2.1a), 
+so 74000/4 = 18500 cache lines are needed. 
+
+5.2.5a
+Variables "I" and "J" both exhibit temporal locality as they are both referenced multiple times throughout the code. 
+
+5.2.6a
+The array addresses accessed exhibit spacial locality as the code loops through the arrays and adds them together. 
+
+5.4.1a
+the cache line size is addressed by the offset. since the offset is addressed by 5 bits, there are 2^5 = 32 words per line. 
+
+5.4.2a
+the number of entries in a cache is a function of the address space of the index field and of the offset. 
+there are 5 bits in the index field, so 2^5 = 32 lines of cache, each holding 2^5=32 words.
+so total entries = 32*32= 1024 words.
+
+5.4.3a
+this implementation uses 10 bits to address 2^10 addresses. so n bits for 2^n addresses. 
+
+5.4.4a
+assuming the cache is mapped using <address>%<number of blocks = 2^5=32>
+
+Address:	0	4	16	132	232	160	1024	30	140	3100	180	2180
+mod 32:		0	4	16	4	0	0	0		30	12	28		20	4
+hit?		N	N	N	N	N	N	N		N	N	N		N	N	
+
+5.4.5a
+the hit ratio = number of hits/number of tries
+			  = 0/12
+			  = 0
+
+5.4.6a
+Index:	0		0	0	0	4		4	4	12	16	20	28		30
+Tag:	1024	160	232	0	2180	132	4	140	16	180	3100	30
+Data:	1024	160 232	0	2180	132	4	140	16	180	3100	30
+
+5.12

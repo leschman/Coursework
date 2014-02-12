@@ -1,0 +1,26 @@
+fib: addi $sp, $sp, -8 #make room on stack for 2 registers
+sw $ra, 4($sp) #save $ra on stack
+sw $s0, 0($sp) #save #s0 on stack
+
+move $s0 $a0 #move parameter $a0 into $s0
+bne $s0, $zero, testOne #if (n==0)
+add $v0, $zero, $zero # (n==0), put 0 in return register 
+j exit #go to exit
+
+testOne: addiu $t0, $zero, 1 #put 1 in $t0
+bne $s0, $t0, notOne #if (n != 1) go to notOne
+move $v0, $t0 #move 1 to return register
+j exit #go to exit
+
+notOne: subi $a0, $s0, 1 #set $a0 = n-1
+jal fib #fib(n-1)
+move $t0, $s0 #move n to $t0
+move $s0, $v0 #move result into $s0
+subi $a0, $t0, 2 #set $a0= n-2
+jal fib #fib(n-2))
+add $v0, $s0, $v0 #fib(n-1) + fib(n-2), put result in $v0
+
+exit: lw $s0, 0($sp) #restore $s0 from stack
+lw $ra, 4($sp) #restore $ra from stack
+addi $sp, $sp, 8 #restore stack pointer 
+jr $ra #return to caller

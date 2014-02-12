@@ -1,0 +1,155 @@
+Esch.Logan.HW2.txt
+
+2.12.1a
+op	rs	rt	rd	shamt	funct
+6	6	6	6	5		6
+Total Bits: 35
+
+2.12.1b
+op	rs	rt	rd	shamt	funct
+7	5	5	5	5		7
+Total Bits: 34
+
+2.12.2a
+op	rs	rt	constant or address
+6	7	7	16
+Total Bits: 34
+
+2.12.2b
+op	rs	rt	constant or address
+8	5	5	16
+Total Bits: 34
+
+2.12.3a
+Increasing the number of registers could decrease the number of load and store operations.
+It also would increase the number of bits each instruction needed to be.
+
+2.12.3b
+Increasing the number of instructions could allow programmers to be more precise in their coding.
+It would also increase the number of bits each instruction would need to be. 
+
+
+
+2.19.1a, 22 lines
+fib: addi $sp, $sp, -8 #make room on stack for 2 registers
+sw $ra, 4($sp) #save $ra on stack
+sw $s0, 0($sp) #save #s0 on stack
+
+move $s0 $a0 #move parameter $a0 into $s0
+bne $s0, $zero, testOne #if (n==0)
+add $v0, $zero, $zero # (n==0), put 0 in return register 
+j exit #go to exit
+
+testOne: addiu $t0, $zero, 1 #put 1 in $t0
+bne $s0, $t0, notOne #if (n != 1) go to notOne
+move $v0, $t0 #move 1 to return register
+j exit #go to exit
+
+notOne: subi $a0, $s0, 1 #set $a0 = n-1
+jal fib #fib(n-1)
+move $t0, $s0 #move n to $t0
+move $s0, $v0 #move result into $s0
+subi $a0, $t0, 2 #set $a0= n-2
+jal fib #fib(n-2))
+add $v0, $s0, $v0 #fib(n-1) + fib(n-2), put result in $v0
+
+exit: lw $s0, 0($sp) #restore $s0 from stack
+lw $ra, 4($sp) #restore $ra from stack
+addi $sp, $sp, 8 #restore stack pointer 
+jr $ra #return to caller
+
+
+
+2.19.1b, 20 lines
+positive: 
+addi $sp, $sp, -12 #make room on the stack for 3 registers
+sw $ra, 8($sp) #save $ra on the stack
+sw $s1, 4($sp) #save $s1 on the stack
+sw $s0, 0($sp) #save $s0 on the stack
+move $s0, $a0 #save $a0 to $s0
+move $s1, $a0 #save $a1, $a0
+jal addit #run addit
+slt $t0, $v0, $zero 
+bne $zero, $t0, lessZero
+addi $v0, $zero, 1 #set $v0 = 1
+j exit
+
+lessZero:
+move $v0, $zero
+j exit
+
+addit: 
+add $v0, $a0, $a1 #$v0 = $a0 + $a1
+jr $ra #return 
+
+exit: 
+lw $s0, 0($sp)
+lw $s1, 4($sp)
+lw $ra, 8($sp)
+addi $sp, $sp, 20
+jr $ra
+
+
+2.19.2a, 18 Lines
+main:
+fibInLine:
+move $t0, $a0 # move $a0 to $t0
+move $v0, $zero #intialize $v0 to zero
+addi $t1, $zero, 1 #$t1=1
+minusOneLoop: 
+bne $t0, $zero notZero
+j minusTwoLoop
+
+notZero:
+bne $t0, $t1 notOne
+add $v0, $v0, $t1 #$v0 += 1
+j minusTwoLoop
+
+notOne:
+subi $t0, $t0, 1 #$t0=$t0-1
+j minusOneLoop #fib(n-1)
+
+minusTwoLoop:
+subi $a0, $a0, 2 #$a0 = $a0 - 1 
+bne $a0, $zero notZeroTwo
+j exit
+
+notZeroTwo:
+bne $a0, $t1 minusTwoLoop
+add $v0, $v0, $t1 #$v0 += 1
+j exit
+
+exit:
+
+2.19.2b, 7 lines
+positiveInLine: 
+add $v0, $a0, $a1 #$v0 = $a0 + $a1
+slt $t0, $v0, $zero 
+bne $zero, $t0, lessZero
+addi $v0, $zero, 1 #set $v0 = 1
+jr $ra
+
+lessZero:
+move $v0, $zero
+jr $ra
+
+2.19.3
+the stack is not modified in anyway by the two functions above. 
+
+2.28.1
+5 instructions need to be executed each time the store fails. 
+
+2.28.2
+This code would fail if the contents of memory in address $R1 are different than the contents of memory in $R2
+
+2.28.3
+try:
+ll $t5, 0($t2)
+addi $t5, $t5, 1
+sc $t4, 0($t2)
+beqz $t4, try
+move $t4, $t5
+I assumed that the point of the code was to load the contents of location $t2, increment them by 1, 
+and store the value of $t4 in the address of $t2, then to move the value that was in $t2's address to $t4.
+This code avoids race conditions by having only one line execute between the load and the store, which are 
+to the same address.   

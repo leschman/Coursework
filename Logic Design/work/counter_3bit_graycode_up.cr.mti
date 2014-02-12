@@ -1,0 +1,19 @@
+C:/Users/Logan/Desktop/counter_3bit_greycode_up.vhd {1 {vcom -work work -2002 -explicit C:/Users/Logan/Desktop/counter_3bit_greycode_up.vhd
+Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+-- Loading package STANDARD
+-- Compiling entity counter_3bit_graycode_up
+-- Compiling architecture counter3BitGreycodeUp of counter_3bit_graycode_up
+
+} {} {}} C:/Users/Logan/Desktop/counter_3bit_graycode_up_TB.vhd {1 {vcom -work work -2002 -explicit C:/Users/Logan/Desktop/counter_3bit_graycode_up_TB.vhd
+Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+-- Loading package STANDARD
+-- Compiling entity counter_3bit_graycode_up_TB
+-- Compiling architecture counter_3bit_graycode_up_TB_arch of counter_3bit_graycode_up_TB
+
+} {} {}} C:/Users/Logan/Desktop/dflipflop.vhd {1 {vcom -work work -2002 -explicit C:/Users/Logan/Desktop/dflipflop.vhd
+Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+-- Loading package STANDARD
+-- Compiling entity Dflipflop
+-- Compiling architecture Dflipflop_arch of Dflipflop
+
+} {} {}}

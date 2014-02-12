@@ -1,0 +1,113 @@
+4.1.1
+RegWrite: on
+MemRead: off
+Pre ALU MUX: from register, not instruction
+MemWrite: off
+ALU: AND
+Post ALU MUX: from ALU
+Branch AND: do nothing. 
+
+4.1.2
+PC, Instruction Memory, Registers, ALU
+
+4.1.3
+ALU Zero produces output that is not used. 
+The instruction immediate channel (before MUX) would have garbage data.
+Data Memory would not be used. 
+Adder for jump would not be used.
+
+4.2.1
+everything except branch hardware. 
+
+4.2.2
+None. 
+
+4.2.3
+none. 
+
+4.10.1
+200+70+20+90+90= 470ps
+
+4.10.2
+D-Mem, 470ps
+
+4.10.3
+RegDst for MUX, 200+70= 270ps
+
+4.12.1
+Pipelined: 350ps
+Non: 250+350+150+300+200 = 1250ps
+
+4.12.2
+Both: 1250ps
+
+4.12.3
+ID: new clock time would be 300ps (new longest stage is MEM)
+
+4.20.1
+L1, L2: R1
+L1, L3: R1
+L2, L4: R2
+L3, L4: R1
+
+4.20.2
+Without Forwarding:
+L2 would need to stall waiting for L1
+L4 would need to stall waiting for L3
+
+with Forwarding: 
+L4 would need to stall waiting for L3
+
+4.21.1
+add $t5, $t2, $t1
+nop
+lw $t3, 4($t5)
+lw $t2, 0($t2)
+nop
+or $t3, $t5, $t3
+sw $t3, 0($t5) 
+
+4.21.2
+add $t5, $t2, $t1
+lw $t3, 4($t5)
+lw $t2, 0($t2)
+or $t3, $t5, $t3
+sw $t3, 0($t5) 
+
+4.21.3
+Should be fine. 
+
+4.28.1
+addi $t2, $zero, $zero
+forLoop:
+beq $t2, $t8 exit
+lw $t3, $t2($t9)
+addi $t4, $t2, 1 
+sw $t3, $t4($t9)
+addi $t0, $t0, 2
+j forLoop
+
+exit: 
+
+4.28.3
+addi $t2, $zero, $zero
+forLoop:
+beq $t2, $t8 exit
+lw $t3, $t2($t9)
+addi $t4, $t2, 1 
+sw $t3, $t4($t9)
+addi $t0, $t0, 2
+j forLoop
+
+exit: 
+
+4.28.5
+about 1.5 times speed up. 
+
+4.28.6
+close to two times speed up. 
+
+
+
+
+

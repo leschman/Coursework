@@ -1,0 +1,47 @@
+Logan Esch
+10.11-9:
+for any tree with two or more vertices, pick one vertex. 
+This first vertex becomes a member of set v1. 
+Place every vertex that is adjacent to a vertex in v1 is in set v2. 
+Place every vertex that is adjacent to a vertex in v2 in v1. 
+because every edge is incident on vertices in both v1 and v2 the graph is bipartite.
+
+10.11-23
+For a graph to be connected, there must be a path between every possible distinct pair of vertices. 
+Because there must be a path between every pair of vertices, creating a spanning tree simply requires the edges creating loops be removed. 
+thus any connected graph contains a spanning tree.  
+A spanning tree is a graph that contains all of the vertices of the original graph. 
+Because a spanning tree is a tree, it must be connected by the definition of a tree. 
+Therefore a graph is connected iff it has a spanning tree. 
+Q.E.D.
+
+11.7-3
+The base case for this has 4 vertices, connected with 4 edges, each vertex has degree 2. This creates 2 faces of 4 edges. 2*4-4 = 4
+to add a region to the graph 2 vertices must be added and 4 edges. 
+because 2*4=8, 8/2 = 4 = number of edges added. 
+thus |E(G)| = 2|V(G)|-4.
+Q.E.D.
+
+11.10-3
+An edge must be incident twice. let the sum of the degree of every vertex in a graph be T. then T = 2* |E| for a graph. for every graph with 10 edges, T = 20. 
+20 / 6 = 3 R2. by the pigeon hole principle there can be no graph with 6 vertices and 10 edges with all vertices having the same degree. 
+Q.E.D.
+ 
+12.10-5
+yes. trees where no vertex has degree higher than two have Euler traversals. 
+if a tree has any vertex with degree 3 or more than no Euler traversal exists because trees do not have loops and thus there would unreachable parts of the graph. 
+
+12.10-13
+F is a graph with a cut edge between G and H, no Euler circuits because of the cut edge, but an Euler path.   
+
+13.8-11
+in K m,n graphs, let there be two sets of vertices, M and N. Pick which ever set contains vertices with the greater degree. if they are the same, pick one. create a set of colors equal to this degree, and color every edge of this vertex in order. pick the next vertex in the same set. color every edge of this vertex starting with the second color used in the previous vertex. continue this until every vertex is colored. 
+
+13.8-14
+No. Isomorphs are the same graph. All coloring will work for both graphs. 
+
+13.8-18
+The colors will be equal to the degree of the vertex with the highest degree plus one. 
+
+13.8-25
+X(G) will always be less than or equal to X'(G). 

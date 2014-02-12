@@ -1,0 +1,11 @@
+Analog vs digital
+conversions
+	dec -> hex/bin
+	bin/hex -> dec
+	bin/hex -> bin/hex
+Signed #
+	2's comp
+digital circitry
+	basic gate
+	specifications
+resistance and current

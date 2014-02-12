@@ -1,0 +1,50 @@
+3.4.1a
+62 = 111110, 12 = 001100
+Iteration	Multiplier	Multiplicand	Product
+	0		111110		000000 001100	000000 000000
+	1		011111		000000 011000	000000 000000
+	2		001111		000000 110000	000000 011000
+	3		000111		000001 100000	000001 001000
+	4		000011		000011 000000	000010 101000
+	5		000001		000110 000000	000110 101000
+	6		000000		001100 000000	010010 101000
+	
+3.6.1a
+A = 33, B = 55
+33= 32+1 = (2^5 + 1)
+Shift B to left by 5, add B. 
+
+3.6.3a
+#multiplies two 15 bit numbers together.
+move $t0, $a0 #Copy $a0 to $t0.
+andi $t1, $t0, 1 #set $t1 to value of bit 0.
+beq $t1, $zero, loop #jump to even if $t0 is even.
+add $v0, $zero, $a0 #if $t0 is odd, add $a0 to result. 
+addi $t3, $zero, 0 #initialize $t3 to 0.
+loop: 
+beq $t3, 15, exit #if this is our 15th iteration, exit. 
+addi $t3, $zero, $t3 #add 1 to $t3 to count.
+srl $t0, $t0, 1 #shift $t0 right by 1. 
+andi $t1, $t0, 1 #set $t1 to value of bit 0.
+beq $t1, $zero, loop #jump to top if we don't need to shift. 
+sll $a0, $a0, 1 # shift $a0 left by one. 
+
+exit: 
+add $v0, $v0, $a0 #move result into return register
+jr $ra #return. 
+
+3.10.4a
+63.25
+sign bit: 0
+unsigned: 111111.01
+need to move decimal 5 to right. 
+0 00000101 111110100000...
+
+3.10.4b
+146987.40625 
+unsigned: 100011111000101011.01101
+sign bit: 0
+need to shift 17 to right. 
+0 00010001 00011111000101011011
+
+
