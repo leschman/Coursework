@@ -43,6 +43,24 @@ Question 14: 	"dig it up your love you are you are you are you are you are you a
 				the bigram counts, like you follows are and are follows you. a solution would be to have code 
 				in the method that builds the titles that checks to see if the word it is about to add is already
 				part of that title, and if so to pick the word with the next highest count. To do this it would 
-				probably be best to also sort the second words in the bigrams as the words are reached building titles.
-Question 15:	"hobbit."				
-				
+				probably be best to also sort the second words in the bi-grams as the words are reached building titles.
+Question 15:	"hobbit" is a song title I found that is less than 20 words, 
+				I did not find any that were multiple words that were less than 20, they all terminated with loops.			
+Question 16:	I liked how easy it was to use the Hash of Hashes data structure, in Java or C it would have been 
+				hundreds of lines of code to build something like that and then to use it, with perl it was as easy as 
+				accessing an array. 
+Question 17:	I did not like how non-verbose regular expressions are. they are very difficult to learn, very difficult 
+				to read and very difficult to debug. I understand that they are very powerful, but they also seem very unwieldy. 
+				similarly I wish there was an easy way to step through perl programs and see what they are doing. 
+Question 18:	I enjoyed playing with language and building funny song titles. I also enjoyed learning a little perl. I did not 
+				enjoy regular expressions or figuring out how to download the text file. 
+				I ended up downloading it off of http://labrosa.ee.columbia.edu/millionsong/pages/getting-dataset by right clicking 
+				on the link I found after searching for it for about half an hour. I wish that this or some other method of getting
+				the file would have been provided with the assignment.
+Question 19:	I probably spent between 15-20 hours on this assignment.
+Question 20:	I would like to learn perl a lot better. I don't know what all I would use it for, but it was really nice to just 
+				get a functioning prototype up and running quickly. 
+
+
+
+

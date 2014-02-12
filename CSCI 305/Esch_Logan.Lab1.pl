@@ -202,20 +202,20 @@ close INFILE;
 #Hash of Hashes has been built with bigram counts.
 
 #spit out answers to common questions.
-print $line;
-print "Count: ".$count."\n";
-$happy = "happy";
-$sad = "sad";
-$computer = "computer";
-$happyFollower = mcw($happy);
-$sadFollower = mcw($sad);
-$computerFollower = mcw($computer); 
-$numComputerFollowers = numberWordsFollowing($computer);
-print "The most common word to follow \"happy\" is: ".$happyFollower.".\n";
-print "The most common word to follow \"sad\" is: ".$sadFollower.".\n";
-print "Unique words following \"computer\": ".$numComputerFollowers.".\n";
-print "The most common word to follow \"computer\" is: ".$computerFollower.".\n";
-print "\"".$computerFollower."\" follows \"computer\": ".$HoH{$computer}{$computerFollower}." times.\n"; 
+#print $line;
+#print "Count: ".$count."\n";
+#$happy = "happy";
+#$sad = "sad";
+#$computer = "computer";
+#$happyFollower = mcw($happy);
+#$sadFollower = mcw($sad);
+#$computerFollower = mcw($computer); 
+#$numComputerFollowers = numberWordsFollowing($computer);
+#print "The most common word to follow \"happy\" is: ".$happyFollower.".\n";
+#print "The most common word to follow \"sad\" is: ".$sadFollower.".\n";
+#print "Unique words following \"computer\": ".$numComputerFollowers.".\n";
+#print "The most common word to follow \"computer\" is: ".$computerFollower.".\n";
+#print "\"".$computerFollower."\" follows \"computer\": ".$HoH{$computer}{$computerFollower}." times.\n"; 
 print "File parsed. Bigram model built.\n\n";
 
 
