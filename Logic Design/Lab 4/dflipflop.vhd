@@ -1,5 +1,5 @@
-entity dflipflop is:
-	port(	clock, d : in bit;
+entity dflipflop is
+		port(	clock, d : in bit;
 			Q, Qn		: out bit);
 end entity dflipflop;
 
@@ -8,8 +8,8 @@ architecture dflipflop_arch of dflipflop is
 	begin
 	update : process(clock)
 		begin
-		if(clock ='1')
-			D <= Q;
+		if(clock ='1')then
+			Q <= D;
 			Qn <= not D;
 		end if;
 	end process update;
