@@ -9,7 +9,7 @@ public class AVLTree {
      */
     private Node root;
     /**
-     * boolean flag to indicate new node has been inserted. 
+     * boolean flag to indicate new node has been inserted.
      */
     private boolean increase;
     /**
@@ -33,9 +33,10 @@ public class AVLTree {
     }
 
     /**
-     * public method to insert into tree. 
-     * @param item to be inserted into tree. 
-     * @return boolean indicating successful insertion. 
+     * public method to insert into tree.
+     *
+     * @param item to be inserted into tree.
+     * @return boolean indicating successful insertion.
      */
     public boolean add(int item) {
 
@@ -46,13 +47,14 @@ public class AVLTree {
     }
 
     /**
-     * private recursive method to insert items into the tree. 
-     * @param localRoot the local root to operate on. 
-     * @param item the item to insert into the tree. 
-     * @return reference to node inserted. 
+     * private recursive method to insert items into the tree.
+     *
+     * @param localRoot the local root to operate on.
+     * @param item the item to insert into the tree.
+     * @return reference to node inserted.
      */
     private Node add(Node localRoot, int item) {
-        
+
         if (localRoot == null) {
             //localRoot is null, insert item. 
             addReturn = true;
@@ -105,8 +107,9 @@ public class AVLTree {
     }
 
     /**
-     * decreases the balance on the given node by one. 
-     * @param node the node to operate on. 
+     * decreases the balance on the given node by one.
+     *
+     * @param node the node to operate on.
      */
     private void decrementBalance(Node node) {
         node.balance--;
@@ -117,19 +120,30 @@ public class AVLTree {
 
     private Node rebalanceRight(Node localRoot) {
 
-
         // Obtain reference to right child
         Node rightChild = localRoot.getRight();
         // See if right-left heavy
-        if (rightChild.balance ) {
+        if (rightChild.balance < 0) {
             // Obtain reference to right-left child
-
+            Node rightLeftChild = rightChild.getLeft();
             /* Adjust the balances to be their new values after
              the rotates are performed.
              */
-            if  {
-            } else if  {
+            if (rightLeftChild.balance > 0) {
+                //UPDATE BALANCE FOR RIGHT LEFT BEING RIGHT HEAVY
+                localRoot.balance = 0;
+                rightChild.balance = -1;
+                rightLeftChild.balance = 0;
+            } else if (rightLeftChild.balance < 0) {
+                // UPDATE BALANCE FOR RIGHT LEFT BEING LEFT HEAVY
+                localRoot.balance = 1;
+                rightChild.balance = 0;
+                rightLeftChild.balance = 0;
             } else {
+                // UPDATE BALANCE FOR RIGHT LEFT BEING BALANCED.
+                localRoot.balance = 0;
+                rightChild.balance = 0;
+                rightLeftChild.balance = 0;
             }
             /**
              * After the rotates the overall height will be reduced thus
@@ -138,31 +152,77 @@ public class AVLTree {
             increase = false;
             decrease = true;
             // Perform double rotation
-
-            return 
-        }
-        if  {
+            localRoot.setRight(rotateRight(rightChild));
+            return rotateLeft(localRoot);
+        } else {
             /* In this case both the rightChild (the new root)
              and the root (new left child) will both be balanced
              after the rotate. Also the overall height will be
-             reduced, thus increase will be fasle, but decrease
+             reduced, thus increase will be false, but decrease
              will be true.
              */
-        } else {
-            /* After the rotate the rightChild (new root) will
-             be left heavy, and the local root (new left child)
-             will be right heavy. The overall height of the tree
-             will not change, thus increase and decrease remain
-             unchanged.
-             */
+            //set both nodes involved to balanced
+            localRoot.balance = 0;
+            rightChild.balance = 0;
+            increase = false;
+            decrease = true;
+
+            // Now rotate 
+            return rotateLeft(localRoot);
         }
-        // Now rotate the
-        return rotateLeft(localRoot);
     }
 
     private Node rebalanceLeft(Node localRoot) {
-        /* I took all of this one out, but it's a mirror 
-         image of the one above. */
+        // Obtain reference to left child
+        Node leftChild = localRoot.getLeft();
+        // See if leftRight heavy
+        if (leftChild.balance > 0) {
+            // Obtain reference to leftRight child
+            Node leftRightChild = leftChild.getRight();
+            /* Adjust the balances to be their new values after
+             the rotates are performed.
+             */
+            if (leftRightChild.balance > 0) {
+                //UPDATE BALANCE FOR LEFT RIGHT BEING RIGHT HEAVY
+                localRoot.balance = -1;
+                leftChild.balance = 0;
+                leftRightChild.balance = 0;
+            } else if (leftRightChild.balance < 0) {
+                // UPDATE BALANCE FOR LEFT RIGHT BEING LEFT HEAVY
+                localRoot.balance = 1;
+                leftChild.balance = 0;
+                leftRightChild.balance = 0;
+            } else {
+                // UPDATE BALANCE FOR RIGHT LEFT BEING BALANCED.
+                localRoot.balance = 0;
+                leftChild.balance = 0;
+                leftRightChild.balance = 0;
+            }
+            /**
+             * After the rotates the overall height will be reduced thus
+             * increase is now false, but decrease is now true.
+             */
+            increase = false;
+            decrease = true;
+            // Perform double rotation
+            localRoot.setRight(rotateRight(leftChild));
+            return rotateLeft(localRoot);
+        } else {
+            /* In this case both the rightChild (the new root)
+             and the root (new left child) will both be balanced
+             after the rotate. Also the overall height will be
+             reduced, thus increase will be false, but decrease
+             will be true.
+             */
+            //set both nodes involved to balanced
+            localRoot.balance = 0;
+            leftChild.balance = 0;
+            increase = false;
+            decrease = true;
+
+            // Now rotate 
+            return rotateLeft(localRoot);
+        }
     }
 
     private void incrementBalance(Node node) {
@@ -180,16 +240,20 @@ public class AVLTree {
         }
     }
 
-    private Node rotateRight(Node root) {
+    private Node rotateRight(Node localRoot) {
         System.out.println("Rotating Right");
-        //There is where you set up your references to get the proper rotation
-        //see hint in rotateLeft
-        return temp;
+        Node rightChild = localRoot.getRight();
+        localRoot.setRight(rightChild.getLeft());
+        rightChild.setLeft(localRoot);
+        return rightChild;
     }
 
     private Node rotateLeft(Node localRoot) {
         System.out.println("Rotating Left");
         //// hint this was only three lines that I took out. 
-        return temp;
+        Node leftChild = localRoot.getLeft();
+        localRoot.setLeft(leftChild.getRight());
+        leftChild.setLeft(localRoot);
+        return leftChild;
     }
 }
