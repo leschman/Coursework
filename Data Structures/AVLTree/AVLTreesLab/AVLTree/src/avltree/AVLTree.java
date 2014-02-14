@@ -152,8 +152,8 @@ public class AVLTree {
             increase = false;
             decrease = true;
             // Perform double rotation
-            localRoot.setRight(rotateRight(rightChild));
-            return rotateLeft(localRoot);
+            localRoot.setRight(rotateLeft(localRoot.getRight()));
+            return rotateRight(localRoot);
         } else {
             /* In this case both the rightChild (the new root)
              and the root (new left child) will both be balanced
@@ -168,7 +168,7 @@ public class AVLTree {
             decrease = true;
 
             // Now rotate 
-            return rotateLeft(localRoot);
+            return rotateRight(localRoot);
         }
     }
 
@@ -205,8 +205,8 @@ public class AVLTree {
             increase = false;
             decrease = true;
             // Perform double rotation
-            localRoot.setLeft(rotateLeft(leftChild));
-            return rotateRight(localRoot);
+            localRoot.setLeft(rotateRight(localRoot.getLeft()));
+            return rotateLeft(localRoot);
         } else {
             /* In this case both the rightChild (the new root)
              and the root (new left child) will both be balanced
@@ -221,7 +221,7 @@ public class AVLTree {
             decrease = true;
 
             // Now rotate 
-            return rotateRight(localRoot);
+            return rotateLeft(localRoot);
         }
     }
 
@@ -253,7 +253,96 @@ public class AVLTree {
         //// hint this was only three lines that I took out. 
         Node leftChild = localRoot.getLeft();
         localRoot.setLeft(leftChild.getRight());
-        leftChild.setLeft(localRoot);
+        leftChild.setRight(localRoot);
         return leftChild;
+    }
+
+    /**
+     * Prints an in-order representation of the tree.
+     */
+    public void printInOrder() {
+        String out = buildInOrder(root, "");
+        System.out.println(out + "\n");
+    }
+
+    /**
+     * Recursivly builds an in-order representation of the tree.
+     *
+     * @param localRoot the root to start at.
+     * @param returnString the string to return.
+     * @return the string above with data added.
+     */
+    private String buildInOrder(Node localRoot, String returnString) {
+        //if has left child, recurse down it. 
+        if (localRoot.getLeft() != null) {
+            returnString = buildInOrder(localRoot.getLeft(), returnString);
+        }
+        //add the data to the string. 
+        returnString = returnString + localRoot.getItem() + ", ";
+        //if has right child, recurse down it. 
+        if (localRoot.getRight() != null) {
+            returnString = buildInOrder(localRoot.getRight(), returnString);
+        }
+        return returnString;
+    }
+
+    /**
+     * Prints an preOrder representation of the tree.
+     */
+    public void printPreOrder() {
+        String out = buildPreOrder(root, "");
+        System.out.println(out + "\n");
+    }
+
+    /**
+     * Recursivly builds an pre-order representation of the tree.
+     *
+     * @param localRoot the root to start at.
+     * @param returnString the string to return.
+     * @return the string above with data added.
+     */
+    private String buildPreOrder(Node localRoot, String returnString) {
+        //add the data to the string. 
+        returnString = returnString + localRoot.getItem() + ", ";
+        //if has left child, recurse down it. 
+        if (localRoot.getLeft() != null) {
+            returnString = buildPreOrder(localRoot.getLeft(), returnString);
+        }
+        //if has right child, recurse down it. 
+        if (localRoot.getRight() != null) {
+            returnString = buildPreOrder(localRoot.getRight(), returnString);
+        }
+        return returnString;
+    }
+
+    /**
+     * Prints an PostOrder representation of the tree.
+     */
+    public void printPostOrder() {
+        String out = buildPostOrder(root, "");
+        System.out.println(out + "\n");
+    }
+
+    /**
+     * Recursivly builds an post-order representation of the tree.
+     *
+     * @param localRoot the root to start at.
+     * @param returnString the string to return.
+     * @return the string above with data added.
+     */
+    private String buildPostOrder(Node localRoot, String returnString) {
+
+        //if has left child, recurse down it. 
+        if (localRoot.getLeft() != null) {
+            returnString = buildPostOrder(localRoot.getLeft(), returnString);
+        }
+        //if has right child, recurse down it. 
+        if (localRoot.getRight() != null) {
+            returnString = buildPostOrder(localRoot.getRight(), returnString);
+        }
+        //add the data to the string. 
+        returnString = returnString + localRoot.getItem() + ", ";
+
+        return returnString;
     }
 }
