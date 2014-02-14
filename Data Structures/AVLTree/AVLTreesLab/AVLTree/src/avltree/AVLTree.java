@@ -189,11 +189,11 @@ public class AVLTree {
                 leftRightChild.balance = 0;
             } else if (leftRightChild.balance < 0) {
                 // UPDATE BALANCE FOR LEFT RIGHT BEING LEFT HEAVY
-                localRoot.balance = 1;
-                leftChild.balance = 0;
+                localRoot.balance = 0;
+                leftChild.balance = 1;
                 leftRightChild.balance = 0;
             } else {
-                // UPDATE BALANCE FOR RIGHT LEFT BEING BALANCED.
+                // UPDATE BALANCE FOR LEFT RIGHT BEING BALANCED.
                 localRoot.balance = 0;
                 leftChild.balance = 0;
                 leftRightChild.balance = 0;
@@ -205,8 +205,8 @@ public class AVLTree {
             increase = false;
             decrease = true;
             // Perform double rotation
-            localRoot.setRight(rotateRight(leftChild));
-            return rotateLeft(localRoot);
+            localRoot.setLeft(rotateLeft(leftChild));
+            return rotateRight(localRoot);
         } else {
             /* In this case both the rightChild (the new root)
              and the root (new left child) will both be balanced
@@ -221,7 +221,7 @@ public class AVLTree {
             decrease = true;
 
             // Now rotate 
-            return rotateLeft(localRoot);
+            return rotateRight(localRoot);
         }
     }
 
