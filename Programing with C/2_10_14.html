@@ -1,0 +1,593 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>2_10_14</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h2>CSCI 112</h2>
+<p>2/10/2014 3:04:32 PM </p>
+<hr />
+<h3>Loops, Operators, Pointers</h3>
+<hr />
+<h3>Announcements</h3>
+<ul>
+<li>EC is here</li>
+<li>Quiz 1 is here</li>
+<li>Download the lecture and open it with Adobe Reader if the slides are distorted</li>
+<li>You can change your password with the passwd command</li>
+<li>
+Supplementary material at
+<ul>
+<li>http://www.cs.montana.edu/courses/csci112/old/index.html</li>
+<li>Password is &quot;Pwc&quot;</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3>Initialization, Condition, Update</h3>
+<ul>
+<li>
+Loops are defined by two components
+<ul>
+<li>Condition (when is the body executed)</li>
+<li>Body (what is executed, causes condition to change from true to false if it is ever to end)</li>
+</ul>
+</li>
+<li>
+Consequently all loops go through
+<ul>
+<li>Initialization setup the variables used in the condition expression (before the first condition check)</li>
+<li>Condition checking evaluate the condition expression</li>
+<li>Update: change the values in some or all of the variables used in the condition (after every condition check)</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3>Common Loops</h3>
+<ul>
+<li>
+Counter Controlled
+<ul>
+<li>Repeat x number of times</li>
+</ul>
+</li>
+<li>
+Sentinel Controlled
+<ul>
+<li>Repeat until value x is entered</li>
+</ul>
+</li>
+<li>
+Endfile Controlled
+<ul>
+<li>Repeat until all the file is scanned</li>
+</ul>
+</li>
+<li>
+Input Validation Loop
+<ul>
+<li>Repeat until a value is within acceptable range</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3>Scanf Infinite Loops I</h3>
+<pre><code>/* everlasting */
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+int main(){
+    int input_value; /* initialization */
+    while(input_value!=-1)/* condition check*/
+        scanf(&quot;%i&quot;,&amp;input_value); /* update */
+    }
+    return 0;
+}
+</code></pre>
+
+<hr />
+<h3>Scanf Infinite Loops II</h3>
+<ul>
+<li>
+infinate loop:will repeat indefintely
+<ul>
+<li>condition never false</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3>Fixed loop</h3>
+<pre><code>/* everlasting */
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+int main(){
+    int input_value; /* initialization */
+    int no_of_times_scanned;
+    while(input_value!=-1)/* condition check*/
+        no_of_times_scanned = scanf(&quot;%i&quot;, &amp;input_value); /*update*/
+        if(no_of_times_scanned == 0)/*if int not found*/{
+            /*scan a single character */
+            scanf(%c);
+        }
+    }
+    return 0;
+}
+</code></pre>
+
+<hr />
+<h3>C standards and for</h3>
+<ul>
+<li>
+A C standard defines the C language exactly
+<ul>
+<li>Syntax, Grammar, and Vocabulary</li>
+</ul>
+</li>
+<li>
+GCC uses the GNU89 standard by default
+<ul>
+<li>Yes, that's 1989</li>
+<li>Declarations in the initialization were not around in 1989, so the following code does not compile</li>
+<li>for( int i =0; i&lt;10; i=i+1)</li>
+<li>If your code uses this you can either declare i before the initialization or you can change the standard gcc to C99 by</li>
+<li>gcc -std=c99 -0 executable source.c</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3>New Operators I</h3>
+<ul>
+<li>
+Arithmetic assignment operators 
+<ul>
+<li>Combind an arithmetic operators with the assignment operator</li>
+<li>Preform an arithmetic operation on the variable in the left side of the xpression and assign the value of the expression to that variable.</li>
+<li>1+=t is equivalent to i = i+5</li>
+<li>+= -= *= /= %=</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3>New Operators II</h3>
+<ul>
+<li>
+Prefix ++ Prefix --
+<ul>
+<li>++i</li>
+</ul>
+</li>
+<li>
+Postfix ++, Postfix --
+<ul>
+<li>i++</li>
+</ul>
+</li>
+<li>All of these operators will change the value of the variable i by 1</li>
+<li>
+They have high precedence
+<ul>
+<li>higher than any other operators we've seen</li>
+<li>Postfix has higher precedence than prefix</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3>New Opperators III</h3>
+<ul>
+<li>
+++i
+<ul>
+<li>Side effect: increases the value of i by 1</li>
+<li>evaluates to original value of i plus 1</li>
+</ul>
+</li>
+<li>
+--i
+<ul>
+<li>Side effect: decreases the value of i by 1</li>
+<li>Evaluates to original value of i minus 1</li>
+</ul>
+</li>
+<li>
+i++
+<ul>
+<li>Side effect: increases the value of i by 1</li>
+<li>Evaluates to original value of i</li>
+</ul>
+</li>
+<li>
+i--
+<ul>
+<li>Side effect: decreases the value of i by 1</li>
+<li>evaluates to original value i</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3>Warning</h3>
+<ul>
+<li>Using these causes the variables to be changed</li>
+<li>When used within a larger expression, a single variable may carry different values depending on when the compile decides operators are evaluated</li>
+</ul>
+<hr />
+<pre><code>x = 5; i = 2;
+
+y = i * x + ++i;
+</code></pre>
+
+<hr />
+<h3>Example: function as argument</h3>
+<pre><code>/*demonstates how to pass a function as an argument */
+int use_me_as_argument (int x){
+    return x +1 ;
+}
+int feed_me_a_function( int f1(inty), int z){
+    return f1(z)-1;
+}
+int main()
+    int k = feed_me_a_function(use_me_as_argument, 5);
+    /* k has been set to f */
+}
+</code></pre>
+
+<hr />
+<h3>Pointers</h3>
+<ul>
+<li>
+Pointers are memory addresses
+<ul>
+<li>They would be locker number, the hall o flockers in this case is RAM</li>
+</ul>
+</li>
+<li>
+You can get the memory address of any variable by applying the &amp; operator
+<ul>
+<li>&amp;x /*the address of x in memory */</li>
+<li>&amp;x /* that is, a pointer */</li>
+</ul>
+</li>
+<li>
+Though pointers are just numbers, they have types according to what they point to
+<ul>
+<li>int x = f;</li>
+<li>int * pointer<em>of</em>x &x;</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3>Pointer picture</h3>
+<pre><code>double x = 5;
+int y = 99;
+double * x_addr = &amp;x;
+address x -&gt; 50000 [5]
+address y -&gt; 50001 [99]
+address x_addr -&gt; 50002 [50000]
+</code></pre>
+
+<hr />
+<h3>Pointer Syntax</h3>
+<ul>
+<li>&amp; = address of variable - Give me the address</li>
+<li>* = value inside that variable address - Give me the value</li>
+</ul>
+<hr />
+<h3>Asterisk: Changing Faces</h3>
+<ul>
+<li>Note that * can be used fo rmany things</li>
+<li>* is used fo rmultiplication</li>
+<li>
+*is used as part of the type of a pointer
+<ul>
+<li>int *m...</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3>Why we need pointers</h3>
+<ul>
+<li>
+We don't need them
+<ul>
+<li>C without pointers could do anything c with pointers does</li>
+</ul>
+</li>
+<li>
+They make life easier
+<ul>
+<li>Given a set of ints that are adjacent in memory, we can easily refer to &quot;the next int in memory&quot;</li>
+<li>First int is &amp;k the second is at &amp;k+1 and so on</li>
+<li>we will see more of this when we cover arrays</li>
+<li>Pointers allow functions to access parts of the stack we preciously did not have access to</li>
+</ul>
+</li>
+</ul>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
