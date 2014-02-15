@@ -62,4 +62,9 @@ public class TableEntry<type> {
     public void delete(){
         deleted = true;
     }
+    
+    @Override
+    public String toString(){
+        return key + " " + data;
+    }
 }
