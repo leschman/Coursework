@@ -1,0 +1,98 @@
+CSCI 305 
+Homework 2
+
+
+Problem 1 A
+<assign> -> <id> = <expr>
+<id> -> A | B | C
+<expr> -> <expr> + <term> | <term>
+<term> -> <factor> * <term> | <factor>
+<factor> -> (<expr>) | <id>
+
+A = (A + B) * C
+
+  A  = (A + B) * C
+<id> = <expr>
+  A
+       (A + B) * C
+	   <term>
+	   (A + B) * C
+	   <factor> * <term>
+	   (A + B)
+	   (<expr>) * <term>
+		A + B
+	   <expr> + <term> * <term>
+	    A
+	   <term> + <term> * <term>
+	    A
+	   <factor> + <term> * <term>
+	    A
+	   <id> + <term> * <term>
+	    A + <ID> * <term>
+		A + B * <ID>
+A = 	A + B * C
+
+Problem 1 B See attached.
+
+Problem 2 See attached.
+	   
+Problem 3
+The language defines <S> to expand into three non-terminals: <A>, <B>, and <C>.
+<A> expands ether into "a <A>" or "a". This allows for an infinite number of "a" in a statement <S>. 
+<B> expand into ether "b <B> b" or "b b". This allows for any even number of "b" in a statement <S>.
+<C> is like <A> and expands into "c <C>" or "c", allowing for an infinite number of "c" in a statement <S>. 
+Therefore, the most basic form that any <S> could take would be: a b b c, but there are infinite other possibilities. 
+
+Problem 4 A
+A -> b{c}
+<A> = b| b <D>
+<D> = c <D> | c
+
+Problem 4 B
+A -> b[c]
+<A> = b| b c
+
+Problem 5
+<classHeader> -> <visibility> <class> <name> [<extends> <name>] {<implements> <name>}
+<visibility> -> public | private | protected
+<class> -> class
+<name> -> a...z| A...Z{a...z| A...Z| 1...9} -<keywords>
+<extends> -> extends
+<implements> -> implements
+<keywords> -> " for " | " if " | " class " | " public " ect...
+ 
+Problem 6
+In C declaring something is just saying that something exists. an example would be a function prototype like: char myAwesomeFuncion();
+Defining something in C not only says it exists but also what it is, such as the body of a function like:
+char myAwesomeFunction{
+return 'w'; //best letter ever
+}
+Source: http://www.cprogramming.com/declare_vs_define.html
+
+Problem 7 A
+<variableDec> -> [<my>] <type> <name>
+<my> -> my
+<type> -> $ | % | @
+<name> -> a...z| A...Z{a...z| A...Z| 1...9}
+
+Problem 7 B
+my $awesomeVariable;
+
+Problem 8 A
+Java eliminates the else-ambiguity by attaching the else to the last if statement it encountered. For example in if (x < 0) if (x == 0) y = y - 1; else y = 0;
+The else is attached to the second if and will only execute if x does not equal 0. 
+
+Problem 8 B see attached.
+
+Problem 9 A
+using static scoping, sub1() prints "x = 5" because x references the global x declared before the call to sub2(). 
+
+Problem 9 B
+using dynamic scoping, sub1() prints "x = 10" because x is found most recently in the reference table as being equal to 10. 
+ 
+Problem 10 A
+Two advantages of dynamic scoping are the ease of passing variables between functions and the freedom allowed by dynamic scoping. With dynamic scoping it is very easy to pass values from one function to another as all values are visible to all functions. This also allows a great deal of freedom to the programmer to write one function that will have different outcomes based on the previous function calls. 
+
+Problem 10 B
+While there are many disadvantages of dynamic scoping, there are two of prominence. One is that local variables are always accessible by other parts of the program and there is nothing preventing them from being altered by those parts. It is therefore less reliable than static scoping. Another disadvantage of dynamic scoping is that program readability is dramatically decreased because discovering what value a variable actually references requires that the entire call history of the program affects what the variable references. 
+Source: textbook.

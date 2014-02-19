@@ -21,6 +21,7 @@ public class HashLab {
                 File file = new File(input);
                 reader = new BufferedReader(new FileReader(file));
                 String text = null;
+                
 
                 while ((text = reader.readLine()) != null) {
                     hashTable.insert(Integer.parseInt(text), text);
