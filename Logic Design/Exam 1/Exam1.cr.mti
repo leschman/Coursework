@@ -1,0 +1,54 @@
+{C:/Users/Administrator/Documents/School/Logic Design/Exam 1/Exam1_TB.vhd} {2 {vcom -work work -2002 -explicit {C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd}
+Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Compiling entity Exam1_TB
+-- Compiling architecture Exam1TBArch of Exam1_TB
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(31): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(33): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(34): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(37): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(38): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(41): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(42): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(45): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(46): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(49): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(50): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(53): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(54): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(57): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(58): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(61): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(62): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(65): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(66): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(69): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(70): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(73): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(74): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(77): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(78): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(81): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(82): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(85): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(86): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(89): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(90): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(93): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: [4] C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1_TB.vhd(94): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+
+} {} {}} {C:/Users/Administrator/Documents/School/Logic Design/Exam 1/Exam1.vhd} {1 {vcom -work work -2002 -explicit {C:\Users\Administrator\Documents\School\Logic Design\Exam 1\Exam1.vhd}
+Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Compiling entity Exam1
+-- Compiling architecture exam1Arch of Exam1
+
+} {} {}}
