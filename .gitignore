@@ -5,3 +5,11 @@
 /fun/scrimpHeap/build/
 /fun/scrimpHeap/dist/
 /BattleCode2014/.metadata/
+*.xml
+**/build/*
+**/dist/*
+**/nbproject/*
+*.cr.mti
+*.mpf
+**/work/*
+*.wlf
