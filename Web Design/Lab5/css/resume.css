@@ -1,0 +1,36 @@
+h1,h2,p,.right,.left{
+margin:0;
+padding: 0;
+}
+
+h1{
+	text-align: center;
+	color:red;
+	border-bottom-width: 5px;
+	border-bottom-style: solid;
+	border-bottom-color: red;
+}
+
+h2 {
+	color:blue;
+	border-bottom-width: 3px;
+	border-bottom-style: solid;
+	border-bottom-color: blue;
+
+}
+p{
+	text-indent: 25px;
+}
+
+.left{
+	float:left;
+	width: 74.5%
+}
+
+.right{
+	border-style: solid;
+	border-color: blue;
+	border-width: 2px;
+	float:right;
+	width:25%
+}
