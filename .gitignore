@@ -13,3 +13,11 @@
 *.mpf
 **/work/*
 *.wlf
+/Data Structures/GraphLab/GraphLab/nbproject/private/
+*.mf
+**/bin/*
+*.jar
+*_info
+*.log
+*.tree
+*.dat
