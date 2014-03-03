@@ -14,7 +14,7 @@ ________________
 * [Logic Design](Logic%20Design/)
 * [Programming with C](Programming%20with%20C/)
 * [Web Design](Web%20Design/)
-__________________
+
 
 ##Completed Course Directories##
 * [Basic Data Structures and Algorithms](Basic%20Data%20Structures/)
@@ -22,7 +22,7 @@ __________________
 * [Computer Architecture](Computer%20Architecture/)
 * [Discrete Structures](Discrete%20Structures/)
 * [Intro to Logic Circuits](Intro%20to%20Logic%20Circuits/)
-__________________
+
 
 ##Other Directories##
 * [BattleCode 2013](BattleCode2013/)
