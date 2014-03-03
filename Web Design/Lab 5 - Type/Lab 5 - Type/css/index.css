@@ -1,0 +1,36 @@
+body {
+	padding: 50px;
+	background-color: #E0FFF8;
+}
+p{
+	font-family: 'Source Sans Pro', sans-serif;
+	width:500px;
+	line-height: 120%;
+	color:#190700;
+}
+h1,h2,h3,h4,h5,h6{
+	font-family: 'Russo One', sans-serif;
+	}
+
+h1{
+	font-weight:900;
+	color: #FF4500;
+	}
+h2{ 
+	font-weight:700;
+	color: #CC3700;
+	}
+h3{
+	font-weight:400;
+	color:#7F2300;
+	}
+h4{
+	font-weight:600;
+	color:#7F3E26;
+	}
+h5{
+	color:#FF7D4C;
+	}
+h6{
+	color:#7F3E26;
+	}
