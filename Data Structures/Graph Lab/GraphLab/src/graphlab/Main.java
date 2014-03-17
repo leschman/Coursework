@@ -19,28 +19,52 @@ public class Main {
         // the main graph
         Graph graph = new Graph();
 
-        try (BufferedReader br = new BufferedReader(new FileReader("C:/Users/Administrator/Documents/School/Data Structures/Graph Lab/GraphLab/src/graphlab/graph.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("C:/Users/Administrator/Documents/School/Data Structures/Graph Lab/GraphLab/src/graphlab/sample.txt"))) {
 
             String line = br.readLine();
             int lineCount = 0;
+            Node[] nodesInGraph = new Node[line.length()];
 
+            //loop through all the lines in the input text.
             while (line != null) {
-                
-                Node start = new Node("" + lineCount);
-                String[] tokens = line.split(" ");
-                int hCount = 0;
-                for (String t : tokens) {
-                    Node end = new Node("" + hCount);
-                    int weight = Integer.parseInt(t);
 
-                    graph.insertEdge(new Edge(start, end, weight));
-                    
-                    hCount++;
+                //check if the start node has been intialized. 
+                if (nodesInGraph[lineCount] == null) {
+                    //initalize if it is null.
+                    nodesInGraph[lineCount] = new Node("" + lineCount);
                 }
-                line = br.readLine();
-                lineCount++;
+                //this is the start node of any edges on this line.
+                Node start = nodesInGraph[lineCount];
+
+                int horizontalCount = 0;
+
+                //loop through the line, processing charcter by character.  
+                while (line.length() > 0) {
+                    //grab the first character of the line.
+                    String token = line.substring(0, 1);
+                    //remove that character from the line.
+                    line = line.substring(1);
+                    //check if the end node of the edge has been initalized. 
+                    if (nodesInGraph[horizontalCount] == null) {
+                        //initalize end node.
+                        nodesInGraph[horizontalCount] = new Node("" + horizontalCount);
+                    }
+                    //set end to point to the array.
+                    Node end = nodesInGraph[horizontalCount];
+                    //parse the weight of the edge from the token.
+                    int weight = Integer.parseInt(token);
+                    //only add the edge to the graph if it is not 0. 
+                    if (weight != 0) {
+                        System.out.println("Found edge with weight: " + weight);
+                        graph.insertEdge(new Edge(start, end, weight));
+                    }
+
+                    horizontalCount++;
+                }
             }
 
+            line = br.readLine();
+            lineCount++;
         } catch (FileNotFoundException ex) {
             System.out.println("File not found.");
         } catch (IOException ex) {
