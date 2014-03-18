@@ -55,16 +55,17 @@ public class Main {
                     int weight = Integer.parseInt(token);
                     //only add the edge to the graph if it is not 0. 
                     if (weight != 0) {
-                        System.out.println("Found edge with weight: " + weight);
+
                         graph.insertEdge(new Edge(start, end, weight));
                     }
 
                     horizontalCount++;
                 }
-            }
+                // line has been processed, set up for next line. 
 
-            line = br.readLine();
-            lineCount++;
+                line = br.readLine();
+                lineCount++;
+            }
         } catch (FileNotFoundException ex) {
             System.out.println("File not found.");
         } catch (IOException ex) {
