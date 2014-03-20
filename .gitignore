@@ -34,7 +34,6 @@
 *.tdb*.sof
 *.tree
 *.wlf
-*.xml
 *_info
 /BattleCode2014/.metadata/
 bin/
