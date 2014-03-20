@@ -182,13 +182,13 @@ public class Maze extends JFrame {
             g2.drawImage(mazeImage, null, 0, 0);
             g2.drawImage(printGuy(facing), x * SPRITE_WIDTH, y * SPRITE_HEIGHT, null, null);
             mazePanel.setSize(width * SPRITE_WIDTH + 10, height * SPRITE_HEIGHT + 30);
-         //  maze[y][x] = 'X';   // mark this spot as visited. This is how you can keep track of where you've been. 
+            maze[y][x] = 'X';   // mark this spot as visited. This is how you can keep track of where you've been. 
 
             //update weights of nodes in heap. 
             if (y + 1 < height) {
                 if (map[y + 1][x].weight == 0) {
                     giveWeight(map[y + 1][x]);
-                    heap.add(map[y + 1][x]);
+                    //heap.add(map[y + 1][x]);
                 } else {
                     giveWeight(map[y + 1][x]);
                 }
@@ -196,7 +196,7 @@ public class Maze extends JFrame {
             if (y - 1 > 0) {
                 if (map[y - 1][x].weight == 0) {
                     giveWeight(map[y - 1][x]);
-                    heap.add(map[y - 1][x]);
+                   // heap.add(map[y - 1][x]);
                 } else {
                     giveWeight(map[y - 1][x]);
                 }
@@ -205,7 +205,7 @@ public class Maze extends JFrame {
 
                 if (map[y][x + 1].weight == 0) {
                     giveWeight(map[y][x + 1]);
-                    heap.add(map[y][x + 1]);
+                    //heap.add(map[y][x + 1]);
                 } else {
                     giveWeight(map[y][x + 1]);
                 }
@@ -214,12 +214,25 @@ public class Maze extends JFrame {
 
                 if (map[y][x - 1].weight == 0) {
                     giveWeight(map[y][x - 1]);
-                    heap.add(map[y][x - 1]);
+                   // heap.add(map[y][x - 1]);
                 } else {
                     giveWeight(map[y][x - 1]);
                 }
             }
-
+            switch(facing){
+                case "north":
+                    if(y+1 < height && maze[y+1][x] != '#'){
+                        //can move north, move north.
+                        solve(x, y+1, "north");
+                    }else{
+                        //cant move north, turn left. 
+                        solve(x, y, "east");
+                    }
+                case "east":
+                    if(x+1 < width && maze[y][x + 1] != '#'){
+                        //if 
+                    }
+            }
 
 
         } else {
