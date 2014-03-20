@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class Node {
 
     String name;
+    Boolean visited = false;
     ArrayList<Edge> edges = new ArrayList<>();
 
     /**

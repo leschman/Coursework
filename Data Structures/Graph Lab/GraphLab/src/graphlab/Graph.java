@@ -1,6 +1,7 @@
 package graphlab;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * A weighted graph. Could also be unweighted if all edges have the same weight.
@@ -47,7 +48,46 @@ public class Graph {
 
     }
 
-    public void breadthFirstSearch(){
+    public void breadthFirstSearch(Node seaking, Node start) {
+        System.out.println("Starting breadth-first search with start: " + start.name + " and seaking: " + seaking.name);
+        //queue to hold edges we encounter. 
+        LinkedList<Edge> queue = new LinkedList<>();
+
+        //check the start, add it to the nodes visited if its not what we are seaking.
+        if (seaking == start) {
+            System.out.println("Found node: " + seaking.name);
+            return;
+        }
+        start.visited = true;
         
+        //add the start edges to the queue.
+        for (Edge e : start.getEdges()) {
+            queue.add(e);
+        }
+
+        //loop through the edges and search for that node. 
+        while (!queue.isEmpty()) {
+            Node nextNodeToVisit = queue.poll().getEnd();
+            //if we have already visited a node, go to next. 
+            if(nextNodeToVisit.visited){
+                continue;
+            }
+
+            System.out.println("Checking node: " + nextNodeToVisit.name);
+            //check if this is the node we were looking for. 
+            if (nextNodeToVisit == seaking) {
+                System.out.println("Found node: " + seaking.name);
+                return;
+            } else {
+                //not the node we were looking for.
+                nextNodeToVisit.visited = true;
+                //add the edges to the queue. 
+                System.out.println("Adding Edges from: " + nextNodeToVisit.name);
+                for (Edge e : start.getEdges()) {
+                    queue.add(e);
+                }
+            }
+        }
+        System.out.println("Node " + seaking.name + " cannot be reached from " + start.name);
     }
 }
