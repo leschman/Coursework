@@ -71,6 +71,8 @@ public class Main {
         } catch (IOException ex) {
             System.out.println("IO Exception.");
         }
+        
+        graph.breadthFirstSearch(graph.nodes.get(4), graph.nodes.get(0));
     }
 
 }
