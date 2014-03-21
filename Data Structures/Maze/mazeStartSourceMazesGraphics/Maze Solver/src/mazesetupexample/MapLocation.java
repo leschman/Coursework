@@ -6,12 +6,13 @@ package mazesetupexample;
  */
 public class MapLocation implements Comparable<MapLocation> {
 
-    int weight = 0;
+    char character;
     int x = -1;
     int y = -1;
+    int weight = 0;
 
-    public MapLocation(int x, int y, int weight) {
-        this.weight = weight;
+    public MapLocation(int x, int y, char character) {
+        this.character = character;
         this.x = x;
         this.y = y;
     }

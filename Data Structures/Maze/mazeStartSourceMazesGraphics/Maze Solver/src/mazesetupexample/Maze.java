@@ -23,9 +23,9 @@ public class Maze extends JFrame {
     private static final int MAX_WIDTH = 255;
     private static final int MAX_HEIGHT = 255;
     private char[][] maze = new char[MAX_HEIGHT][MAX_WIDTH];
-    private MapLocation[][] map = new MapLocation[MAX_HEIGHT][MAX_WIDTH];
-    private PriorityQueue<MapLocation> heap = new PriorityQueue<>();
+    private MapLocation[][] map;
     private ArrayDeque<MapLocation> stack = new ArrayDeque<>();
+    private boolean routePlanned = false;
     private Random random = new Random();
     private JPanel mazePanel = new JPanel();
     private int width = 0;
@@ -141,11 +141,13 @@ public class Maze extends JFrame {
         System.out.println("Press 1 to start");
         input.nextLine();
         startTime = System.currentTimeMillis();
+        map = new MapLocation[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                map[i][j] = new MapLocation(j, i, 0);
+                map[i][j] = new MapLocation(j, i, '*');
             }
         }
+        openMemory();
         solve(x, y, facing);
     }
 
@@ -182,40 +184,18 @@ public class Maze extends JFrame {
             mazePanel.setSize(width * SPRITE_WIDTH + 10, height * SPRITE_HEIGHT + 30);
             maze[y][x] = 'X';   // mark this spot as visited. This is how you can keep track of where you've been. 
 
-            //update weights of nodes in heap. 
+            //update memory of the squares we pass by.  
             if (y + 1 < height) {
-                if (map[y + 1][x].weight == 0) {
-                    giveWeight(map[y + 1][x]);
-                    //heap.add(map[y + 1][x]);
-                } else {
-                    giveWeight(map[y + 1][x]);
-                }
+                map[y + 1][x].character = maze[y + 1][x];
             }
-            if (y - 1 > 0) {
-                if (map[y - 1][x].weight == 0) {
-                    giveWeight(map[y - 1][x]);
-                    // heap.add(map[y - 1][x]);
-                } else {
-                    giveWeight(map[y - 1][x]);
-                }
+            if (y - 1 >= 0) {
+                map[y - 1][x].character = maze[y - 1][x];
             }
             if (x + 1 < width) {
-
-                if (map[y][x + 1].weight == 0) {
-                    giveWeight(map[y][x + 1]);
-                    //heap.add(map[y][x + 1]);
-                } else {
-                    giveWeight(map[y][x + 1]);
-                }
+                map[y][x + 1].character = maze[y][x + 1];
             }
-            if (x - 1 > 0) {
-
-                if (map[y][x - 1].weight == 0) {
-                    giveWeight(map[y][x - 1]);
-                    // heap.add(map[y][x - 1]);
-                } else {
-                    giveWeight(map[y][x - 1]);
-                }
+            if (x - 1 >= 0) {
+                map[y][x - 1].character = maze[y][x - 1];
             }
 
             //figureout where we are going next. 
@@ -238,10 +218,48 @@ public class Maze extends JFrame {
                     currentDir = Dir.north;
                     System.out.println("couldn't understand the direction, " + facing);
             }
-            Dir needToGo = directionToGo(x, y, currentDir, 0);
-            if (needToGo == Dir.backup && !stack.isEmpty()) {
-                //Need to go backwards
-                MapLocation lastLocation = stack.removeLast();
+            if (!routePlanned) {
+                Dir needToGo = directionToGo(x, y, currentDir, 0);
+                if (needToGo == Dir.backup && !stack.isEmpty()) {
+                    //Need to go backwards
+                    MapLocation lastLocation = stack.removeLast();
+                    switch (directionTo(lastLocation, map[y][x])) {
+                        case north:
+                            solve(lastLocation.x, lastLocation.y, "north");
+                            break;
+                        case east:
+                            solve(lastLocation.x, lastLocation.y, "east");
+                            break;
+                        case south:
+                            solve(lastLocation.x, lastLocation.y, "south");
+                            break;
+                        case west:
+                            solve(lastLocation.x, lastLocation.y, "west");
+                            break;
+                    }
+                } else {
+                    //add where we are to the stack so we can backtrack.
+                    stack.add(map[y][x]);
+                    //go the direction we need to go. 
+                    switch (needToGo) {
+                        case north:
+                            solve(x, y - 1, "north");
+                            break;
+                        case east:
+                            solve(x + 1, y, "east");
+                            break;
+                        case south:
+                            solve(x, y + 1, "south");
+                            break;
+                        case west:
+                            solve(x - 1, y, "west");
+                            break;
+                    }
+                }
+
+            } else {
+                //route planned, need to follow. 
+                MapLocation lastLocation = stack.removeFirst();
                 switch (directionTo(lastLocation, map[y][x])) {
                     case north:
                         solve(lastLocation.x, lastLocation.y, "north");
@@ -256,26 +274,7 @@ public class Maze extends JFrame {
                         solve(lastLocation.x, lastLocation.y, "west");
                         break;
                 }
-            } else {
-                //add where we are to the stack so we can backtrack.
-                stack.add(map[y][x]);
-                //go the direction we need to go. 
-                switch (needToGo) {
-                    case north:
-                        solve(x, y - 1, "north");
-                        break;
-                    case east:
-                        solve(x + 1, y, "east");
-                        break;
-                    case south:
-                        solve(x, y + 1, "south");
-                        break;
-                    case west:
-                        solve(x - 1, y, "west");
-                        break;
-                }
             }
-
         } else {
             System.out.println("Found the finish!");
 
@@ -293,8 +292,7 @@ public class Maze extends JFrame {
         //if we have tried left, forward and right, need to go back. 
         if (iterations >= 4) {
             return Dir.backup;
-            }
-         else {
+        } else {
             //try turning.
             switch (facing) {
                 case north:
@@ -308,7 +306,7 @@ public class Maze extends JFrame {
                     }
                 case east:
                     //try to turn left ...
-                    if (y - 1 >=0 && canGo(maze[y - 1][x])) {
+                    if (y - 1 >= 0 && canGo(maze[y - 1][x])) {
                         //can turn left
                         return Dir.north;
                     } else {
@@ -334,33 +332,18 @@ public class Maze extends JFrame {
                         return directionToGo(x, y, Dir.north, iterations);
                     }
 
-                    
             }
         }
         return null;
-    }
-
-    private void giveWeight(MapLocation loc) {
-        char lookingAt = maze[loc.y][loc.x];
-        switch (lookingAt) {
-            case '#':
-                loc.weight = 1000;
-                break;
-            case '.':
-                loc.weight += 1;
-                break;
-            case 'F':
-                loc.weight = -1;
-        }
     }
 
     private enum Dir {
 
         north, west, south, east, backup
     }
-    
-    private boolean canGo(char c){
-        return(c != '#' && c != '%' && c != 'X');
+
+    private boolean canGo(char c) {
+        return (c != '#' && c != '%' && c != 'X' && c != '*');
     }
 
     private Dir directionTo(MapLocation goal, MapLocation start) {
@@ -378,6 +361,108 @@ public class Maze extends JFrame {
                 return Dir.north;
             } else {
                 return Dir.south;
+            }
+        }
+    }
+
+    private void openMemory() {
+        File file = new File("memory.txt");
+        boolean foundFinish = false;
+        MapLocation finish = null;
+        if (file.exists()) {
+            String in = "";
+            int i = 0;
+            try {
+                Scanner sc = new Scanner(file);
+                while (sc.hasNext()) {
+                    in = sc.nextLine();
+                    in = trimWhitespace(in);
+                    if (in.length() <= MAX_WIDTH && i < MAX_HEIGHT) {
+                        for (int j = 0; j < in.length(); j++) {
+                            if (in.charAt(j) == '#') {
+                                map[i][j].character = in.charAt(j);
+                                map[i][j].weight = 10000;
+                            } else {
+                                if (in.charAt(j) == 'F') {
+                                    foundFinish = true;
+                                    finish = map[i][j];
+                                }
+                                map[i][j].character = in.charAt(j);
+                                map[i][j].weight = 1;
+                            }
+                        }
+                    } else {
+                        System.out.println("Maximum maze size exceeded: (" + MAX_WIDTH + " x " + MAX_HEIGHT + ")!");
+                        System.exit(1);
+                    }
+                    i++;
+                }
+
+                System.out.println("Memory opened successfuly.");
+                System.out.println();
+                sc.close();
+            } catch (FileNotFoundException e) {
+                System.err.println("File not found: " + e);
+            }
+
+            if (foundFinish) {
+                layBreadCrumbs(finish);
+            }
+        }
+    }
+
+    private void layBreadCrumbs(MapLocation finish) {
+        System.out.println("laying bread crumbs");
+        stack.add(finish);
+        MapLocation start = null;
+        boolean foundExit = false;
+        int weight = 0;
+        while (!foundExit) {
+            MapLocation loc = stack.removeFirst();
+            loc.weight = weight;
+            loc.character = 'X';
+            weight++;
+            //location is on edge, we have found start. 
+            if (loc.x == 0 || loc.x == width - 1 || loc.y == 0 || loc.y == height - 1) {
+                foundExit = true;
+                start = loc;
+                break;
+            } else {
+                if (canGo(map[loc.y - 1][loc.x].character)) {
+                    stack.add(map[loc.y - 1][loc.x]);
+                }
+                if (canGo(map[loc.y + 1][loc.x].character)) {
+                    stack.add(map[loc.y + 1][loc.x]);
+                }
+                if (canGo(map[loc.y][loc.x - 1].character)) {
+                    stack.add(map[loc.y][loc.x - 1]);
+                }
+                if (canGo(map[loc.y][loc.x + 1].character)) {
+                    stack.add(map[loc.y][loc.x + 1]);
+                }
+            }
+        }
+        planRoute(start, finish);
+    }
+
+    private void planRoute(MapLocation start, MapLocation finish) {
+        System.out.println("planning Route");
+        routePlanned = true;
+        stack.add(start);
+        MapLocation loc = start;
+        while (loc != finish) {
+            if (loc.y - 1 >= 0 && map[loc.y - 1][loc.x].weight < loc.weight) {
+                loc = map[loc.y - 1][loc.x];
+                stack.add(loc);
+            } else if (loc.y + 1 < height && map[loc.y + 1][loc.x].weight < loc.weight) {
+                loc = map[loc.y + 1][loc.x];
+                stack.add(loc);
+            } else if (loc.x + 1 < width && map[loc.y][loc.x + 1].weight < loc.weight) {
+                loc = map[loc.y][loc.x + 1];
+                stack.add(loc);
+            } else if (loc.x - 1 < width && map[loc.y][loc.x - 1].weight < loc.weight) {
+                loc = map[loc.y][loc.x - 1];
+                stack.add(loc);
             }
         }
     }
@@ -511,11 +596,40 @@ public class Maze extends JFrame {
     }
 
     public void closingMethod() {
+        String out = "";
+        for (MapLocation[] row : map) {
+            for (MapLocation m : row) {
+                if (m != null) {
+                    if (m.character == '#' || m.character == '%') {
+                        m.character = '#';
+                    } else if (m.character == 'X') {
+                        m.character = '.';
+                    }
+
+                    out = out + " " + m.character;
+                }
+            }
+            out = out + "\n";
+        }
+
+        try {
+            File file = new File("memory.txt");
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(out);
+            bw.close();
+        } catch (IOException e) {
+        }
 
         long endTime = currentTime - startTime;
         long finalTime = endTime / 100;
         System.out.println("Final Time = " + ((double) finalTime / (double) 10));
         System.exit(0);
+
     }
 
     /**
