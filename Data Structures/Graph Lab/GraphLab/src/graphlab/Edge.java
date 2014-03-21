@@ -7,7 +7,7 @@ package graphlab;
  *
  * @author Logan Esch
  */
-public class Edge {
+public class Edge implements Comparable<Edge>{
     Node start;
     Node end;
     int weight;
@@ -48,5 +48,10 @@ public class Edge {
      */
     public int getWeight(){
         return weight;
+    }
+
+    @Override
+    public int compareTo(Edge o) {
+        return weight - o.getWeight();
     }
 }

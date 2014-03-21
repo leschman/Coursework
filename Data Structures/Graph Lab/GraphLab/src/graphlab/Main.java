@@ -35,33 +35,27 @@ public class Main {
                 }
                 //this is the start node of any edges on this line.
                 Node start = nodesInGraph[lineCount];
-
-                int horizontalCount = 0;
-
-                //loop through the line, processing charcter by character.  
-                while (line.length() > 0) {
-                    //grab the first character of the line.
-                    String token = line.substring(0, 1);
-                    //remove that character from the line.
-                    line = line.substring(1);
-                    //check if the end node of the edge has been initalized. 
-                    if (nodesInGraph[horizontalCount] == null) {
-                        //initalize end node.
-                        nodesInGraph[horizontalCount] = new Node("" + horizontalCount);
-                    }
-                    //set end to point to the array.
-                    Node end = nodesInGraph[horizontalCount];
-                    //parse the weight of the edge from the token.
-                    int weight = Integer.parseInt(token);
-                    //only add the edge to the graph if it is not 0. 
-                    if (weight != 0) {
-
-                        graph.insertEdge(new Edge(start, end, weight));
+                line = line.trim();
+                String[] tokens = line.split(" ");
+                int count = 0;
+                for (String s : tokens) {
+                    if (!"".equals(s)) {
+                        //parse the weight of the edge from the token.
+                        int weight = Integer.parseInt(s);
+                        if (nodesInGraph[count] == null) {
+                            //initalize end node.
+                            nodesInGraph[count] = new Node("" + count);
+                        }
+                        //set end to point to the array.
+                        Node end = nodesInGraph[count];
+                        //only add the edge to the graph if it is not 0. 
+                        if (weight != 0) {
+                            graph.insertEdge(new Edge(start, end, weight));
+                        }
+                        count++;
                     }
 
-                    horizontalCount++;
                 }
-                // line has been processed, set up for next line. 
 
                 line = br.readLine();
                 lineCount++;
@@ -71,9 +65,10 @@ public class Main {
         } catch (IOException ex) {
             System.out.println("IO Exception.");
         }
-        
-        graph.breadthFirstSearch(graph.nodes.get(4), graph.nodes.get(0));
-        graph.depthFirstSearch(graph.nodes.get(4), graph.nodes.get(0));
+
+        //graph.breadthFirstSearch(graph.nodes.get(4), graph.nodes.get(0));
+        //graph.depthFirstSearch(graph.nodes.get(4), graph.nodes.get(0));
+        graph.dijkstra(graph.nodes.get(0));
     }
 
 }

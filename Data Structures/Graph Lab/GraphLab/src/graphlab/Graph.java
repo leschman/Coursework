@@ -2,6 +2,7 @@ package graphlab;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 /**
  * A weighted graph. Could also be unweighted if all edges have the same weight.
@@ -48,6 +49,12 @@ public class Graph {
 
     }
 
+    /**
+     * breadth first search of the graph.
+     *
+     * @param seaking the node we are looking for.
+     * @param start the node to start from.
+     */
     public void breadthFirstSearch(Node seaking, Node start) {
         System.out.println("Starting breadth-first search with start " + start.name + " seaking " + seaking.name);
         //queue to hold edges we encounter. 
@@ -59,7 +66,7 @@ public class Graph {
             return;
         }
         start.visited = true;
-        
+
         //add the start edges to the queue.
         for (Edge e : start.getEdges()) {
             queue.add(e);
@@ -69,7 +76,7 @@ public class Graph {
         while (!queue.isEmpty()) {
             Node nextNodeToVisit = queue.poll().getEnd();
             //if we have already visited a node, go to next. 
-            if(nextNodeToVisit.visited){
+            if (nextNodeToVisit.visited) {
                 continue;
             }
 
@@ -92,8 +99,14 @@ public class Graph {
         cleanup();
         System.out.println("Node " + seaking.name + " cannot be reached from " + start.name);
     }
-    
-    public void depthFirstSearch(Node seaking, Node start){
+
+    /**
+     * Depth first search of the graph.
+     *
+     * @param seaking the node we are looking for.
+     * @param start the node we are starting at.
+     */
+    public void depthFirstSearch(Node seaking, Node start) {
         System.out.println("Starting depth-first search with start " + start.name + " seaking " + seaking.name);
         //stack to hold edges we will test. 
         LinkedList<Edge> stack = new LinkedList<>();
@@ -103,7 +116,7 @@ public class Graph {
             return;
         }
         start.visited = true;
-        
+
         //add the start edges to the queue.
         for (Edge e : start.getEdges()) {
             stack.push(e);
@@ -113,7 +126,7 @@ public class Graph {
         while (!stack.isEmpty()) {
             Node nextNodeToVisit = stack.pop().getEnd();
             //if we have already visited a node, go to next. 
-            if(nextNodeToVisit.visited){
+            if (nextNodeToVisit.visited) {
                 continue;
             }
 
@@ -136,10 +149,60 @@ public class Graph {
         cleanup();
         System.out.println("Node " + seaking.name + " cannot be reached from " + start.name);
     }
-    
-    private void cleanup(){
-        for(Node n : nodes){
+
+    private void cleanup() {
+        for (Node n : nodes) {
+            n.setShortestDistanceTo(Integer.MAX_VALUE);
+            n.shortestPath = null;
             n.visited = false;
         }
+    }
+
+    /**
+     * Runs Dijkstra's algorithm on the graph. marks paths to take.
+     *
+     * @param start the node to start from.
+     * @return this graph with shortest distances calculated and edges to follow
+     * marked.
+     */
+    public Graph dijkstra(Node start) {
+        //the heap we will use to keep the path's minimum.
+        PriorityQueue<Node> heap = new PriorityQueue<>();
+
+        //set the start node's distance to 0.
+        start.setShortestDistanceTo(0);
+
+        heap.add(start);
+
+        //while we still have nodes to visit, visit them.
+        while (!heap.isEmpty()) {
+            //get the next node from the heap.
+            Node visiting = heap.poll();
+            //mark the node as visited.
+            visiting.visited = true;
+
+            //loop through the edges
+            for (Edge e : visiting.edges) {
+                //update weights if needed
+                if (e.getWeight() + visiting.getShortestDistanceTo() < e.getEnd().getShortestDistanceTo()) {
+                    e.getEnd().setShortestDistanceTo(e.getWeight() + visiting.getShortestDistanceTo());
+
+                    // set the node's shortest path to this new edge. 
+                    e.getEnd().setShortestPath(e);
+                }
+                if (!e.getEnd().visited) {
+                    heap.add(e.getEnd());
+                }
+            }
+
+        }
+
+        for (Node n : nodes) {
+            if (n != start) {
+                System.out.println("Node: " + n.name + " Shortest Distance: " + n.getShortestDistanceTo() + " by edge from " + n.getShortestPath().getEnd().name);
+            }
+        }
+
+        return this;
     }
 }

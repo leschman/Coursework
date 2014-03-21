@@ -8,11 +8,13 @@ import java.util.ArrayList;
  *
  * @author Logan Esch
  */
-public class Node {
+public class Node implements Comparable<Node>{
 
     String name;
     Boolean visited = false;
+    int shortestDistanceTo = Integer.MAX_VALUE;
     ArrayList<Edge> edges = new ArrayList<>();
+    Edge shortestPath = null;
 
     /**
      * Constructor for Node
@@ -45,6 +47,24 @@ public class Node {
             throw new UnsupportedOperationException("The edge's start did not match this node.");
         }
     }
+    public void removeEdge(Edge e){
+        edges.remove(e);
+    }
+    public void removeEdge(Node edgeFromThisNode){
+        for(Edge e : edges){
+            if(e.getStart() == edgeFromThisNode){
+                edges.remove(e);
+            }
+        }
+    }
+    
+    public int getShortestDistanceTo(){
+        return shortestDistanceTo;
+    }
+    
+    public void setShortestDistanceTo(int i){
+        shortestDistanceTo = i;
+    }
 
     /**
      *
@@ -52,5 +72,17 @@ public class Node {
      */
     public ArrayList<Edge> getEdges() {
         return edges;
+    }
+    
+    public Edge getShortestPath(){
+        return shortestPath;
+    }
+    public void setShortestPath(Edge newShortestPath){
+        shortestPath = newShortestPath;
+    }
+
+    @Override
+    public int compareTo(Node o) {
+        return shortestDistanceTo - o.getShortestDistanceTo();
     }
 }
