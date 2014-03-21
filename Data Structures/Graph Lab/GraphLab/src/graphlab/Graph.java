@@ -83,7 +83,7 @@ public class Graph {
                 nextNodeToVisit.visited = true;
                 //add the edges to the queue. 
                 System.out.println("Adding Edges from: " + nextNodeToVisit.name);
-                for (Edge e : start.getEdges()) {
+                for (Edge e : nextNodeToVisit.getEdges()) {
                     queue.add(e);
                 }
             }
