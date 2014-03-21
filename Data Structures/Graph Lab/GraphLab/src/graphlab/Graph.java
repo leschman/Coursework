@@ -49,7 +49,7 @@ public class Graph {
     }
 
     public void breadthFirstSearch(Node seaking, Node start) {
-        System.out.println("Starting breadth-first search with start: " + start.name + " and seaking: " + seaking.name);
+        System.out.println("Starting breadth-first search with start " + start.name + " seaking " + seaking.name);
         //queue to hold edges we encounter. 
         LinkedList<Edge> queue = new LinkedList<>();
 
@@ -77,6 +77,7 @@ public class Graph {
             //check if this is the node we were looking for. 
             if (nextNodeToVisit == seaking) {
                 System.out.println("Found node: " + seaking.name);
+                cleanup();
                 return;
             } else {
                 //not the node we were looking for.
@@ -88,6 +89,57 @@ public class Graph {
                 }
             }
         }
+        cleanup();
         System.out.println("Node " + seaking.name + " cannot be reached from " + start.name);
+    }
+    
+    public void depthFirstSearch(Node seaking, Node start){
+        System.out.println("Starting depth-first search with start " + start.name + " seaking " + seaking.name);
+        //stack to hold edges we will test. 
+        LinkedList<Edge> stack = new LinkedList<>();
+        //check the start, add it to the nodes visited if its not what we are seaking.
+        if (seaking == start) {
+            System.out.println("Found node: " + seaking.name);
+            return;
+        }
+        start.visited = true;
+        
+        //add the start edges to the queue.
+        for (Edge e : start.getEdges()) {
+            stack.push(e);
+        }
+
+        //loop through the edges and search for that node. 
+        while (!stack.isEmpty()) {
+            Node nextNodeToVisit = stack.pop().getEnd();
+            //if we have already visited a node, go to next. 
+            if(nextNodeToVisit.visited){
+                continue;
+            }
+
+            System.out.println("Checking node: " + nextNodeToVisit.name);
+            //check if this is the node we were looking for. 
+            if (nextNodeToVisit == seaking) {
+                System.out.println("Found node: " + seaking.name);
+                cleanup();
+                return;
+            } else {
+                //not the node we were looking for.
+                nextNodeToVisit.visited = true;
+                //add the edges to the queue. 
+                System.out.println("Adding Edges from: " + nextNodeToVisit.name);
+                for (Edge e : nextNodeToVisit.getEdges()) {
+                    stack.push(e);
+                }
+            }
+        }
+        cleanup();
+        System.out.println("Node " + seaking.name + " cannot be reached from " + start.name);
+    }
+    
+    private void cleanup(){
+        for(Node n : nodes){
+            n.visited = false;
+        }
     }
 }
