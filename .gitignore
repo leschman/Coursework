@@ -6,6 +6,7 @@
 *.cnf.*
 *.cr.mti
 *.dat
+*.db
 *.ddb
 *.hdb
 *.hsd
