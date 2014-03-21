@@ -166,6 +166,7 @@ public class Graph {
      * marked.
      */
     public Graph dijkstra(Node start) {
+        cleanup();
         //the heap we will use to keep the path's minimum.
         PriorityQueue<Node> heap = new PriorityQueue<>();
 
@@ -194,7 +195,6 @@ public class Graph {
                     heap.add(e.getEnd());
                 }
             }
-
         }
 
         for (Node n : nodes) {
@@ -202,7 +202,33 @@ public class Graph {
                 System.out.println("Node: " + n.name + " Shortest Distance: " + n.getShortestDistanceTo() + " by edge from " + n.getShortestPath().getEnd().name);
             }
         }
-
         return this;
     }
+
+    public Graph prims(Node start) {
+        cleanup();
+        PriorityQueue<Edge> heap = new PriorityQueue<>();
+        //add the start's edges to the heap.
+        for (Edge e : start.getEdges()) {
+            heap.add(e);
+        }
+        while (!heap.isEmpty()) {
+            Node visiting = heap.peek().getEnd();
+            if (!visiting.visited) {
+                visiting.shortestPath = heap.remove();
+                visiting.visited = true;
+                for (Edge e : visiting.edges) {
+                    heap.add(e);
+                }
+            }else{
+                heap.remove();
+            }
+        }
+        for (Node n : nodes) {
+            System.out.println("Node: " + n.name + " Shortest Distance: " + n.getShortestPath().getWeight() + " by edge from " + n.getShortestPath().getStart().name);
+
+        }
+        return this;
+    }
+
 }

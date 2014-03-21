@@ -68,7 +68,8 @@ public class Main {
 
         //graph.breadthFirstSearch(graph.nodes.get(4), graph.nodes.get(0));
         //graph.depthFirstSearch(graph.nodes.get(4), graph.nodes.get(0));
-        graph.dijkstra(graph.nodes.get(0));
+        //graph.dijkstra(graph.nodes.get(0));
+        graph.prims(graph.nodes.get(0));
     }
 
 }
