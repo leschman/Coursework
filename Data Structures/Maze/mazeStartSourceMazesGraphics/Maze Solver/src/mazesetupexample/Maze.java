@@ -241,8 +241,8 @@ public class Maze extends JFrame {
             Dir needToGo = directionToGo(x, y, currentDir, 0);
             if (needToGo == Dir.backup && !stack.isEmpty()) {
                 //Need to go backwards
-                MapLocation lastLocation = stack.pop();
-                switch (directionTo(lastLocation, map[x][y])) {
+                MapLocation lastLocation = stack.removeLast();
+                switch (directionTo(lastLocation, map[y][x])) {
                     case north:
                         solve(lastLocation.x, lastLocation.y, "north");
                         break;
