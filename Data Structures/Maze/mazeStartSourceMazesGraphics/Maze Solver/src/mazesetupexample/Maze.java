@@ -12,6 +12,8 @@ import java.awt.event.*;
 import java.awt.image.*;
 import java.util.ArrayDeque;
 import java.util.PriorityQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -24,8 +26,11 @@ public class Maze extends JFrame {
     private static final int MAX_HEIGHT = 255;
     private char[][] maze = new char[MAX_HEIGHT][MAX_WIDTH];
     private MapLocation[][] map;
+    private ArrayDeque<MapLocation> backStack = new ArrayDeque<>();
     private ArrayDeque<MapLocation> stack = new ArrayDeque<>();
     private boolean routePlanned = false;
+
+    private int runCount = 0;
     private Random random = new Random();
     private JPanel mazePanel = new JPanel();
     private int width = 0;
@@ -218,11 +223,14 @@ public class Maze extends JFrame {
                     currentDir = Dir.north;
                     System.out.println("couldn't understand the direction, " + facing);
             }
+             if(stack.isEmpty()){
+                    routePlanned = false;
+                }
             if (!routePlanned) {
                 Dir needToGo = directionToGo(x, y, currentDir, 0);
-                if (needToGo == Dir.backup && !stack.isEmpty()) {
+                if (needToGo == Dir.backup && !backStack.isEmpty()) {
                     //Need to go backwards
-                    MapLocation lastLocation = stack.removeLast();
+                    MapLocation lastLocation = backStack.removeLast();
                     switch (directionTo(lastLocation, map[y][x])) {
                         case north:
                             solve(lastLocation.x, lastLocation.y, "north");
@@ -239,7 +247,7 @@ public class Maze extends JFrame {
                     }
                 } else {
                     //add where we are to the stack so we can backtrack.
-                    stack.add(map[y][x]);
+                    backStack.add(map[y][x]);
                     //go the direction we need to go. 
                     switch (needToGo) {
                         case north:
@@ -258,6 +266,7 @@ public class Maze extends JFrame {
                 }
 
             } else {
+               
                 //route planned, need to follow. 
                 MapLocation lastLocation = stack.removeFirst();
                 switch (directionTo(lastLocation, map[y][x])) {
@@ -294,45 +303,93 @@ public class Maze extends JFrame {
             return Dir.backup;
         } else {
             //try turning.
-            switch (facing) {
-                case north:
-                    //try to turn left, check if inbounds and a place we can go that we haven't been. 
-                    if (x - 1 >= 0 && canGo(maze[y][x - 1])) {
-                        //can turn left. 
-                        return Dir.west;
-                    } else {
-                        //cant turn left, try next direction. 
-                        return directionToGo(x, y, Dir.east, iterations);
-                    }
-                case east:
-                    //try to turn left ...
-                    if (y - 1 >= 0 && canGo(maze[y - 1][x])) {
-                        //can turn left
-                        return Dir.north;
-                    } else {
-                        //cant turn left...
-                        return directionToGo(x, y, Dir.south, iterations);
-                    }
-                case south:
-                    //try to turn left...
-                    if (x + 1 < width && canGo(maze[y][x + 1])) {
-                        //can turn left. 
-                        return Dir.east;
-                    } else {
-                        //cant turn left...
-                        return directionToGo(x, y, Dir.west, iterations);
-                    }
-                case west:
-                    //try to turn left...
-                    if (y + 1 < height && canGo(maze[y + 1][x])) {
-                        //can turn left.
-                        return Dir.south;
-                    } else {
-                        //cant turn left.
-                        return directionToGo(x, y, Dir.north, iterations);
-                    }
+            if (runCount == 0) {
+                switch (facing) {
+                    case north:
+                        //try to turn left, check if inbounds and a place we can go that we haven't been. 
+                        if (x - 1 >= 0 && canGo(maze[y][x - 1])) {
+                            //can turn left. 
+                            return Dir.west;
+                        } else {
+                            //cant turn left, try next direction. 
+                            return directionToGo(x, y, Dir.east, iterations);
+                        }
+                    case east:
+                        //try to turn left ...
+                        if (y - 1 >= 0 && canGo(maze[y - 1][x])) {
+                            //can turn left
+                            return Dir.north;
+                        } else {
+                            //cant turn left...
+                            return directionToGo(x, y, Dir.south, iterations);
+                        }
+                    case south:
+                        //try to turn left...
+                        if (x + 1 < width && canGo(maze[y][x + 1])) {
+                            //can turn left. 
+                            return Dir.east;
+                        } else {
+                            //cant turn left...
+                            return directionToGo(x, y, Dir.west, iterations);
+                        }
+                    case west:
+                        //try to turn left...
+                        if (y + 1 < height && canGo(maze[y + 1][x])) {
+                            //can turn left.
+                            return Dir.south;
+                        } else {
+                            //cant turn left.
+                            return directionToGo(x, y, Dir.north, iterations);
+                        }
 
+                }
+
+            } else {
+                //righthand
+                switch (facing) {
+                    case north:
+                        //try to turn right...
+                        if (x + 1 < width && canGo(maze[y][x + 1])) {
+                            //can turn right. 
+                            return Dir.east;
+                        } else {
+                            //cant turn right...
+                            return directionToGo(x, y, Dir.west, iterations);
+                        }
+
+                    case east:
+                        //try to turn right...
+                        if (y + 1 < height && canGo(maze[y + 1][x])) {
+                            //can turn left.
+                            return Dir.south;
+                        } else {
+                            //cant turn left.
+                            return directionToGo(x, y, Dir.north, iterations);
+                        }
+
+                    case south:
+                        //try to turn right, check if inbounds and a place we can go that we haven't been. 
+                        if (x - 1 >= 0 && canGo(maze[y][x - 1])) {
+                            //can turn left. 
+                            return Dir.west;
+                        } else {
+                            //cant turn right, try next direction. 
+                            return directionToGo(x, y, Dir.east, iterations);
+                        }
+
+                    case west:
+                        //try to turn right ...
+                        if (y - 1 >= 0 && canGo(maze[y - 1][x])) {
+                            //can turn right
+                            return Dir.north;
+                        } else {
+                            //cant turn right...
+                            return directionToGo(x, y, Dir.south, iterations);
+                        }
+
+                }
             }
+
         }
         return null;
     }
@@ -350,14 +407,14 @@ public class Maze extends JFrame {
         int xDif = goal.x - start.x;
         int yDif = goal.y - start.y;
 
-        if (xDif > yDif) {
+        if (Math.abs(xDif) > Math.abs(yDif)) {
             if (xDif > 0) {
                 return Dir.east;
             } else {
                 return Dir.west;
             }
         } else {
-            if (yDif > 0) {
+            if (yDif < 0) {
                 return Dir.north;
             } else {
                 return Dir.south;
@@ -366,50 +423,83 @@ public class Maze extends JFrame {
     }
 
     private void openMemory() {
-        File file = new File("memory.txt");
-        boolean foundFinish = false;
-        MapLocation finish = null;
+        File file = new File("lastLoc.txt");
+        int lastX = -1;
+        int lastY = -1;
         if (file.exists()) {
-            String in = "";
-            int i = 0;
             try {
                 Scanner sc = new Scanner(file);
-                while (sc.hasNext()) {
+                String in = sc.nextLine();
+                try {
+                    lastX = Integer.parseInt(in);
                     in = sc.nextLine();
-                    in = trimWhitespace(in);
-                    if (in.length() <= MAX_WIDTH && i < MAX_HEIGHT) {
-                        for (int j = 0; j < in.length(); j++) {
-                            if (in.charAt(j) == '#') {
-                                map[i][j].character = in.charAt(j);
-                                map[i][j].weight = 10000;
-                            } else {
-                                if (in.charAt(j) == 'F') {
-                                    foundFinish = true;
-                                    finish = map[i][j];
-                                }
-                                map[i][j].character = in.charAt(j);
-                                map[i][j].weight = 1;
-                            }
-                        }
-                    } else {
-                        System.out.println("Maximum maze size exceeded: (" + MAX_WIDTH + " x " + MAX_HEIGHT + ")!");
-                        System.exit(1);
-                    }
-                    i++;
+                    lastY = Integer.parseInt(in);
+                    in = sc.nextLine();
+                    runCount = Integer.parseInt(in);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
                 }
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
 
-                System.out.println("Memory opened successfuly.");
-                System.out.println();
-                sc.close();
-            } catch (FileNotFoundException e) {
-                System.err.println("File not found: " + e);
             }
 
-            if (foundFinish) {
-                layBreadCrumbs(finish);
+            file = new File("memory.txt");
+            boolean foundFinish = false;
+
+            MapLocation finish = null;
+            if (file.exists()) {
+                String in = "";
+                int i = 0;
+                try {
+                    Scanner sc = new Scanner(file);
+                    while (sc.hasNext()) {
+                        in = sc.nextLine();
+                        in = trimWhitespace(in);
+                        if (in.length() <= MAX_WIDTH && i < MAX_HEIGHT) {
+                            for (int j = 0; j < in.length(); j++) {
+
+                                if (in.charAt(j) == '#') {
+                                    map[i][j].character = in.charAt(j);
+                                    map[i][j].weight = 10000;
+                                } else {
+                                    if (in.charAt(j) == 'F') {
+                                        foundFinish = true;
+                                        finish = map[i][j];
+                                    }
+                                    map[i][j].character = in.charAt(j);
+                                    map[i][j].weight = 1;
+                                }
+                            }
+
+                        } else {
+                            System.out.println("Maximum maze size exceeded: (" + MAX_WIDTH + " x " + MAX_HEIGHT + ")!");
+                            System.exit(1);
+                        }
+                        i++;
+                    }
+
+                    System.out.println("Memory opened successfuly.");
+                    System.out.println();
+                    sc.close();
+                } catch (FileNotFoundException e) {
+                    System.err.println("File not found: " + e);
+                }
+
+                if (foundFinish) {
+                    layBreadCrumbs(finish);
+                } else if(runCount == 2){
+                    layBreadCrumbs(map[lastY][lastX]);
+                }
             }
         }
     }
+
+    
+
+    
+
+    
 
     private void layBreadCrumbs(MapLocation finish) {
         System.out.println("laying bread crumbs");
@@ -611,6 +701,7 @@ public class Maze extends JFrame {
             }
             out = out + "\n";
         }
+        
 
         try {
             File file = new File("memory.txt");
@@ -620,6 +711,16 @@ public class Maze extends JFrame {
 
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(out);
+            bw.close();
+            
+            file = new File("lastLoc.txt");
+            if(!file.exists()){
+                file.createNewFile();
+            }
+            fw = new FileWriter(file.getAbsoluteFile());
+            bw = new BufferedWriter(fw);
+            out = backStack.getLast().x + "\n" + backStack.getLast().y + "\n" + ++runCount;
             bw.write(out);
             bw.close();
         } catch (IOException e) {
