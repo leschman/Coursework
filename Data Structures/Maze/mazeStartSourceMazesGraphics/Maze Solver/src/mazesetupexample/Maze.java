@@ -29,8 +29,9 @@ public class Maze extends JFrame {
     private ArrayDeque<MapLocation> backStack = new ArrayDeque<>();
     private ArrayDeque<MapLocation> stack = new ArrayDeque<>();
     private boolean routePlanned = false;
-
+    private MapLocation start;
     private int runCount = 0;
+    private boolean justFinish = false;
     private Random random = new Random();
     private JPanel mazePanel = new JPanel();
     private int width = 0;
@@ -152,7 +153,9 @@ public class Maze extends JFrame {
                 map[i][j] = new MapLocation(j, i, '*');
             }
         }
+        start = map[y][x];
         openMemory();
+        backStack.add(start);
         solve(x, y, facing);
     }
 
@@ -223,9 +226,12 @@ public class Maze extends JFrame {
                     currentDir = Dir.north;
                     System.out.println("couldn't understand the direction, " + facing);
             }
-             if(stack.isEmpty()){
-                    routePlanned = false;
-                }
+            if (stack.isEmpty()) {
+                routePlanned = false;
+            }
+            if (backStack.isEmpty()) {
+                closingMethod();
+            }
             if (!routePlanned) {
                 Dir needToGo = directionToGo(x, y, currentDir, 0);
                 if (needToGo == Dir.backup && !backStack.isEmpty()) {
@@ -263,10 +269,11 @@ public class Maze extends JFrame {
                             solve(x - 1, y, "west");
                             break;
                     }
+
                 }
 
             } else {
-               
+
                 //route planned, need to follow. 
                 MapLocation lastLocation = stack.removeFirst();
                 switch (directionTo(lastLocation, map[y][x])) {
@@ -400,7 +407,11 @@ public class Maze extends JFrame {
     }
 
     private boolean canGo(char c) {
-        return (c != '#' && c != '%' && c != 'X' && c != '*');
+        if (runCount > 1 || justFinish) {
+            return (c != '#' && c != '%' && c != 'X' && c != '*');
+        } else {
+            return (c != '#' && c != '%' && c != 'X' && c != '*' && c != 'F');
+        }
     }
 
     private Dir directionTo(MapLocation goal, MapLocation start) {
@@ -468,7 +479,7 @@ public class Maze extends JFrame {
                                         finish = map[i][j];
                                     }
                                     map[i][j].character = in.charAt(j);
-                                    map[i][j].weight = 1;
+                                    map[i][j].weight = 1000;
                                 }
                             }
 
@@ -488,29 +499,27 @@ public class Maze extends JFrame {
 
                 if (foundFinish) {
                     layBreadCrumbs(finish);
-                } else if(runCount == 2){
+                } else if (runCount == 2) {
                     layBreadCrumbs(map[lastY][lastX]);
                 }
             }
         }
     }
 
-    
-
-    
-
-    
-
     private void layBreadCrumbs(MapLocation finish) {
         System.out.println("laying bread crumbs");
         stack.add(finish);
+        int temp = runCount;
+        runCount = 0;
         MapLocation start = null;
         boolean foundExit = false;
         int weight = 0;
         while (!foundExit) {
             MapLocation loc = stack.removeFirst();
             loc.weight = weight;
-            loc.character = 'X';
+            if (loc.character != 'F') {
+                loc.character = 'X';
+            }
             weight++;
             //location is on edge, we have found start. 
             if (loc.x == 0 || loc.x == width - 1 || loc.y == 0 || loc.y == height - 1) {
@@ -532,10 +541,14 @@ public class Maze extends JFrame {
                 }
             }
         }
-        planRoute(start, finish);
+        runCount = temp;
+        if (runCount > 1) {
+            stack.clear();
+            planRoute(finish);
+        }
     }
 
-    private void planRoute(MapLocation start, MapLocation finish) {
+    private void planRoute(MapLocation finish) {
         System.out.println("planning Route");
         routePlanned = true;
         stack.add(start);
@@ -701,7 +714,6 @@ public class Maze extends JFrame {
             }
             out = out + "\n";
         }
-        
 
         try {
             File file = new File("memory.txt");
@@ -713,14 +725,19 @@ public class Maze extends JFrame {
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(out);
             bw.close();
-            
+
             file = new File("lastLoc.txt");
-            if(!file.exists()){
+            if (!file.exists()) {
                 file.createNewFile();
             }
             fw = new FileWriter(file.getAbsoluteFile());
             bw = new BufferedWriter(fw);
+            if (backStack.isEmpty()) {
+                backStack.add(start);
+
+            }
             out = backStack.getLast().x + "\n" + backStack.getLast().y + "\n" + ++runCount;
+
             bw.write(out);
             bw.close();
         } catch (IOException e) {
