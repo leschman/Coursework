@@ -220,7 +220,7 @@ public class Graph {
                 for (Edge e : visiting.edges) {
                     heap.add(e);
                 }
-            }else{
+            } else {
                 heap.remove();
             }
         }
@@ -229,6 +229,65 @@ public class Graph {
 
         }
         return this;
+    }
+
+    public void floydsReachability() {
+        
+        for (int start = 0; start < nodes.size(); start++) {
+            String out = "Node " + nodes.get(start).name + " can reach nodes: ";
+            for (int end = 0; end < nodes.size(); end++) {
+                if(start != end){
+                    if(reachable(nodes.get(start), nodes.get(end))){
+                        out = out + nodes.get(end).name + " ";
+                    }
+                }
+            }
+            System.out.println(out);
+        }
+
+    }
+
+    private boolean reachable(Node seaking, Node start) {
+
+        //stack to hold edges we will test. 
+        LinkedList<Edge> stack = new LinkedList<>();
+        //check the start, add it to the nodes visited if its not what we are seaking.
+        if (seaking == start) {
+
+            return true;
+        }
+        start.visited = true;
+
+        //add the start edges to the queue.
+        for (Edge e : start.getEdges()) {
+            stack.push(e);
+        }
+
+        //loop through the edges and search for that node. 
+        while (!stack.isEmpty()) {
+            Node nextNodeToVisit = stack.pop().getEnd();
+            //if we have already visited a node, go to next. 
+            if (nextNodeToVisit.visited) {
+                continue;
+            }
+
+            //check if this is the node we were looking for. 
+            if (nextNodeToVisit == seaking) {
+
+                cleanup();
+                return true;
+            } else {
+                //not the node we were looking for.
+                nextNodeToVisit.visited = true;
+                //add the edges to the queue. 
+
+                for (Edge e : nextNodeToVisit.getEdges()) {
+                    stack.push(e);
+                }
+            }
+        }
+        cleanup();
+        return false;
     }
 
 }
