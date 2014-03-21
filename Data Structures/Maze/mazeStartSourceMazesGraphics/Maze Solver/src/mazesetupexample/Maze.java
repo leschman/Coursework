@@ -10,6 +10,7 @@ import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import java.util.ArrayDeque;
 import java.util.PriorityQueue;
 import javax.swing.*;
 
@@ -24,6 +25,7 @@ public class Maze extends JFrame {
     private char[][] maze = new char[MAX_HEIGHT][MAX_WIDTH];
     private MapLocation[][] map = new MapLocation[MAX_HEIGHT][MAX_WIDTH];
     private PriorityQueue<MapLocation> heap = new PriorityQueue<>();
+    private ArrayDeque<MapLocation> stack = new ArrayDeque<>();
     private Random random = new Random();
     private JPanel mazePanel = new JPanel();
     private int width = 0;
@@ -62,7 +64,6 @@ public class Maze extends JFrame {
 
         timer = new Timer(TIMER_DELAY, new TimerHandler());     // setup a Timer to slow the animation down.
         timer.start();
-
 
         addWindowListener(new WindowHandler());     // listen for window event windowClosing
 
@@ -174,10 +175,7 @@ public class Maze extends JFrame {
         }
 
         //Do not mess with the above part of this method
-
-
         //Below is where you put your solution to solving the maze.  
-
         if (maze[y][x] != 'F') {  //this is if it doesn't find the finish on a turn.........
             g2.drawImage(mazeImage, null, 0, 0);
             g2.drawImage(printGuy(facing), x * SPRITE_WIDTH, y * SPRITE_HEIGHT, null, null);
@@ -196,7 +194,7 @@ public class Maze extends JFrame {
             if (y - 1 > 0) {
                 if (map[y - 1][x].weight == 0) {
                     giveWeight(map[y - 1][x]);
-                   // heap.add(map[y - 1][x]);
+                    // heap.add(map[y - 1][x]);
                 } else {
                     giveWeight(map[y - 1][x]);
                 }
@@ -214,26 +212,69 @@ public class Maze extends JFrame {
 
                 if (map[y][x - 1].weight == 0) {
                     giveWeight(map[y][x - 1]);
-                   // heap.add(map[y][x - 1]);
+                    // heap.add(map[y][x - 1]);
                 } else {
                     giveWeight(map[y][x - 1]);
                 }
             }
-            switch(facing){
-                case "north":
-                    if(y+1 < height && maze[y+1][x] != '#'){
-                        //can move north, move north.
-                        solve(x, y+1, "north");
-                    }else{
-                        //cant move north, turn left. 
-                        solve(x, y, "east");
-                    }
-                case "east":
-                    if(x+1 < width && maze[y][x + 1] != '#'){
-                        //if 
-                    }
-            }
 
+            //figureout where we are going next. 
+            //figureout which way we are facing.
+            Dir currentDir;
+            switch (facing) {
+                case "north":
+                    currentDir = Dir.north;
+                    break;
+                case "east":
+                    currentDir = Dir.east;
+                    break;
+                case "south":
+                    currentDir = Dir.south;
+                    break;
+                case "west":
+                    currentDir = Dir.west;
+                    break;
+                default:
+                    currentDir = Dir.north;
+                    System.out.println("couldn't understand the direction, " + facing);
+            }
+            Dir needToGo = directionToGo(x, y, currentDir, 0);
+            if (needToGo == Dir.backup && !stack.isEmpty()) {
+                //Need to go backwards
+                MapLocation lastLocation = stack.pop();
+                switch (directionTo(lastLocation, map[x][y])) {
+                    case north:
+                        solve(lastLocation.x, lastLocation.y, "north");
+                        break;
+                    case east:
+                        solve(lastLocation.x, lastLocation.y, "east");
+                        break;
+                    case south:
+                        solve(lastLocation.x, lastLocation.y, "south");
+                        break;
+                    case west:
+                        solve(lastLocation.x, lastLocation.y, "west");
+                        break;
+                }
+            } else {
+                //add where we are to the stack so we can backtrack.
+                stack.add(map[y][x]);
+                //go the direction we need to go. 
+                switch (needToGo) {
+                    case north:
+                        solve(x, y - 1, "north");
+                        break;
+                    case east:
+                        solve(x + 1, y, "east");
+                        break;
+                    case south:
+                        solve(x, y + 1, "south");
+                        break;
+                    case west:
+                        solve(x - 1, y, "west");
+                        break;
+                }
+            }
 
         } else {
             System.out.println("Found the finish!");
@@ -245,6 +286,58 @@ public class Maze extends JFrame {
             System.out.println("Final Time = " + finalTime);
 
         }
+    }
+
+    private Dir directionToGo(int x, int y, Dir facing, int iterations) {
+        iterations++;
+        //if we have tried left, forward and right, need to go back. 
+        if (iterations >= 4) {
+            return Dir.backup;
+            }
+         else {
+            //try turning.
+            switch (facing) {
+                case north:
+                    //try to turn left, check if inbounds and a place we can go that we haven't been. 
+                    if (x - 1 >= 0 && canGo(maze[y][x - 1])) {
+                        //can turn left. 
+                        return Dir.west;
+                    } else {
+                        //cant turn left, try next direction. 
+                        return directionToGo(x, y, Dir.east, iterations);
+                    }
+                case east:
+                    //try to turn left ...
+                    if (y - 1 >=0 && canGo(maze[y - 1][x])) {
+                        //can turn left
+                        return Dir.north;
+                    } else {
+                        //cant turn left...
+                        return directionToGo(x, y, Dir.south, iterations);
+                    }
+                case south:
+                    //try to turn left...
+                    if (x + 1 < width && canGo(maze[y][x + 1])) {
+                        //can turn left. 
+                        return Dir.east;
+                    } else {
+                        //cant turn left...
+                        return directionToGo(x, y, Dir.west, iterations);
+                    }
+                case west:
+                    //try to turn left...
+                    if (y + 1 < height && canGo(maze[y + 1][x])) {
+                        //can turn left.
+                        return Dir.south;
+                    } else {
+                        //cant turn left.
+                        return directionToGo(x, y, Dir.north, iterations);
+                    }
+
+                    
+            }
+        }
+        return null;
     }
 
     private void giveWeight(MapLocation loc) {
@@ -263,7 +356,11 @@ public class Maze extends JFrame {
 
     private enum Dir {
 
-        Up, Down, Left, Right
+        north, west, south, east, backup
+    }
+    
+    private boolean canGo(char c){
+        return(c != '#' && c != '%' && c != 'X');
     }
 
     private Dir directionTo(MapLocation goal, MapLocation start) {
@@ -272,15 +369,15 @@ public class Maze extends JFrame {
 
         if (xDif > yDif) {
             if (xDif > 0) {
-                return Dir.Right;
+                return Dir.east;
             } else {
-                return Dir.Left;
+                return Dir.west;
             }
         } else {
             if (yDif > 0) {
-                return Dir.Up;
+                return Dir.north;
             } else {
-                return Dir.Down;
+                return Dir.south;
             }
         }
     }
