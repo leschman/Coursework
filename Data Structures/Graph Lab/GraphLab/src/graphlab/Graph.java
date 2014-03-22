@@ -244,7 +244,6 @@ public class Graph {
             }
             System.out.println(out);
         }
-
     }
 
     private boolean reachable(Node seaking, Node start) {
