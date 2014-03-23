@@ -2,6 +2,7 @@
 Lab 2(Rock-Paper-Scissors-Lizard-Spock) Submission for Logan Esch.
 2014-03-24
 """
+import random
 
 
 #Super-class for the possible moves in the game.
@@ -153,10 +154,141 @@ class Spock(Element):
 		else:
 			return('Unknown name:' + oName)
 
+#Super-class for the Players in the game.
+class Player:
+	_name = ''
+	"""
+	constructor for Player Class
+	takes a string and initializes the name variable of the class to that string.
+	"""
+	def __init__(self, name):
+		self._name=name
+
+	"""
+	Getter method for name variable
+	"""
+	def name(self):
+		return self._name
+	
+	"""
+	play method stub, needs to be implemented in client classes.
+	"""
+	def play():
+		raise NotImplementedError("Not yet Implemented")
+
+#StupidBot
+class StupidBot(Player):
+        """
+        play method for StupidBot,
+        will always play spock.
+        this guy just likes Leonard Nimoy...
+        ignores lastMove.
+        """
+        def play(self, lastMove):
+                return moves[4]
+
+#RandomBot
+class RandomBot(Player):
+        """
+        play method for RandomBot,
+        picks a random move to play.
+        ignores lastMove.
+        """
+        def play(self, lastMove):
+                return moves[random.randint(0,4)]
+
+#IterativeBot
+class IterativeBot(Player):
+        nextMove = 4
+        """
+        play method for IterativeBot
+        starts with rock and makes moves one after the other.
+        ignores lastMove.
+        """
+        def play(self, lastMove):
+                self.nextMove = self.nextMove + 1
+                if self.nextMove > 4:
+                        self.nextMove = 0
+                return moves[self.nextMove]
+
+#LastPlayBot
+class LastPlayBot(Player):
+        """
+        play method for LastPlayBot
+        will always play the move that the oponent played last time
+        lastMove should be the last move played move played by the other player.
+        """
+        def play(self, lastMove):
+                return lastMove
+
+#Human
+class Human(Player):
+        """
+        play method for Human
+        prints out possible moves and accepts user input.
+        """
+        def play(self, lastMove):
+                print('(1) : Rock')
+                print('(2) : Paper')
+                print('(3) : Scissors')
+                print('(4) : Lizard')
+                print('(5) : Spock')
+                choice = 'bad'
+                while choice == 'bad':
+                        try:
+                                uInput = input("Enter your move: ")
+                                if int(uInput) > 0 and int(uInput) < 6:
+                                        choice = int(uInput) -1
+                                else:
+                                        raise ValueError
+                        except ValueError:
+                                print('Invalid move. Please try Again.')
+                return(moves[choice])
+                
+                        
+#myBot
+class MyBot(Player):
+        """
+        play method for MyBot
+        plays a move that would have won the last game.
+        """
+        def play(self,lastMove):
+                lastMoveIndex = moves.index(lastMove)
+                lastMoveIndex += 2
+                if lastMoveIndex > 4:
+                       lastMoveIndex -= 5
+                return moves[lastMoveIndex]
+
+
+"""
+#main
+class Main:
+        print('Welcome to Rock, Paper, Scissors, Lizard, Spock, implemented by Logan Esch.')
+        print()
+        print('Please choose two players:')
+        print('    (1) Human')
+        print('    (2) StupidBot')
+        print('    (3) RandomBot')
+        print('    (4) IterativeBot')
+        print('    (5) LastPlayBot')
+        print('    (6) MyBot')
+        print()
+
+        
+        player1 = ''
+        player2 = ''
+        player1Init = 'false'
+        player2Init = 'false'
+        while player1Init == 'false':
+                choice = input("Select Player One: ")
+                        if int(choice) > 0 and int(choice) < 7:
+                             Player1Init = 'true'
+                             player1
+"""
+                
+        
+
 #global variables
-
-
-
 rock = Rock('Rock')
 paper = Paper('Paper')
 scissors = Scissors('Scissors')
@@ -166,63 +298,58 @@ spock = Spock('Spock')
 #the moves available in the game.
 moves = [rock, paper, scissors, lizard, spock]
 
-for move1 in moves:
-        print(move1.name())
-        for move2 in moves:
-                print(move1.compareTo(move2))
+p1 = MyBot('IterativeBot')
+p2 = IterativeBot('LastPlayBot')
+p1Last = moves[0]
+p2Last = moves[0]
+
+p1move = p1.play(p2Last)
+p2move = p2.play(p1Last)
+print(p1move.compareTo(p2move))
+p1Last = p1move
+p2Last = p2move
+p1move = p1.play(p2Last)
+p2move = p2.play(p1Last)
+print(p1move.compareTo(p2move))
+p1Last = p1move
+p2Last = p2move
+p1move = p1.play(p2Last)
+p2move = p2.play(p1Last)
+print(p1move.compareTo(p2move))
+p1Last = p1move
+p2Last = p2move
+p1move = p1.play(p2Last)
+p2move = p2.play(p1Last)
+print(p1move.compareTo(p2move))
+p1Last = p1move
+p2Last = p2move
+p1move = p1.play(p2Last)
+p2move = p2.play(p1Last)
+print(p1move.compareTo(p2move))
+p1Last = p1move
+p2Last = p2move
+p1move = p1.play(p2Last)
+p2move = p2.play(p1Last)
+print(p1move.compareTo(p2move))
+p1Last = p1move
+p2Last = p2move
+p1move = p1.play(p2Last)
+p2move = p2.play(p1Last)
+print(p1move.compareTo(p2move))
+p1Last = p1move
+p2Last = p2move
+p1move = p1.play(p2Last)
+p2move = p2.play(p1Last)
+print(p1move.compareTo(p2move))
+p1Last = p1move
+p2Last = p2move
+p1move = p1.play(p2Last)
+p2move = p2.play(p1Last)
+print(p1move.compareTo(p2move))
+p1Last = p1move
+p2Last = p2move
+p1move = p1.play(p2Last)
+p2move = p2.play(p1Last)
+print(p1move.compareTo(p2move))
 
 
-
-"""
-
-moves = []
-moves.append(rock)
-moves.append(paper)
-moves.append(scissors)
-moves.append(lizard)
-moves.append(spock)
-
-
-print('Rock')
-print(moves[0].compareTo(moves[0]))
-print(rock.compareTo(paper))
-print(rock.compareTo(scissors))
-print(rock.compareTo(lizard))
-print(rock.compareTo(spock))
-
-
-print('Paper')
-print(paper.compareTo(rock))
-print(paper.compareTo(scissors))
-print(paper.compareTo(paper))
-print(paper.compareTo(lizard))
-print(paper.compareTo(spock))
-
-print('Scissors')
-print(scissors.compareTo(rock))
-print(scissors.compareTo(paper))
-print(scissors.compareTo(scissors))
-print(scissors.compareTo(lizard))
-print(scissors.compareTo(spock))
-
-print('Lizard')
-print(lizard.compareTo(rock))
-print(lizard.compareTo(paper))
-print(lizard.compareTo(scissors))
-print(lizard.compareTo(lizard))
-print(lizard.compareTo(spock))
-
-
-print('Spock')
-print(spock.compareTo(rock))
-print(spock.compareTo(paper))
-print(spock.compareTo(scissors))
-print(spock.compareTo(lizard))
-print(spock.compareTo(spock))
-"""
-
-
-
-			
-			
-			
