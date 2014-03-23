@@ -260,31 +260,87 @@ class MyBot(Player):
                 return moves[lastMoveIndex]
 
 
-"""
+
 #main
 class Main:
-        print('Welcome to Rock, Paper, Scissors, Lizard, Spock, implemented by Logan Esch.')
-        print()
-        print('Please choose two players:')
-        print('    (1) Human')
-        print('    (2) StupidBot')
-        print('    (3) RandomBot')
-        print('    (4) IterativeBot')
-        print('    (5) LastPlayBot')
-        print('    (6) MyBot')
-        print()
+        def run(self):
+                print('Welcome to Rock, Paper, Scissors, Lizard, Spock, implemented by Logan Esch.')
+                print()
+                print('Please choose two players:')
+                print('    (1) Human')
+                print('    (2) StupidBot')
+                print('    (3) RandomBot')
+                print('    (4) IterativeBot')
+                print('    (5) LastPlayBot')
+                print('    (6) MyBot')
+                print()
 
-        
-        player1 = ''
-        player2 = ''
-        player1Init = 'false'
-        player2Init = 'false'
-        while player1Init == 'false':
-                choice = input("Select Player One: ")
-                        if int(choice) > 0 and int(choice) < 7:
-                             Player1Init = 'true'
-                             player1
-"""
+                
+                
+                player1 = 'false'
+                player2 = 'false'
+
+
+                #input loop for 1st player
+                while player1 == 'false':
+                                try:
+                                        uInput = input("Select Player One: ")
+                                        if int(uInput) > 0 and int(uInput) < 7:
+                                                player1 = players[int(uInput) -1]
+                                        else:
+                                                raise ValueError
+                                except ValueError:
+                                        print('Invalid input. Please try Again.')
+                #input loop for 2nd player
+                while player2 == 'false':
+                                try:
+                                        uInput = input("Select Player Two: ")
+                                        if int(uInput) > 0 and int(uInput) < 7:
+                                                player2 = players[int(uInput) -1]
+                                        else:
+                                                raise ValueError
+                                except ValueError:
+                                        print('Invalid input. Please try Again.')
+                print()
+
+                print(player1.name() + ' vs ' + player2.name())
+                print()
+
+                #initalize values for games
+                p1Score = 0
+                p2Score = 0
+                count = 0
+                p1Last = moves[0]
+                p2Last = moves[0]
+                
+                while count < 5:
+                        count = count + 1
+                        print('Round ' + str(count) + ':')
+                        p1Move = player1.play(p2Last)
+                        p2Move = player2.play(p1Last)
+                        p1Last = p1Move
+                        p2Last = p2Move
+                        print('    ' + player1.name() + ' chose ' + p1Move.name())
+                        print('    ' + player2.name() + ' chose ' + p2Move.name())
+                        result = p1Move.compareTo(p2Move)
+                        print('    ' + result[0])
+                        if result[1] == 'Win':
+                                print('    ' + player1.name() + ' won the round.') 
+                                p1Score += 1
+                        elif result[1] == 'Lose':
+                                p2Score += 1
+                                print('    ' + player2.name() + ' won the round.')
+                        else:
+                                print('    Round was a tie.')
+                        print()
+                print('The score is ' + str(p1Score) + ' to ' + str(p2Score) + '.')
+                if p1Score > p2Score:
+                        print(player1.name() + ' wins!')
+                elif p2Score > p1Score:
+                        print(player2.name() + ' wins!')
+                else:
+                        print('Game was a draw.')
+
                 
         
 
@@ -298,58 +354,18 @@ spock = Spock('Spock')
 #the moves available in the game.
 moves = [rock, paper, scissors, lizard, spock]
 
-p1 = MyBot('IterativeBot')
-p2 = IterativeBot('LastPlayBot')
-p1Last = moves[0]
-p2Last = moves[0]
+#players
+human = Human('the Human')
+stupidBot = StupidBot('StupidBot')
+randomBot = RandomBot('RandomBot')
+iterativeBot = IterativeBot('IterativeBot')
+lastPlayBot = LastPlayBot('LastPlayBot')
+myBot = MyBot('MyBot')
 
-p1move = p1.play(p2Last)
-p2move = p2.play(p1Last)
-print(p1move.compareTo(p2move))
-p1Last = p1move
-p2Last = p2move
-p1move = p1.play(p2Last)
-p2move = p2.play(p1Last)
-print(p1move.compareTo(p2move))
-p1Last = p1move
-p2Last = p2move
-p1move = p1.play(p2Last)
-p2move = p2.play(p1Last)
-print(p1move.compareTo(p2move))
-p1Last = p1move
-p2Last = p2move
-p1move = p1.play(p2Last)
-p2move = p2.play(p1Last)
-print(p1move.compareTo(p2move))
-p1Last = p1move
-p2Last = p2move
-p1move = p1.play(p2Last)
-p2move = p2.play(p1Last)
-print(p1move.compareTo(p2move))
-p1Last = p1move
-p2Last = p2move
-p1move = p1.play(p2Last)
-p2move = p2.play(p1Last)
-print(p1move.compareTo(p2move))
-p1Last = p1move
-p2Last = p2move
-p1move = p1.play(p2Last)
-p2move = p2.play(p1Last)
-print(p1move.compareTo(p2move))
-p1Last = p1move
-p2Last = p2move
-p1move = p1.play(p2Last)
-p2move = p2.play(p1Last)
-print(p1move.compareTo(p2move))
-p1Last = p1move
-p2Last = p2move
-p1move = p1.play(p2Last)
-p2move = p2.play(p1Last)
-print(p1move.compareTo(p2move))
-p1Last = p1move
-p2Last = p2move
-p1move = p1.play(p2Last)
-p2move = p2.play(p1Last)
-print(p1move.compareTo(p2move))
+#the players available in the game
+players = [human, stupidBot, randomBot, iterativeBot, lastPlayBot, myBot]
 
+
+main = Main()
+main.run()
 
