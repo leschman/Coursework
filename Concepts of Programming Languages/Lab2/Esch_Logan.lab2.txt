@@ -1,0 +1,5 @@
+Question 1:
+	My LastPlayBot is really simple, I just have the play() method expect the last move that was made and then return it. All I needed to do was keep track of the last move made in the caller and feed it back in.
+
+Question 2:
+	MyBot is also pretty simple. It's strategy is to play a move that would have won the last game. It is very similar to LastPlayBot except that instead of returning the last play, it finds the plays index in the moves list, increments by 2 (and loops around if needed) and returns that move. 
