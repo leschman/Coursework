@@ -64,7 +64,8 @@ public class Maze extends JFrame {
      *
      * @param fname String value containing the filename of the maze to open.
      */
-    public Maze(String fname) {
+    public Maze() {
+        String fname = "maze7.txt";
         openMaze(fname);
         mazeImage = printMaze();
 
@@ -94,15 +95,15 @@ public class Maze extends JFrame {
      */
     public static void main(String[] args) {
         int runny = 1;
-        if (args.length > 0) {
-            new Maze(args[0]);
-        } else {
-            System.out.println();
-            System.out.println("Usage: java Maze <filename>.");
-            System.out.println("Maximum Maze size:" + MAX_WIDTH + " x " + MAX_HEIGHT + ".");
-            System.out.println();
-            System.exit(1);
-        }
+//        if (args.length > 0) {
+            new Maze();
+//        } else {
+//            System.out.println();
+//            System.out.println("Usage: java Maze <filename>.");
+//            System.out.println("Maximum Maze size:" + MAX_WIDTH + " x " + MAX_HEIGHT + ".");
+//            System.out.println();
+//            System.exit(1);
+//        }
     }
 
     /**
@@ -143,9 +144,9 @@ public class Maze extends JFrame {
         //Graphics2D g2 = (Graphics2D)mazePanel.getGraphics();
         //g2.drawImage(mazeImage, null, 0, 0);
         //g2.drawImage(printGuy(facing), x*SPRITE_WIDTH, y*SPRITE_HEIGHT, null, null);
-        Scanner input = new Scanner(System.in);
-        System.out.println("Press 1 to start");
-        input.nextLine();
+//        Scanner input = new Scanner(System.in);
+//        System.out.println("Press 1 to start");
+//        input.nextLine();
         startTime = System.currentTimeMillis();
         map = new MapLocation[height][width];
         for (int i = 0; i < height; i++) {
