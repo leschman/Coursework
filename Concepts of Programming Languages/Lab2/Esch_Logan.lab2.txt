@@ -3,3 +3,6 @@ Question 1:
 
 Question 2:
 	MyBot is also pretty simple. It's strategy is to play a move that would have won the last game. It is very similar to LastPlayBot except that instead of returning the last play, it finds the plays index in the moves list, increments by 2 (and loops around if needed) and returns that move. 
+
+Question 3:
+	Python is a strongly typed, dynamically bound language. It is strongly typed because typing errors are prevented at run time, and there is little implicit type conversion, for example one must . 
