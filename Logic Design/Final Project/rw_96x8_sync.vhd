@@ -5,7 +5,7 @@
 --               
 -- Description : VHDL model of a 96 x 8-bit R/W memory (Data Memory)
 --
--- Author(s)   : 
+-- Author(s)   : Logan Esch
 --
 -- Note(s)     : This RAM memory contains is used for program data.
 -- 
@@ -16,7 +16,7 @@
 --               (xDF)        (96x8-bit)          
 --              ----------------------------------    
 --
--- Date        : 
+-- Date        : 16 April 2014
 --
 ------------------------------------------------------------------------------------------------------------
 library IEEE;
