@@ -1,0 +1,64 @@
+Question 1:
+	For the call: (f '(3 1 4 1 5 9)) the function produces the output: '(4 2 5 2 6 10).
+	
+Question 2:
+	This function f takes an input of a list and then checks if the list is null. 
+	If the list is null function f returns an empty list. 
+	Otherwise the function will return a new list with the first element of the current list incremented by one, and a recursive call of the function on the remaining elements of the list. 
+	
+Question 3:
+	This line checks if the list lst is null. If it is the function returns an empty list. 
+	If the list is not null the function adds one to the first element and calls itself recursively on
+	The rest of the list.
+	
+Question 4: 
+	This line is the first part of the if above, it will return an empty list if the above if is true.
+	It is the base case for the recursion.
+
+Question 5:
+	This line creates a new pair of the first element of this list + 1 and a recursive call on the remaining elements of the list.
+
+Question 6:
+	(cons (+ 1(3)) (f (1 4 1 5 9)))
+	(cons (+ 1(1)) (f (4 1 5 9)))
+	(cons (+ 1(4)) (f (1 5 9)))
+	(cons (+ 1(1)) (f (5 9)))
+	(cons (+ 1(5)) (f (9)))
+	(cons (+ 1(9)) (f ())) <= calls f on empty list, which returns empty list. 
+	
+Question 7:
+	For the call: (member? 'one '(1 2 3 4)) my function returns #f. This is because "one" is not "1".
+
+Question 8:
+	My member? function uses tail recursion.
+
+Question 9:
+	For the call: (set? '(it was the best of times, it was the worst of times)) my function returns #f. This is because the lists repeat words. What actually causes #f is the repetition of 'it'. 
+	
+Question 10:
+	Tail recursion is moving the recursive calls of a function to the end of that function, and any code segments that would cause a function to short-circuit to the beginning of that function. The advantage of tail recursion is that it can greatly reduce wasted computation. For example my member? function uses tail recursion by first checking if the list is empty in which case it returns true and is done. If the list is not empty it then checks if the lead element of the list is repeated anywhere later in the list, in which case it returns false and stops checking the rest of the list. Only if both of those checks are false is the recursive call made. This allows a call like (set? '(it was the best of times, it was the worst of times)) to be completed after checking 'it' and avoid checking the rest of the list.
+	
+Question 11:
+	For the call: (union '(green eggs and) '(ham)) union produces: '(ham green eggs and)
+
+Question 12:
+	For the call: (intersect '(stewed tomatoes and macaroni) '(macaroni and cheese)) intersect produces: '(and macaroni)
+
+Question 13: 
+	I like the elegant way that problems are solved with recursion in Scheme. It was fun to figure out recursive solutions to problems that I would normally code iteratively, like finding if an element is a member of a given set. 
+
+Question 14:
+	I dislike the error messages Racket gave me. I spent about half of my total time on this lab trying to debug one error I kept getting with the union function. I never did figure out why I was getting it, and instead ended up with a different approach. I feel like if the error messages were a little more verbose I could have been done in half the time. 
+
+Question 15: 
+	Overall I really enjoyed this lab and the way Scheme/lisp languages approach problems. It is a  fun to think about problems and quite elegant. So far this has probably been my favorite lab.
+
+Question 16:
+	I spent approximately 4.5 hours on this lab, though about half of that was debugging the aforementioned issue that I never figured out. 
+	
+Question 17:
+	Even though I enjoy Scheme, I will probably only use it again if I have to. The learning curve just makes it so that given a choice I would choose an imperative language that I understand better (like Java or Python) over trying to learn Scheme. 
+	
+	
+	
+	

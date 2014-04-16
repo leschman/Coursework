@@ -1,0 +1,32 @@
+Lab 2 Question Answers from Logan Esch
+
+Question 1:
+	My LastPlayBot is really simple, I just have the play() method expect the last move that was made and then return it. All I needed to do was keep track of the last move made in the caller and feed it back in.
+
+Question 2:
+	MyBot is also pretty simple. It's strategy is to play a move that would have won the last game. It is very similar to LastPlayBot except that instead of returning the last play, it finds the plays index in the moves list, increments by 2 (and loops around if needed) and returns that move. 
+
+Question 3:
+	Python is a strongly typed, dynamically bound language. It is strongly typed because typing errors are prevented at run time, and there is little implicit type conversion, for example one must call str() on an integer in order to print that integer to the console. If it was dynamically typed this conversion would probably be unnecessary. Python is dynamically bound in that the binding of a name to its type does not happen until the name is assigned a value. Even after a name has a value it can be reassigned to a value of a different type. This is in contrast to a statically bound language where the type is set at compile time and can not change for the scope of the name. Users of Python can easily create their own data types through classes. The data in these classes can ether be publicly accessible or hidden by prefacing them with a '_'. 
+	Source:http://en.wikipedia.org/wiki/Strong_and_weak_typing
+
+Question 4: 
+	There are a couple of trends that are apparent. First, the IterativeBot almost always beats MyBot because MyBot anticipates the previous move. Second, both the RandomBot and the StupidBot tend to do fairly well against the IterativeBot. The StupidBot and the LastPlayBot always tie. RandomBot seems to do the best against all the others. I can consistently beat all of the bots except sometimes RandomBot because I know what moves they are going to make.  
+
+Question 5:
+	It is possible to design a strategy for this game that is more likely to succeed if one can guess what the other player's next move is more likely to be. For example, if one can determine that the other player always makes the same move then one can simply make the counter move. However, if an opponent is randomizing their choices then there is no strategy that is more likely to succeed. 
+	
+Question 6: 
+	I like how there doesn't have to be a lot of extra "stuff" in Python. Coming from Java, where types have to be defined and there are parentheses, curly braces and semicolons everywhere, Python is very clean. I like that the language tries not to get between the programmer and the problem they are trying to solve. 
+	
+Question 7:
+	I dislike needing to run my code to discover bugs. It's probably mainly because I was using IDLE instead of some other IDE but it helps me learn a language better and faster and code fewer errors if an IDE immediately flags syntax errors. 
+	
+Question 8:
+	I enjoyed the problem and learning a little Python. It was a little frustrating trying to figure out some of the errors I made along the way but on the whole it was a good experience.
+
+Question 9:
+	7 hours with creating this document.
+	
+Question 10: 
+	I sure hope so. Its kind of a paradox in that in order to learn a language I have to use it but in order to use it I have to know it. I am hoping to find the time this summer to sit down and seriously learn Python. 

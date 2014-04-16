@@ -52,7 +52,7 @@ public class NumberPairFinder implements Runnable {
             BufferedWriter bw = new BufferedWriter(fw);
             String out = "Problem Size,Range,RunningTime,Trial\n";
             bw.write(out);
-            for (int val = 1000000; val <= 2000000; val += 1000000) {
+            for (int val = 1000000; val <= 2000000000; val += 1000000) {
 
                 for (int i = 0; i < 10; i++) {
 
