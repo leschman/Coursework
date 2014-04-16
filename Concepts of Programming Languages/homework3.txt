@@ -1,0 +1,63 @@
+Problem 1: 
+	Jensen's device is a programming technique of passing some variables by name instead of by value. This allows for interesting code where the values of the variables can change the value of the expressions that are being used to compute them. As an example Jensen's Device can be used to write a summation function for a data structure by linking the reference to an element in the structure to an index variable, a[i] and i. Passing by name is expensive computationally because each reference must be evaluated each time it is made. Also there can be problems things such as with a swap function which instead of swapping the given values instead changes two completely different values. 
+	Sources: http://www.cs.sfu.ca/~cameron/Teaching/383/PassByName.html
+			 http://www.cs.helsinki.fi/u/wikla/OKP/K09/Asiat/JensensD.html
+	
+Problem 2:
+	(a) ((λx x*x)5)
+		(λ5 5*5)
+		25
+	(b) ((λy((λx x + y + z)3))2)
+		(λ2((λx x + 2 + z)3))
+		(λ2(λ3 3 + 2 + z))
+		5 + z
+Problem 3:
+	(a) => 'a 			[car returns the first element]
+	(b) => '((b c) d e) [cdr returns everything but the first element]
+	(c) => '(b c)		[cadr takes the car of a cdr]
+	(d) => '(d e)		[cddr takes the cdr of a cdr]
+	(e) => 'd			[caddr takes the car of cddr]
+
+Problem 4:
+	(sum '(1 2 3 4 5))
+	(+ 1 (sum '(2 3 4 5)))
+	(+ 1 ( + 2 (sum '(3 4 5))))
+	(+ 1 ( + 2 (+ 3 (sum '(4 5)))))
+	(+ 1 ( + 2 (+ 3 (+ 4 (sum '(5))))))
+	(+ 1 ( + 2 (+ 3 (+ 4 (+ 5(sum '())))))) <= (sum '()) returns 0
+	(+ 1 ( + 2 (+ 3 (+ 4 (+ 5 0)))))
+	(+ 1 ( + 2 (+ 3 (+ 4 5))))
+	(+ 1 ( + 2 (+ 3 9)))
+	(+ 1 ( + 2 12))
+	(+ 1 14)
+	(15)
+	
+Problem 5:
+	(a) Function y takes two arguments, 's' and 'lis'. It first checks if 'lis' is empty, if so it returns an empty list. If 'lis' is not empty, function y checks if the first element in 'lis' is equal to 's', if so it returns all of 'lis' at that point. If both of those checks fail, function y calls itself recursively on the cdr of 'lis'. The result is that function y will search for 's' in 'lis' and return all 'lis' from the first 's' it finds through the end of 'lis'. If 's' is not in 'lis' then the empty list is returned. 
+	
+	(b) (y 3 ('1 2 3 4 5)) => '(3 4 5)
+	
+	
+Problem 6:
+	(define (elements lst)
+	(if(null? lst) 0
+		(if(pair? (car lst))
+			(+ (elements (car lst)) (elements (cdr lst)))
+			(+ 1 (elements (cdr lst))))))
+	(elements '(1 (2 (3) 4) 5 6))
+	
+Problem 7:
+	The main disadvantage of passing an error-handling procedure as a parameter to each procedure that can detect errors is that the error-handling procedure must be passed with every call to every procedure. This can be a huge waste as not all procedures may need an error-handler, or they may throw different kinds of errors that need different kinds of error-handlers. Dealing with all of that is quite a burden. 
+	
+Problem 8:
+	The object-oriented paradigm tries to divide problems into objects that can be made up of other objects. These objects interact with each other through methods. It is typically implemented imperatively which requires that every step of every method be spelled out exactly. An object-oriented approach has the advantage that it is very easy to reuse code and build new programs from existing ones. It has the disadvantage that it requires a great deal of programmer planning and overhead. Solutions to problems must be well thought out and much more coding is required for object-oriented programming.	
+	In logic programming the programmer specifies a set of rules and then asks the computer to draw conclusions from them. It has the advantage in that it is up to the designer of the language to specify how conclusions are drawn, not the programmer, making it easier for a programmer to focus on the problem. A disadvantage of logic programming is that programs are quite slow compared to imperative programs. 
+	
+Problem 9:
+	Garbage collection is important in logic programming languages because they often try many approaches before reaching the desired conclusions. Some of these are useful in finding the final solution, others may not be. Regardless there can be a lot of garbage generated which uses a lot of memory. Prolog divides its memory into three areas: program space, a local stack, and a global stack. The program space holds the compiled code and recorded terms. The local stack holds control information and variable bindings. The global stack contains the heap which holds all data structures. Prolog's garbage collector first reclaims all space used by variables that are no longer reachable. It then shrinks these three program spaces as much as possible given whatever is left after garbage collection. If more space for one or more of these areas is needed during execution their space is expanded if possible, or space is reallocated from another area. 
+	Source: http://webcache.googleusercontent.com/search?q=cache:http://paul.rutgers.edu/quintus/g-12.html
+
+Problem 10:  	
+	Skolem normal form is replacing existential quantifiers with new functions or constants. Functions are used when the universal quantifiers have appeared previously. Constants are used when there is no previous universal quantifier.  Skolemization is usually the first step of an automated theorem prover. 
+	Sources: http://www.cs.toronto.edu/~sheila/384/w11/Lectures/csc384w11-KR-tutorial.pdf
+			 http://en.wikipedia.org/wiki/Skolem_normal_form

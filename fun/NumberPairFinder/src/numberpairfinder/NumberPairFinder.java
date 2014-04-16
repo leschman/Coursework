@@ -45,6 +45,7 @@ public class NumberPairFinder implements Runnable {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
         int maximumSize = 4000000;
         int iterationSize = 1000000;
         for (int val = iterationSize; val <= maximumSize; val += iterationSize) {
@@ -58,6 +59,7 @@ public class NumberPairFinder implements Runnable {
                 
                 t.start();
                 n.generateRandomNumbers();
+
             }
         }
         NumberPairFinder.printResultsToFile();
