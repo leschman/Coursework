@@ -36,7 +36,7 @@ architecture rw_96x8_sync_arch of rw_96x8_sync is
 
  --Signal Declaration
  type RW_type is array (0 to 96) of std_logic_vector(7 downto 0);
- signal RW 	: RW_type;
+ signal RW : RW_type;
  signal EN	: std_logic;
  
  begin
@@ -55,9 +55,9 @@ architecture rw_96x8_sync_arch of rw_96x8_sync is
 			if(EN = '1')then
 				--check if we are writing or reading
 				if( write = '1') then 
-					RW(to_integer(unsigned(address))) <= data_in;
+					RW(to_integer(unsigned(address)) - 128) <= data_in;
 				else
-					data_out <= RW(to_integer(unsigned(address)));
+					data_out <= RW(to_integer(unsigned(address)) - 128);
 				end if;
 			end if;
 		end if;
