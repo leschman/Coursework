@@ -21,6 +21,7 @@
 ------------------------------------------------------------------------------------------------------------
 library IEEE;
 use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
 
 entity output_port_16x8 is
 	port   (clock		: in	std_logic;
@@ -47,7 +48,7 @@ entity output_port_16x8 is
 end entity;
 architecture output_port_16x8_arch of output_port_16x8 is
 -- Signal Declarations
-	signal 	EN : std_logic_vector;
+	signal 	EN : std_logic;
 	
 begin
 	ENABLE : process (address)
@@ -63,24 +64,24 @@ begin
 	begin
 		--reset, 0 all ports.
 		if(reset = '0')then
-			port_out_00 <= '00000000';
-			port_out_01 <= '00000000';
-			port_out_02 <= '00000000';
-			port_out_03 <= '00000000';
-			port_out_04 <= '00000000';
-			port_out_05 <= '00000000';
-			port_out_06 <= '00000000';
-			port_out_07 <= '00000000';
-			port_out_08 <= '00000000';
-			port_out_09 <= '00000000';
-			port_out_10 <= '00000000';
-			port_out_11 <= '00000000';
-			port_out_12 <= '00000000';
-			port_out_13 <= '00000000';
-			port_out_14 <= '00000000';
-			port_out_15 <= '00000000';
+			port_out_00 <= "00000000";
+			port_out_01 <= "00000000";
+			port_out_02 <= "00000000";
+			port_out_03 <= "00000000";
+			port_out_04 <= "00000000";
+			port_out_05 <= "00000000";
+			port_out_06 <= "00000000";
+			port_out_07 <= "00000000";
+			port_out_08 <= "00000000";
+			port_out_09 <= "00000000";
+			port_out_10 <= "00000000";
+			port_out_11 <= "00000000";
+			port_out_12 <= "00000000";
+			port_out_13 <= "00000000";
+			port_out_14 <= "00000000";
+			port_out_15 <= "00000000";
 		elsif(clock'event and clock = '1') then
-			if(EN = '1')
+			if(EN = '1') then
 				if( write = '1') then 
 					case address is
 					when x"E0" => port_out_00 <= data_in;
@@ -99,7 +100,8 @@ begin
 					when x"ED" => port_out_13 <= data_in;
 					when x"EE" => port_out_14 <= data_in;
 					when x"EF" => port_out_15 <= data_in;
-					when others => ;
+					when others => port_out_15 <= "00000000";
+					end case;
 				end if;
 			end if;
 		end if;

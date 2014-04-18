@@ -35,7 +35,7 @@ entity processing_unit is
 end entity;
 
 architecture processing_unit_arch of processing_unit is
-
+begin
  -- add functionality here...
 
 end architecture;

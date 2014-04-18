@@ -33,6 +33,8 @@ end entity;
 
 architecture control_unit_arch of control_unit is
   
+begin
+  
  -- add functionality here...
 
 end architecture;

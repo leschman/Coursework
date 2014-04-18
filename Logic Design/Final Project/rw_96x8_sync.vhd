@@ -52,7 +52,7 @@ architecture rw_96x8_sync_arch of rw_96x8_sync is
 	MEMORY : process(clock)
 	begin
 		if(clock'event and clock = '1') then
-			if(EN = '1')
+			if(EN = '1')then
 				--check if we are writing or reading
 				if( write = '1') then 
 					RW(to_integer(unsigned(address))) <= data_in;

@@ -211,13 +211,13 @@ begin
 	begin
 		if(clock'event and clock='1')then
 			--check if address is in program memory (0-127)
-			if ((to_integer(unsigned(address)) >= 0 and (to_integer(unsigned(address)) <= 127)) then
+			if ((to_integer(unsigned(address)) >= 0 and (to_integer(unsigned(address)) <= 127))) then
 				data_out <= program_memory_out;
 			--check if address is in data memory (128-223)
-			elsif ((to_integer(unsigned(address)) >= 128 and (to_integer(unsigned(address)) <= 223)) then
+			elsif ((to_integer(unsigned(address)) >= 128 and (to_integer(unsigned(address)) <= 223))) then
 				data_out <= data_memory_out;
 			--check if address is input port (240-255)
-			elsif ((to_integer(unsigned(address)) >= 240 and (to_integer(unsigned(address)) <= 255)) then
+			elsif ((to_integer(unsigned(address)) >= 240 and (to_integer(unsigned(address)) <= 255))) then
 				data_out <= input_port_out;
 			end if;
 		end if;

@@ -21,6 +21,7 @@
 ------------------------------------------------------------------------------------------------------------
 library IEEE;
 use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
 
 entity input_port_16x8 is
 	port   (clock		: in	std_logic;
@@ -47,7 +48,7 @@ entity input_port_16x8 is
 end entity;
 architecture input_port_16x8_arch of input_port_16x8 is
 -- Signal Declarations
-	signal 	EN : std_logic_vector;
+	signal 	EN : std_logic;
 	
 begin
 	ENABLE : process (address)
@@ -63,25 +64,11 @@ begin
 	begin
 		--reset, 0 all ports.
 		if(reset = '0')then
-			port_in_00 <= '00000000';
-			port_in_01 <= '00000000';
-			port_in_02 <= '00000000';
-			port_in_03 <= '00000000';
-			port_in_04 <= '00000000';
-			port_in_05 <= '00000000';
-			port_in_06 <= '00000000';
-			port_in_07 <= '00000000';
-			port_in_08 <= '00000000';
-			port_in_09 <= '00000000';
-			port_in_10 <= '00000000';
-			port_in_11 <= '00000000';
-			port_in_12 <= '00000000';
-			port_in_13 <= '00000000';
-			port_in_14 <= '00000000';
-			port_in_15 <= '00000000';
+			data_out <= "00000000";
+
 		elsif(clock'event and clock = '1') then
-			if(EN = '1')
-				if( write = '0') then 
+			if(EN = '1') then
+				if( read = '1') then 
 					case address is
 					when x"F0" => data_out <= port_in_00;
 					when x"F1" => data_out <= port_in_01;
@@ -99,7 +86,8 @@ begin
 					when x"FD" => data_out <= port_in_13;
 					when x"FE" => data_out <= port_in_14;
 					when x"FF" => data_out <= port_in_15;
-					when others => ;
+					when others => data_out <= "00000000";
+			    end case;
 				end if;
 			end if;
 		end if;
