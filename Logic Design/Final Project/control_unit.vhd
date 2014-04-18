@@ -58,21 +58,21 @@ architecture control_unit_arch of control_unit is
 	
 	constant ALU	: std_logic_vector(1 downto 0)	:= "00";
 	constant BUS1	: std_logic_vector(1 downto 0)	:= "01";
-	constant MEM	: std_logic_vector(1 downto 0)	:= "10";
+	constant FROM_MEMORY	: std_logic_vector(1 downto 0)	:= "10";
 	
 
 	type state is(	S_FETCH_0, 		S_FETCH_1, 		S_FETCH_2, 		S_DECODE_3, 
 					S_LDA_IMM_4, 	S_LDA_IMM_5,	S_LDA_IMM_6,
-					S_STA_DIR_4,	S_STA_DIR_5,	S_STA_DIR_6,	S_DIR_7,
+					S_STA_DIR_4,	S_STA_DIR_5,	S_STA_DIR_6,	S_STA_DIR_7,
 					S_BRA_4,		S_BRA_5,		S_BRA_6);
 	signal currentState, nextState : state;
 
 begin
-	CLOCK : process(clock, reset)
+	CLOCKPROCESS : process(clock, reset)
 	begin
 		if(reset = '0')then
 			currentState <= S_FETCH_0;
-			nextState <= S_FETCH_1;
+
 		elsif(clock'event and clock = '1')then
 			currentState <= nextState;
 		else
@@ -82,15 +82,20 @@ begin
 
 	UPDATE_STATE : process(currentState)
 	begin
-		case state is
+		case currentState is
 ------------------------------------------------------------------------------------------------
 --								 FETCH
 ------------------------------------------------------------------------------------------------
 		--Place the PC Value into the MAR in order to provide the address for the OpCode.
-		when S_FETCH_0 => 
+		when S_FETCH_0 =>
+		  IR_Load <= '0'; 
 			A_Load <= '0';
+			B_Load <= '0';
 			write <= '0';
 			pc_load <= '0';
+			pc_inc <= '0';
+			ALU_sel <= "000";
+			CCR_Load <= '0';
 			bus1_sel <= PC;
 			bus2_sel <= BUS1;
 			MAR_Load <= '1';
@@ -99,9 +104,9 @@ begin
 		--Put the OpCode arriving on From_Memory on Bus2, Increment PC_Inc.
 		when S_FETCH_1 =>
 			MAR_Load <= '0';
-			bus2_sel <= MEM;
+			bus2_sel <= from_memory;
 			PC_Inc <= '1';
-			nextState <= S_FETCH_1;
+			nextState <= S_FETCH_2;
 			
 		--Latch the OpCode from Bus2 into IR.
 		when S_FETCH_2 =>
@@ -194,7 +199,8 @@ begin
 --								 OTHERS
 ------------------------------------------------------------------------------------------------		
 		when others => nextState <= S_FETCH_0;
-			
+		end case;
+	end process;	
 			
 			
 

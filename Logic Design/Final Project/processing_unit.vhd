@@ -35,7 +35,7 @@ entity processing_unit is
 end entity;
 
 architecture processing_unit_arch of processing_unit is
-begin
+
 --Component Declaration
 	--component alu
 	--port();
@@ -44,13 +44,14 @@ begin
 	--port();
 
 --Signal Declaration
-	signal bus1 	std_logic_vector(7 downto 0):= "00000000";
-	signal bus2 	std_logic_vector(7 downto 0):= "00000000";
-	signal IRR 		std_logic_vector(7 downto 0):= "00000000";
-	signal MAR		std_logic_vector(7 downto 0):= "00000000";
-	signal PC		std_logic_vector(7 downto 0):= "00000000";
-	signal A 		std_logic_vector(7 downto 0):= "00000000";
-	signal B 		std_logic_vector(7 downto 0):= "00000000";
+	signal bus1 :	std_logic_vector(7 downto 0) := "00000000";
+	signal bus2 :	std_logic_vector(7 downto 0) := "00000000";
+	signal IRR 	:	std_logic_vector(7 downto 0) := "00000000";
+	signal MAR		: std_logic_vector(7 downto 0) := "00000000";
+	signal PC		 : std_logic_vector(7 downto 0) := "00000000";
+	signal A 		 : std_logic_vector(7 downto 0) := "00000000";
+	signal B 		 : std_logic_vector(7 downto 0) := "00000000";
+	signal PC_Int: integer range 0 to 255:= 0;
 	
 	
 begin
@@ -93,12 +94,14 @@ begin
 		elsif(clock'event and clock = '1') then
 			--check if PC_LOAD is enabled
 			if(PC_Load = '1')then
+			  PC_Int <= to_integer(unsigned(bus2));
 				PC <= bus2;
 				
 			--check if PC_Inc is enabled
 			elsif(PC_Inc = '1')then
 				--increment the PC
-				PC <= std_logic_vector(to_unsigned(to_integer(unsigned(PC)) + 1) ,8);
+				pc_int <= pc_int + 1;
+				PC <= std_logic_vector(to_unsigned(pc_int, 8));
 			end if;
 		end if;
 	end process;
