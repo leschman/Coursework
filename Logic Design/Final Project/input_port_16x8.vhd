@@ -46,6 +46,63 @@ entity input_port_16x8 is
 			read		: in 	std_logic);
 end entity;
 architecture input_port_16x8_arch of input_port_16x8 is
-
+-- Signal Declarations
+	signal 	EN : std_logic_vector;
+	
+begin
+	ENABLE : process (address)
+	begin
+		if((to_integer(unsigned(address)) >= 240) and (to_integer(unsigned (address)) <= 255)) then
+			EN <= '1';
+		else
+			EN <= '0';
+		end if;
+	end process; 
+ 
+	OUTPUT : process(clock, reset)
+	begin
+		--reset, 0 all ports.
+		if(reset = '0')then
+			port_in_00 <= '00000000';
+			port_in_01 <= '00000000';
+			port_in_02 <= '00000000';
+			port_in_03 <= '00000000';
+			port_in_04 <= '00000000';
+			port_in_05 <= '00000000';
+			port_in_06 <= '00000000';
+			port_in_07 <= '00000000';
+			port_in_08 <= '00000000';
+			port_in_09 <= '00000000';
+			port_in_10 <= '00000000';
+			port_in_11 <= '00000000';
+			port_in_12 <= '00000000';
+			port_in_13 <= '00000000';
+			port_in_14 <= '00000000';
+			port_in_15 <= '00000000';
+		elsif(clock'event and clock = '1') then
+			if(EN = '1')
+				if( write = '0') then 
+					case address is
+					when x"F0" => data_out <= port_in_00;
+					when x"F1" => data_out <= port_in_01;
+					when x"F2" => data_out <= port_in_02;
+					when x"F3" => data_out <= port_in_03;
+					when x"F4" => data_out <= port_in_04;
+					when x"F5" => data_out <= port_in_05;
+					when x"F6" => data_out <= port_in_06;
+					when x"F7" => data_out <= port_in_07;
+					when x"F8" => data_out <= port_in_08;
+					when x"F9" => data_out <= port_in_09;
+					when x"FA" => data_out <= port_in_10;
+					when x"FB" => data_out <= port_in_11;
+					when x"FC" => data_out <= port_in_12;
+					when x"FD" => data_out <= port_in_13;
+					when x"FE" => data_out <= port_in_14;
+					when x"FF" => data_out <= port_in_15;
+					when others => ;
+				end if;
+			end if;
+		end if;
+	end process;
 end architecture;
 	

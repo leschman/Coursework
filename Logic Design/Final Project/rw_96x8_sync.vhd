@@ -35,7 +35,7 @@ end entity;
 architecture rw_96x8_sync_arch of rw_96x8_sync is
 
  --Signal Declaration
- type RW_type is array (0 to 96) of std_logic_vector(3 downto 0);
+ type RW_type is array (0 to 96) of std_logic_vector(7 downto 0);
  signal RW 	: RW_type;
  signal EN	: std_logic;
  
@@ -47,9 +47,7 @@ architecture rw_96x8_sync_arch of rw_96x8_sync is
 		else
 			EN <= '0';
 		end if;
-	end process;
- 
- 
+	end process; 
  
 	MEMORY : process(clock)
 	begin
@@ -57,7 +55,7 @@ architecture rw_96x8_sync_arch of rw_96x8_sync is
 			if(EN = '1')
 				--check if we are writing or reading
 				if( write = '1') then 
-					RW(to_integer(unsigned(address))) <= data in;
+					RW(to_integer(unsigned(address))) <= data_in;
 				else
 					data_out <= RW(to_integer(unsigned(address)));
 				end if;
