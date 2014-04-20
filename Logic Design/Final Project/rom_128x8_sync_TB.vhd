@@ -36,7 +36,7 @@ architecture rom_128x8_sync_arch_TB of rom_128x8_sync_TB is
 
 -- Signal Declarations
 	signal clock_TB 	: std_logic;
-	signal address_TB	: std_logic_vector(7 downto 0);
+	signal address_TB	: std_logic_vector(7 downto 0) := x"00";
 	signal data_out_TB	: std_logic_vector(7 downto 0);
 	signal address_num	: integer := 0;
 

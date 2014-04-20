@@ -176,7 +176,7 @@ begin
 	  end if;
 	  
 		if(clock_TB = '0') then
-			clock_TB <= '1'; wait for 10ns;
+			clock_TB <= '1'; 
 			address_TB <= std_logic_vector(to_unsigned(address_num, 8));
 			data_in_TB <= std_logic_vector(to_unsigned(address_num, 8));
 			if(address_num = 255) then
@@ -185,6 +185,7 @@ begin
 			else
 			  address_num <= address_num + 1;
 			end if;
+			wait for 10ns;
 		else
 			clock_TB <= '0'; wait for 10ns;
 		end if;

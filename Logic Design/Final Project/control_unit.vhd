@@ -88,7 +88,7 @@ begin
 ------------------------------------------------------------------------------------------------
 		--Place the PC Value into the MAR in order to provide the address for the OpCode.
 		when S_FETCH_0 =>
-		  IR_Load <= '0'; 
+			IR_Load <= '0'; 
 			A_Load <= '0';
 			B_Load <= '0';
 			write <= '0';

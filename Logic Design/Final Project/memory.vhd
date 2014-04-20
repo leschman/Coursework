@@ -209,7 +209,7 @@ begin
 -- Data Out Multiplexor
 	data_out_mux : process (clock)
 	begin
-		if(clock'event and clock='1')then
+		--if(clock'event and clock='1')then
 			--check if address is in program memory (0-127)
 			if ((to_integer(unsigned(address)) >= 0 and (to_integer(unsigned(address)) <= 127))) then
 				data_out <= program_memory_out;
@@ -220,7 +220,7 @@ begin
 			elsif ((to_integer(unsigned(address)) >= 240 and (to_integer(unsigned(address)) <= 255))) then
 				data_out <= input_port_out;
 			end if;
-		end if;
+		--end if;
 	end process;
 				
 end architecture;
