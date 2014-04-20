@@ -63,7 +63,9 @@ architecture control_unit_arch of control_unit is
 
 	type state is(	S_FETCH_0, 		S_FETCH_1, 		S_FETCH_2, 		S_DECODE_3, 
 					S_LDA_IMM_4, 	S_LDA_IMM_5,	S_LDA_IMM_6,
+					S_LDB_IMM_4,	S_LDB_IMM_5,	S_LDB_IMM_6,
 					S_STA_DIR_4,	S_STA_DIR_5,	S_STA_DIR_6,	S_STA_DIR_7,
+					S_STB_DIR_4,	S_STB_DIR_5,	S_STB_DIR_6,	S_STB_DIR_7,
 					S_BRA_4,		S_BRA_5,		S_BRA_6);
 	signal currentState, nextState : state;
 
@@ -119,12 +121,14 @@ begin
 			IR_Load <= '0';
 			case IR is
 			when LDA_IMM 	=> nextState <= S_LDA_IMM_4;
+			when LDB_IMM 	=> nextState <= S_LDB_IMM_4;
 			when STA_DIR 	=> nextState <= S_STA_DIR_4;
+			when STB_DIR 	=> nextState <= S_STB_DIR_4;
 			when BRA 		=> nextState <= S_BRA_4;
 			when others 	=> nextState <= S_FETCH_0;
 			end case;
 ------------------------------------------------------------------------------------------------
---								 LDA
+--								 LDA_IMM
 ------------------------------------------------------------------------------------------------		
 		--PC is pointing at address to load, move PC to MAR
 		when S_LDA_IMM_4 =>
@@ -144,6 +148,28 @@ begin
 		when S_LDA_IMM_6 =>
 			pc_inc <= '0';
 			A_Load <= '1';
+			nextState <= S_FETCH_0;
+------------------------------------------------------------------------------------------------
+--								 LDB_IMM
+------------------------------------------------------------------------------------------------		
+		--PC is pointing at address to load, move PC to MAR
+		when S_LDB_IMM_4 =>
+			Bus1_Sel <= PC;
+			Bus2_Sel <= bus1;
+			MAR_Load <= '1';
+			nextState <= S_LDB_IMM_5;
+			
+		--Move the Operand on From_Memory onto Bus2, Increment PC_Inc.
+		when S_LDB_IMM_5 =>
+			MAR_Load <= '0';
+			Bus2_sel <= from_memory;
+			pc_inc <= '1';
+			nextState <= S_LDB_IMM_6;
+		
+		--Latch the Operand from Bus2 into B.
+		when S_LDA_IMM_6 =>
+			pc_inc <= '0';
+			B_Load <= '1';
 			nextState <= S_FETCH_0;
 ------------------------------------------------------------------------------------------------
 --								 STA_DIR
@@ -172,6 +198,35 @@ begin
 		when S_STA_DIR_7 =>
 			MAR_Load <= '0';
 			Bus1_Sel <= A;
+			write <= '1';
+			nextState <= S_FETCH_0;
+------------------------------------------------------------------------------------------------
+--								 STB_DIR
+------------------------------------------------------------------------------------------------			
+		--PC is pointing to the address we are moving B to. Move PC to MAR. 
+		when S_STB_DIR_4 =>
+			BUS1_SEL <= PC;
+			Bus2_sel <= BUS1;
+			MAR_Load <= '1';
+			nextState <= S_STB_DIR_5;
+		
+		--Move From_Memory onto Bus2, Increment PC_Inc.
+		when S_STB_DIR_5 =>
+			MAR_Load <= '0';
+			Bus2_sel <= from_memory;
+			PC_Inc <= '1';
+			nextState <= S_STB_DIR_6;
+		
+		--Address we are writing to is on Bus2, latch into MAR.
+		when S_STB_DIR_6 =>
+			PC_Inc <= '0';
+			MAR_Load <= '1';
+			nextState <= S_STB_DIR_7;
+		
+		--MAR is pointing to the Write Address, Move B to Bus1, assert Write.
+		when S_STB_DIR_7 =>
+			MAR_Load <= '0';
+			Bus1_Sel <= B;
 			write <= '1';
 			nextState <= S_FETCH_0;
 ------------------------------------------------------------------------------------------------

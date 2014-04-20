@@ -58,9 +58,9 @@ architecture rom_128x8_sync_arch of rom_128x8_sync is
                               1      => x"AA",     
                               2      => STA_DIR,  -- testing Store A Dir (Port Out 00)
                               3      => x"E0",  
-                              4      => LDA_IMM,  -- testing Load A Imm
-                              5      => x"CC",     
-                              6      => STA_DIR,  -- testing Store A Dir (Port Out 01)
+                              4      => LDB_IMM,  -- testing Load B Imm
+                              5      => x"BB",     
+                              6      => STB_DIR,  -- testing Store B Dir (Port Out 01)
                               7      => x"E1", 
                               8      => BRA,      -- testing Branch Always
                               9      => x"00",
