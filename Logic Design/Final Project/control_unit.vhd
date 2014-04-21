@@ -64,6 +64,8 @@ architecture control_unit_arch of control_unit is
 	type state is(	S_FETCH_0, 		S_FETCH_1, 		S_FETCH_2, 		S_DECODE_3, 
 					S_LDA_IMM_4, 	S_LDA_IMM_5,	S_LDA_IMM_6,
 					S_LDB_IMM_4,	S_LDB_IMM_5,	S_LDB_IMM_6,
+					S_LDA_DIR_4,	S_LDA_DIR_5,	S_LDA_IMM_6,	S_LDA_DIR_7,	S_LDA_DIR_8;
+					S_LDB_DIR_4,	S_LDB_DIR_5,	S_LDB_IMM_6,	S_LDB_DIR_7,	S_LDB_DIR_8;
 					S_STA_DIR_4,	S_STA_DIR_5,	S_STA_DIR_6,	S_STA_DIR_7,
 					S_STB_DIR_4,	S_STB_DIR_5,	S_STB_DIR_6,	S_STB_DIR_7,
 					S_BRA_4,		S_BRA_5,		S_BRA_6);
@@ -122,6 +124,8 @@ begin
 			case IR is
 			when LDA_IMM 	=> nextState <= S_LDA_IMM_4;
 			when LDB_IMM 	=> nextState <= S_LDB_IMM_4;
+			when LDA_DIR 	=> nextState <= S_LDA_DIR_4;
+			when LDB_DIR 	=> nextState <= S_LDB_DIR_4;
 			when STA_DIR 	=> nextState <= S_STA_DIR_4;
 			when STB_DIR 	=> nextState <= S_STB_DIR_4;
 			when BRA 		=> nextState <= S_BRA_4;
@@ -167,8 +171,74 @@ begin
 			nextState <= S_LDB_IMM_6;
 		
 		--Latch the Operand from Bus2 into B.
-		when S_LDA_IMM_6 =>
+		when S_LDB_IMM_6 =>
 			pc_inc <= '0';
+			B_Load <= '1';
+			nextState <= S_FETCH_0;
+------------------------------------------------------------------------------------------------
+--								 LDA_DIR
+------------------------------------------------------------------------------------------------		
+		--PC is pointing to the address of the cell we are moving into A. Move PC to MAR. 
+		when S_LDA_DIR_4 =>
+			BUS1_SEL <= PC;
+			Bus2_sel <= BUS1;
+			MAR_Load <= '1';
+			nextState <= S_LDA_DIR_5;
+		
+		--Move From_Memory onto Bus2, Increment PC_Inc.
+		when S_LDA_DIR_5 =>
+			MAR_Load <= '0';
+			Bus2_sel <= from_memory;
+			PC_Inc <= '1';
+			nextState <= S_LDA_DIR_6;
+		
+		--Address we are reading from is on Bus2, latch into MAR.
+		when S_LDA_DIR_6 =>
+			PC_Inc <= '0';
+			MAR_Load <= '1';
+			nextState <= S_LDA_DIR_7;
+		
+		--MAR is pointing to the Read Address, move data onto Bus2.
+		when S_LDA_DIR_7 =>
+			MAR_Load <= '0';
+			Bus2_Sel <= from_memory;
+			nextState <= S_LDA_DIR_8;
+		
+		--Data is on Bus2, latch into A.
+		when S_LDA_DIR_8 =>
+			A_Load <= '1';
+			nextState <= S_FETCH_0;
+------------------------------------------------------------------------------------------------
+--								 LDB_DIR
+------------------------------------------------------------------------------------------------		
+		--PC is pointing to the address of the cell we are moving into B. Move PC to MAR. 
+		when S_LDB_DIR_4 =>
+			BUS1_SEL <= PC;
+			Bus2_sel <= BUS1;
+			MAR_Load <= '1';
+			nextState <= S_LDB_DIR_5;
+		
+		--Move From_Memory onto Bus2, Increment PC_Inc.
+		when S_LDB_DIR_5 =>
+			MAR_Load <= '0';
+			Bus2_sel <= from_memory;
+			PC_Inc <= '1';
+			nextState <= S_LDB_DIR_6;
+		
+		--Address we are reading from is on Bus2, latch into MAR.
+		when S_LDB_DIR_6 =>
+			PC_Inc <= '0';
+			MAR_Load <= '1';
+			nextState <= S_LDB_DIR_7;
+		
+		--MAR is pointing to the Read Address, move data onto Bus2.
+		when S_LDB_DIR_7 =>
+			MAR_Load <= '0';
+			Bus2_Sel <= from_memory;
+			nextState <= S_LDB_DIR_8;
+		
+		--Data is on Bus2, latch into B.
+		when S_LDB_DIR_8 =>
 			B_Load <= '1';
 			nextState <= S_FETCH_0;
 ------------------------------------------------------------------------------------------------
