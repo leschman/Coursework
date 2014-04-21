@@ -64,8 +64,8 @@ architecture control_unit_arch of control_unit is
 	type state is(	S_FETCH_0, 		S_FETCH_1, 		S_FETCH_2, 		S_DECODE_3, 
 					S_LDA_IMM_4, 	S_LDA_IMM_5,	S_LDA_IMM_6,
 					S_LDB_IMM_4,	S_LDB_IMM_5,	S_LDB_IMM_6,
-					S_LDA_DIR_4,	S_LDA_DIR_5,	S_LDA_IMM_6,	S_LDA_DIR_7,	S_LDA_DIR_8;
-					S_LDB_DIR_4,	S_LDB_DIR_5,	S_LDB_IMM_6,	S_LDB_DIR_7,	S_LDB_DIR_8;
+					S_LDA_DIR_4,	S_LDA_DIR_5,	S_LDA_DIR_6,	S_LDA_DIR_7,	S_LDA_DIR_8,
+					S_LDB_DIR_4,	S_LDB_DIR_5,	S_LDB_DIR_6,	S_LDB_DIR_7,	S_LDB_DIR_8,
 					S_STA_DIR_4,	S_STA_DIR_5,	S_STA_DIR_6,	S_STA_DIR_7,
 					S_STB_DIR_4,	S_STB_DIR_5,	S_STB_DIR_6,	S_STB_DIR_7,
 					S_BRA_4,		S_BRA_5,		S_BRA_6);
