@@ -20,8 +20,7 @@ entity alu is
 			a_in	: in	STD_LOGIC_VECTOR(7 downto 0);
 			b_in	: in	STD_LOGIC_VECTOR(7 downto 0);
 			result	: out	STD_LOGIC_VECTOR(7 downto 0);
-			ccResult: out	std_logic_vector(3 downto 0);
-		);
+			ccResult: out	std_logic_vector(3 downto 0));
 end entity;
 
 architecture ALU_Arch of alu is
@@ -42,11 +41,11 @@ begin
 
 --Component Instantiation
 	adder : carry_lookahead_adder
-	port map(	A 	<= 	a_in,
-				B	<=	b_in,
-				AddOrSub <= add_or_sub;
-				Sum <= adder_sum_out,
-				cOut<= adder_cOut);
+	port map(	A 	=> 	a_in,
+				B	=>	b_in,
+				AddOrSub => add_or_sub,
+				Sum => adder_sum_out,
+				cOut=> adder_cOut);
 
 	ALU : process(ALU_Sel, a_in, b_in)
 	begin
@@ -57,10 +56,10 @@ begin
 			add_or_sub 	<= '0';
 			result 		<= adder_sum_out;
 			--check if negative + negative = positive overflow.
-			if(a_in(7) = '1' and b_in(7) = '1' and result(7) = '0')then
-				ccResult(2) = '1';
+			if(a_in(7) = '1' and b_in(7) = '1' and adder_sum_out(7) = '0')then
+				ccResult(2) <= '1';
 			else
-				ccResult(2) = '1';
+				ccResult(2) <= '1';
 			end if;
 			
 			--Check if all 0's
@@ -79,13 +78,13 @@ begin
 			
 			--OVERFLOW
 			--check if negative - positive = positive overflow.
-			if(a_in(7) = '1' and b_in(7) = '0' and result(7) = '0')then
-				ccResult(2) = '1';
+			if(a_in(7) = '1' and b_in(7) = '0' and adder_sum_out(7) = '0')then
+				ccResult(2) <= '1';
 			--check if positive - negative = negative overflow.
-			elsif(a_in(0) = '1' and b_in(7) = '1' and result(7) = '1')then
-				ccResult(2) = '1';			
+			elsif(a_in(0) = '1' and b_in(7) = '1' and adder_sum_out(7) = '1')then
+				ccResult(2) <= '1';			
 			else
-				ccResult(2) = '1';
+				ccResult(2) <= '1';
 			end if;
 			
 			--Check if all 0's

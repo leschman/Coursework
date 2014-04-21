@@ -30,7 +30,7 @@ architecture cla_arch of carry_lookahead_adder is
 signal c, p, g : std_logic_vector(7 downto 0);
 
 begin
-	c(0) <= (0 xor AddOrSub);
+	c(0) <= AddOrSub;
 	c(1) <= g(0) or (p(0) and c(0));
 	c(2) <= g(1) or (p(1) and c(1));
 	c(3) <= g(2) or (p(2) and c(2));
