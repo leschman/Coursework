@@ -1,6 +1,6 @@
 body{
 	background-color: #FFFFFF;
-	font-family: sans-serif;
+	font-family: 'Open Sans', 'sans-serif';
 }
 
 #wrapper{
@@ -17,40 +17,53 @@ body{
 	list-style-type:none;
 }
 
+
 #header li{
 	display: inline;
 	margin-bottom: 25px;
 	margin-left: 0px;
 	margin-right: 0px;
-	padding-right: 30px;
-	padding-left: 30px; 
-	font-size: 25px;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-bottom: 5px;
+	font-size: 18px;
 	text-transform: uppercase;
 	border-bottom: solid;
+	color: #1E3242;
 	
 }
 
-#content{
-float: bottom;
-}
-
-
-
 img#logo{
-width:200px;
+width:185px;
 height:auto;
 
 }
 
-img#bigPicture{
-width:800px;
-height:auto;
+#footer{
+	position: fixed;
+		bottom: 0px;
+	
+}
+	
+#footer li{
+	display: inline;
+	margin-bottom: 25px;
+	margin-left: 0px;
+	margin-right: 0px;
+	padding-right: 80px;
+	padding-left: none;
+	font-size: 15px;
+	text-transform: uppercase;
+	list-style: none;
+	
 }
 
-h1{
-font-size: 39px;
-margin-top: 40px;
+p{
+	margin-right: 200px;
+	text-align: center;
+	margin-left: 150px;
 }
+
 
 .clear-fix{
 clear:both;
@@ -59,6 +72,9 @@ clear:both;
 /* 	a:hover must come after a:link and a:visited.
 	a:active must come after a:hover.*/
 a:link{
+text-decoration: none;
+color: #5566AE;
+font-weight: bold;
 }
 
 a:visited{
