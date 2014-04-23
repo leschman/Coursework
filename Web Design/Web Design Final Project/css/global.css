@@ -29,6 +29,7 @@ body{
 	font-size: 18px;
 	text-transform: uppercase;
 	border-bottom: solid;
+	border-color: #5566AE;
 	color: #1E3242;
 	
 }
@@ -68,6 +69,12 @@ p{
 .clear-fix{
 clear:both;
 }
+#active{
+	background-color: #5566AE;
+	color: #C0EAFF;
+	border: 5px solid;
+	border-color: #5566AE;
+}
 
 /* 	a:hover must come after a:link and a:visited.
 	a:active must come after a:hover.*/
@@ -78,6 +85,7 @@ font-weight: bold;
 }
 
 a:visited{
+color: #5566AE;
 }
 
 a:hover{
