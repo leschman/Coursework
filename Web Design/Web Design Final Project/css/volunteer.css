@@ -29,67 +29,67 @@
 }
 
 #content{
-float: bottom;
-margin-bottom: 50px;
-padding-bottom: 0px;
-padding-right: 0px;
-padding-left: 0px;
-padding-top: 0px;
-margin-right: 0px;
-margin-left: 0px;
-margin-top: 350px;
+	float: bottom;
+	margin-bottom: 50px;
+	padding-bottom: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-top: 0px;
+	margin-right: 0px;
+	margin-left: 0px;
+	margin-top: 350px;
 }
 
 img#getinvolved{
-/*width:400px;*/
-height:auto;
-float: right;
-padding-bottom: 0px;
-padding-right: 0px;
-padding-left: 0px;
-padding-top: 0px;
-margin-bottom: 0px;
-margin-right: 200px;
-margin-left: 0px;
-margin-top: 0px;
+	/*width:400px;*/
+	height:auto;
+	float: right;
+	padding-bottom: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-top: 0px;
+	margin-bottom: 0px;
+	margin-right: 200px;
+	margin-left: 0px;
+	margin-top: 0px;
 }
 
 h1{
-font-size: 20px;
-margin-top: 40px;
-margin-left: 0px;
-color: #5566AE;
-padding-bottom: 0px;
-padding-right: 0px;
-padding-left: 0px;
-padding-top: 0px;
-margin-bottom: 0px;
-margin-right: 0px;
+	font-size: 20px;
+	margin-top: 40px;
+	margin-left: 0px;
+	color: #5566AE;
+	padding-bottom: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-top: 0px;
+	margin-bottom: 0px;
+	margin-right: 0px;
 }
 
 #info p{
-color: #1E3242;
-margin-bottom: 50px;
-margin-left: 0px;
-text-align: justify;
-padding-bottom: 0px;
-padding-right: 0px;
-padding-left: 0px;
-padding-top: 0px;
-margin-right: 0px;
-margin-top: 0px;
-width:350px;
+	color: #1E3242;
+	margin-bottom: 50px;
+	margin-left: 0px;
+	text-align: justify;
+	padding-bottom: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-top: 0px;
+	margin-right: 0px;
+	margin-top: 0px;
+	width:350px;
 }
 #info{
-float: left;
-margin-right: 0px;
-padding-bottom: 0px;
-padding-right: 0px;
-padding-left: 0px;
-padding-top: 0px;
-margin-bottom: 0px;
-margin-left: 0px;
-margin-top: 0px;
+	float: left;
+	margin-right: 0px;
+	padding-bottom: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	margin-top: 0px;
 }
 #volunteer li{
 	border: 1px solid;

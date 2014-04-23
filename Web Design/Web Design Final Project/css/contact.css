@@ -1,72 +1,72 @@
 img#map{
-width:350px;
-height:auto;
-float: right;
-padding-bottom: 0px;
-padding-right: 0px;
-padding-left: 0px;
-padding-top: 0px;
-margin-bottom: 0px;
-margin-right: 200px;
-margin-left: 0px;
-margin-top: 25px;
+	width:350px;
+	height:auto;
+	float: right;
+	padding-bottom: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-top: 0px;
+	margin-bottom: 0px;
+	margin-right: 200px;
+	margin-left: 0px;
+	margin-top: 25px;
 }
 
 
 #content{
-padding-bottom: 550px;
-padding-right: 0px;
-padding-left: 0px;
-padding-top: 0px;
-margin-bottom: 0px;
-margin-right: 0px;
-margin-left: 0px;
+	padding-bottom: 550px;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-top: 0px;
+	margin-bottom: 0px;
+	margin-right: 0px;
+	margin-left: 0px;
 }
 
 #content p{
-text-align: justify;
-width:350px;
-padding-bottom: 0px;
-padding-right: 0px;
-padding-left: 0px;
-padding-top: 0px;
-margin-bottom: 0px;
-margin-right: 0px;
-margin-left: 0px;
-color: #1E3242;
+	text-align: justify;
+	width:350px;
+	padding-bottom: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-top: 0px;
+	margin-bottom: 0px;
+	margin-right: 0px;
+	margin-left: 0px;
+	color: #1E3242;
 }
 h1{
-font-size: 20px;
-padding-bottom: 0px;
-padding-right: 0px;
-padding-left: 0px;
-padding-top: 0px;
-margin-bottom: 0px;
-margin-right: 0px;
-margin-left: 0px;
-margin-top: 75px;
-color: #5566AE;
+	font-size: 20px;
+	padding-bottom: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-top: 0px;
+	margin-bottom: 0px;
+	margin-right: 0px;
+	margin-left: 0px;
+	margin-top: 75px;
+	color: #5566AE;
 }
 
 #information{
-float:left;
-padding-bottom: 0px;
-padding-right: 0px;
-padding-left: 0px;
-padding-top: 0px;
-margin-bottom: 0px;
-margin-right: 0px;
-margin-left: 0px;
-margin-top: 10px;
+	float:left;
+	padding-bottom: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-top: 0px;
+	margin-bottom: 0px;
+	margin-right: 0px;
+	margin-left: 0px;
+	margin-top: 10px;
 }
 
 #information p{
-width: 400px;
-margin-bottom: 15px;
-padding-bottom: 0px;
-padding-right: 0px;
-padding-left: 0px;
-padding-top: 0px;
-margin-right: 0px;
-margin-left: 0px;
+	width: 400px;
+	margin-bottom: 15px;
+	padding-bottom: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-top: 0px;
+	margin-right: 0px;
+	margin-left: 0px;
 }

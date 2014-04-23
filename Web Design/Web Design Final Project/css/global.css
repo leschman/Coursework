@@ -1,6 +1,7 @@
 body{
 	background-color: #FFFFFF;
 	font-family: 'Open Sans', 'sans-serif';
+	color: #1E3242;
 }
 
 #wrapper{
@@ -30,20 +31,16 @@ body{
 	text-transform: uppercase;
 	border-bottom: solid;
 	border-color: #5566AE;
-	color: #1E3242;
-	
+	color: #1E3242;	
 }
 
 img#logo{
-width:185px;
-height:auto;
-
+	width:185px;
+	height:auto;
 }
 
-#footer{
+#footer{	
 	float:bottom;
-
-	
 }
 	
 #footer li{
@@ -55,8 +52,7 @@ height:auto;
 	padding-left: none;
 	font-size: 15px;
 	text-transform: uppercase;
-	list-style: none;
-	
+	list-style: none;	
 }
 
 p{
@@ -79,13 +75,13 @@ clear:both;
 /* 	a:hover must come after a:link and a:visited.
 	a:active must come after a:hover.*/
 a:link{
-text-decoration: none;
-color: #5566AE;
-font-weight: bold;
+	text-decoration: none;
+	color: #5566AE;
+	font-weight: bold;
 }
 
 a:visited{
-color: #5566AE;
+	color: #5566AE;
 }
 
 a:hover{
