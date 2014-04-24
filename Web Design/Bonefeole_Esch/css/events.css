@@ -1,15 +1,16 @@
-img#about{
+img#events{
+	height:auto;
+	float: right;
 	padding-bottom: 0px;
 	padding-right: 0px;
 	padding-left: 0px;
 	padding-top: 0px;
-	margin-bottom: 0px;
+	margin-bottom: 15px;
 	margin-right: 200px;
 	margin-left: 0px;
 }
 
-img#about2{
-	width:400px;
+img#events2{
 	height:auto;
 	float: left;
 	padding-bottom: 0px;
@@ -19,10 +20,11 @@ img#about2{
 	margin-bottom: 0px;
 	margin-right: 0px;
 	margin-left: 0px;
+	margin-top: 5px;
 }
 
 #content{
-	padding-bottom: 0px;
+	padding-bottom: 580px;
 	padding-right: 0px;
 	padding-left: 0px;
 	padding-top: 0px;
