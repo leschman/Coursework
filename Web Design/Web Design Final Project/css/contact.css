@@ -1,5 +1,5 @@
-img#about{
-	/*width:350px;*/
+img#map{
+	width:350px;
 	height:auto;
 	float: right;
 	padding-bottom: 0px;
@@ -9,29 +9,18 @@ img#about{
 	margin-bottom: 0px;
 	margin-right: 200px;
 	margin-left: 0px;
+	margin-top: 25px;
 }
 
-img#about2{
-	/*width:400px;*/
-	height:auto;
-	float: left;
-	padding-bottom: 0px;
+
+#content{
+	padding-bottom: 550px;
 	padding-right: 0px;
 	padding-left: 0px;
 	padding-top: 0px;
 	margin-bottom: 0px;
 	margin-right: 0px;
 	margin-left: 0px;
-}
-
-#content{
-padding-bottom: 550px;
-padding-right: 0px;
-padding-left: 0px;
-padding-top: 0px;
-margin-bottom: 0px;
-margin-right: 0px;
-margin-left: 0px;
 }
 
 #content p{
@@ -44,8 +33,9 @@ margin-left: 0px;
 	margin-bottom: 0px;
 	margin-right: 0px;
 	margin-left: 0px;
+	color: #1E3242;
 }
-h1, h2{
+h1{
 	font-size: 20px;
 	padding-bottom: 0px;
 	padding-right: 0px;
@@ -54,10 +44,11 @@ h1, h2{
 	margin-bottom: 0px;
 	margin-right: 0px;
 	margin-left: 0px;
+	margin-top: 75px;
 	color: #5566AE;
 }
 
-#background{
+#information{
 	float:left;
 	padding-bottom: 0px;
 	padding-right: 0px;
@@ -69,7 +60,7 @@ h1, h2{
 	margin-top: 10px;
 }
 
-#background p{
+#information p{
 	width: 400px;
 	margin-bottom: 15px;
 	padding-bottom: 0px;
@@ -77,16 +68,5 @@ h1, h2{
 	padding-left: 0px;
 	padding-top: 0px;
 	margin-right: 0px;
-	margin-left: 0px;
-}
-
-#whatwedo{
-	float:right;
-	padding-bottom: 0px;
-	padding-right: 0px;
-	padding-left: 0px;
-	padding-top: 0px;
-	margin-bottom: 0px;
-	margin-right: 200px;
 	margin-left: 0px;
 }
