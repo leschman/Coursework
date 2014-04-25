@@ -77,6 +77,7 @@ architecture control_unit_arch of control_unit is
 					S_STA_DIR_4,	S_STA_DIR_5,	S_STA_DIR_6,	S_STA_DIR_7,
 					S_STB_DIR_4,	S_STB_DIR_5,	S_STB_DIR_6,	S_STB_DIR_7,
 					S_BRA_4,		S_BRA_5,		S_BRA_6,
+					S_BEQ_4,		S_BEQ_5,		S_BEQ_6,
 					S_ADD_4,		S_ADD_5,		S_ADD_6,
 					S_SUB_4,		S_SUB_5,		S_SUB_6,
 					S_AND_4,		S_AND_5,		S_AND_6,
@@ -146,6 +147,7 @@ begin
 			when STA_DIR 	=> nextState <= S_STA_DIR_4;
 			when STB_DIR 	=> nextState <= S_STB_DIR_4;
 			when BRA 		=> nextState <= S_BRA_4;
+			when BEQ 		=> nextState <= S_BEQ_4;
 			when ADD_AB		=> nextState <= S_ADD_4;
 			when SUB_AB		=> nextState <= S_SUB_4;
 			when AND_AB		=> nextState <= S_AND_4;
@@ -344,6 +346,37 @@ begin
 		when S_BRA_6 =>
 			PC_Load <= '1';
 			nextState <= S_Fetch_0;
+------------------------------------------------------------------------------------------------
+--								 BEQ
+------------------------------------------------------------------------------------------------		
+		 
+		when S_BEQ_4 =>
+			if(CCR_Result(1) = '1') then
+			--Equal, proceed with branching.
+			--PC is pointing to the address of the cell we maybe moving into IR. Move PC to MAR.
+				BUS1_SEL <= PC;
+				Bus2_sel <= BUS1;
+				MAR_Load <= '1';
+				nextState <= S_BEQ_5;
+			else
+			--Not equal, skip branching, increment PC and return.
+				pc_inc <= '1';
+				nextState <= S_FETCH_0;
+			end if;
+		
+		--Move From_Memory onto Bus2, Increment PC_Inc.
+		when S_BEQ_5 =>
+			MAR_Load <= '0';
+			Bus2_sel <= from_memory;
+			PC_Inc <= '1';
+			nextState <= S_BEQ_6;
+		
+		--Address we are jumping to is on Bus2, latch into IR.
+		when S_BEQ_6 =>
+			PC_Inc <= '0';
+			IR_Load <= '1';
+			nextState <= S_FETCH_0;
+		
 ------------------------------------------------------------------------------------------------
 --								 ADD
 ------------------------------------------------------------------------------------------------

@@ -54,14 +54,14 @@ architecture rom_128x8_sync_arch of rom_128x8_sync is
 
   type rom_type is array (0 to 127) of std_logic_vector(7 downto 0);
 
-  constant ROM : rom_type := (0      => INCA,  -- testing Load A Imm
-                              1      => INCB,     
-                              2      => INCA,  -- testing Load B Imm
-                              3      => INCB,  
-                              4      => INCA,	  -- testing ADD_AB
-                              5      => INCB,    
-                              6      => DECA,  -- testing Store B Dir (Port Out 01)
-                              7      => DECB,
+  constant ROM : rom_type := (0      => INCA,  --set A to 1
+                              1      => SUB_AB,--1 - 0     
+                              2      => BEQ,   -- branch if equal to x00.
+                              3      => x"00",  
+                              4      => INCB,  -- set B = 1.
+                              5      => SUB_AB,-- 1-1 = 0    
+                              6      => BEQ,  -- testing Store B Dir (Port Out 01)
+                              7      => x"00",
                               8      => DECA,  -- testing Load A DIR
                               9      => DECB,     
                              10      => DECA,  -- testing Store A Dir (Port Out 00)
