@@ -364,17 +364,17 @@ begin
 				nextState <= S_FETCH_0;
 			end if;
 		
-		--Move From_Memory onto Bus2, Increment PC_Inc.
+		--Move From_Memory onto Bus2, 
 		when S_BEQ_5 =>
 			MAR_Load <= '0';
 			Bus2_sel <= from_memory;
 			PC_Inc <= '1';
 			nextState <= S_BEQ_6;
 		
-		--Address we are jumping to is on Bus2, latch into IR.
+		--Address we are jumping to is on Bus2, latch into pc.
 		when S_BEQ_6 =>
 			PC_Inc <= '0';
-			IR_Load <= '1';
+			PC_Load <= '1';
 			nextState <= S_FETCH_0;
 		
 ------------------------------------------------------------------------------------------------
