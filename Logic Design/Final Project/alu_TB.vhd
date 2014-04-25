@@ -65,7 +65,7 @@ begin
 		
 		alu_sel_TB <= "000";
 		a_TB <= "11111111";
-		b_TB <= "10000001";
+		b_TB <= "10000000";
 		wait for 20ns;
 		
 		--1-1
@@ -103,14 +103,14 @@ begin
 		
 		alu_sel_TB <= "010";
 		a_TB <= "11111111";
-		b_TB <= "10101010";
+		b_TB <= "00000000";
 		wait for 20ns;
 		
 		--OR
 		
 		alu_sel_TB <= "011";
-		a_TB <= "01010101";
-		b_TB <= "10101010";
+		a_TB <= "00000000";
+		b_TB <= "00000000";
 		wait for 20ns;
 	end process;
 end architecture;

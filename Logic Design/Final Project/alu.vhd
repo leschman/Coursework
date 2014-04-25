@@ -54,21 +54,27 @@ begin
 			--tell adder to add: '0'. 
 			add_or_sub 	<= '0';
 			result 		<= adder_sum_out;
+			
 			--check if negative + negative = positive overflow.
 			if(a_in(7) = '1' and b_in(7) = '1' and adder_sum_out(7) = '0')then
 				ccResult(2) <= '1';
-			else
+			--check if positive + positive = negative overflow.
+			elsif(a_in(7) = '0' and b_in(7) = '0' and adder_sum_out(7) = '1')then
 				ccResult(2) <= '1';
+			else
+				ccResult(2) <= '0';
 			end if;
 			
-			--Check if all 0's
-			if((a_in or b_in) = x"00")then
+			--assign Zero flag.
+			if(adder_sum_out = x"00") then
 				ccResult(1) <= '1';
 			else
 				ccResult(1) <= '0';
 			end if;
 			
-			ccResult(3) <= adder_cOut;
+			--assign Negative flag.
+			ccResult(0) <= adder_sum_out(7);
+			
 		--SUB
 		when "001" =>
 			--tell adder to sub: '1'.
@@ -80,43 +86,53 @@ begin
 			if(a_in(7) = '1' and b_in(7) = '0' and adder_sum_out(7) = '0')then
 				ccResult(2) <= '1';
 			--check if positive - negative = negative overflow.
-			elsif(a_in(0) = '1' and b_in(7) = '1' and adder_sum_out(7) = '1')then
+			elsif(a_in(7) = '1' and b_in(7) = '1' and adder_sum_out(7) = '1')then
 				ccResult(2) <= '1';			
 			else
 				ccResult(2) <= '1';
 			end if;
 			
-			--Check if all 0's
-			if((a_in or b_in) = x"00")then
+			--assign Zero flag.
+			if(adder_sum_out = x"00") then
 				ccResult(1) <= '1';
 			else
 				ccResult(1) <= '0';
 			end if;
-			ccResult(3) <= adder_cOut;
+			
+			--assign Negative flag.
+			ccResult(0) <= adder_sum_out(7);
+
 		--AND
 		when "010" =>
 			result <= 	(a_in and b_in);
-			ccResult(0) <= '0'; --negative not possible.
 			ccResult(2) <= '0'; --overflow not possible.
 			ccResult(3) <= '0'; --carry not possible.
-			--Check if all 0's
-			if((a_in or b_in) = x"00")then
+			
+			--assign Zero flag.
+			if((a_in and b_in) = x"00") then
 				ccResult(1) <= '1';
 			else
 				ccResult(1) <= '0';
 			end if;
+			
+			--assign Negative flag.
+			ccResult(0) <= (a_in(7) and b_in(7));
+	
 		--OR
 		when "011" =>
 			result <= 	(a_in or b_in);
-			ccResult(0) <= '0'; --negative not possible.
 			ccResult(2) <= '0'; --overflow not possible.
 			ccResult(3) <= '0'; --carry not possible.
-			--Check if all 0's
-			if((a_in or b_in) = x"00")then
+			
+			--assign Zero flag.
+			if((a_in or b_in) = x"00") then
 				ccResult(1) <= '1';
 			else
 				ccResult(1) <= '0';
 			end if;
+			
+			--assign Negative flag.
+			ccResult(0) <= (a_in(7) or b_in(7));
 			
 		--INCREMENT
 		--when "100" =>
@@ -126,6 +142,12 @@ begin
 			result <= x"00";
 			ccResult <= x"0";
 		end case;
+	
+	--assign carry flag. 
+	ccResult(3) <= adder_cOut;
+	
+	
+	
 	end process;
 end architecture;
 	
