@@ -55,11 +55,11 @@ architecture rom_128x8_sync_arch of rom_128x8_sync is
   type rom_type is array (0 to 127) of std_logic_vector(7 downto 0);
 
   constant ROM : rom_type := (0      => LDA_IMM,  -- testing Load A Imm
-                              1      => x"A0",     
-                              2      => STA_DIR,  -- testing Store A Dir (Port Out 00)
-                              3      => x"E0",  
-                              4      => LDB_IMM,  -- testing Load B Imm
-                              5      => x"B0",     
+                              1      => x"01",     
+                              2      => LDB_IMM,  -- testing Load B Imm
+                              3      => x"01",  
+                              4      => ADD_AB,	  -- testing ADD_AB
+                              5      => ADD_AB,    
                               6      => STB_DIR,  -- testing Store B Dir (Port Out 01)
                               7      => x"E1",
                               8      => LDA_DIR,  -- testing Load A DIR
