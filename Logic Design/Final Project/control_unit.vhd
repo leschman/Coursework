@@ -76,7 +76,8 @@ architecture control_unit_arch of control_unit is
 					S_STA_DIR_4,	S_STA_DIR_5,	S_STA_DIR_6,	S_STA_DIR_7,
 					S_STB_DIR_4,	S_STB_DIR_5,	S_STB_DIR_6,	S_STB_DIR_7,
 					S_BRA_4,		S_BRA_5,		S_BRA_6,
-					S_ADD_4,		S_ADD_5,		S_ADD_6);
+					S_ADD_4,		S_ADD_5,		S_ADD_6,
+					S_SUB_4,		S_SUB_5,		S_SUB_6);
 	signal currentState, nextState : state;
 
 begin
@@ -138,6 +139,7 @@ begin
 			when STB_DIR 	=> nextState <= S_STB_DIR_4;
 			when BRA 		=> nextState <= S_BRA_4;
 			when ADD_AB		=> nextState <= S_ADD_4;
+			when SUB_AB		=> nextState <= S_SUB_4;
 			when others 	=> nextState <= S_FETCH_0;
 			end case;
 ------------------------------------------------------------------------------------------------
@@ -348,8 +350,26 @@ begin
 			ccr_load <= '1';
 			a_load <= '1';
 			nextState <= S_Fetch_0;
+------------------------------------------------------------------------------------------------
+--								 SUB
+------------------------------------------------------------------------------------------------
+		--PC is already pointing to next instruction, leave it be. 
+		--Move A onto BUS1.
+		when S_SUB_4 =>
+			bus1_sel <= A;			
+			nextState <= S_SUB_5;
+		
+		--Tell ALU to SUB, open MUX to move results onto BUS2.
+		when S_SUB_5 =>
+			bus2_sel <= ALU;
+			ALU_sel <= ALU_SUB;
+			nextState <= S_SUB_6;
 			
-
+		--load results into A and CCR.
+		when S_SUB_6 =>
+			ccr_load <= '1';
+			a_load <= '1';
+			nextState <= S_Fetch_0;
 ------------------------------------------------------------------------------------------------
 --								 OTHERS
 ------------------------------------------------------------------------------------------------		
