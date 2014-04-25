@@ -15,8 +15,7 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
 entity alu is
-	port(	clock	: in	STD_LOGIC;
-			alu_sel	: in	STD_LOGIC_VECTOR(2 downto 0);
+	port(	alu_sel	: in	STD_LOGIC_VECTOR(2 downto 0);
 			a_in	: in	STD_LOGIC_VECTOR(7 downto 0);
 			b_in	: in	STD_LOGIC_VECTOR(7 downto 0);
 			result	: out	STD_LOGIC_VECTOR(7 downto 0);
@@ -47,7 +46,7 @@ begin
 				Sum => adder_sum_out,
 				cOut=> adder_cOut);
 
-	ALU : process(ALU_Sel, a_in, b_in)
+	ALU : process(ALU_Sel, a_in, b_in, adder_sum_out)
 	begin
 		case alu_sel is
 		--ADD

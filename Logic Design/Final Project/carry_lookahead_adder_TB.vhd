@@ -35,7 +35,7 @@ begin
 				sum			=> sum_TB,
 				Cout		=> cOut_TB);
 	
-	stim : process () 
+	process 
 	begin
 		A_TB 		<= "00000000";
 		B_TB 		<= "00000000";

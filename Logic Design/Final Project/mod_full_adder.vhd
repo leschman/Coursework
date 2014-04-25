@@ -22,6 +22,6 @@ architecture mod_full_adder_arch of mod_full_adder is
 
 begin
 	Sum <= (A xor (B xor addOrSub) xor Cin);
-	p	<= (A or B);
-	g	<= (A and B);
+	p	<= (A or (B xor addOrSub));
+	g	<= (A and (B xor addOrSub));
 end architecture;
