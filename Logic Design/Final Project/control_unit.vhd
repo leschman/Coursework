@@ -28,7 +28,8 @@ entity control_unit is
              CCR_Result: in  STD_LOGIC_VECTOR (3 downto 0);
              CCR_Load  : out STD_LOGIC;             
              Bus1_Sel  : out STD_LOGIC_VECTOR (1 downto 0);                          
-             Bus2_Sel  : out STD_LOGIC_VECTOR (1 downto 0));    
+             Bus2_Sel  : out STD_LOGIC_VECTOR (1 downto 0);
+			 Bus3_Sel  : out STD_LOGIC);    
 end entity;
 
 architecture control_unit_arch of control_unit is
@@ -78,7 +79,9 @@ architecture control_unit_arch of control_unit is
 					S_BRA_4,		S_BRA_5,		S_BRA_6,
 					S_ADD_4,		S_ADD_5,		S_ADD_6,
 					S_SUB_4,		S_SUB_5,		S_SUB_6,
-					S_AND_4,		S_AND_5,		S_AND_6);
+					S_AND_4,		S_AND_5,		S_AND_6,
+					S_OR_4,			S_OR_5,			S_OR_6,
+					S_INCA_4		S_INCA_5,		S_INCA_6);
 	signal currentState, nextState : state;
 
 begin
@@ -112,6 +115,7 @@ begin
 			CCR_Load <= '0';
 			bus1_sel <= PC;
 			bus2_sel <= BUS1;
+			bus3_sel <= '0';
 			MAR_Load <= '1';
 			nextState <= S_FETCH_1;
 			
@@ -142,6 +146,8 @@ begin
 			when ADD_AB		=> nextState <= S_ADD_4;
 			when SUB_AB		=> nextState <= S_SUB_4;
 			when AND_AB		=> nextState <= S_AND_4;
+			when OR_AB		=> nextState <= S_OR_4;
+			when INCA		=> nextState <= S_INCA_4;
 			when others 	=> nextState <= S_FETCH_0;
 			end case;
 ------------------------------------------------------------------------------------------------
@@ -338,7 +344,8 @@ begin
 		--PC is already pointing to next instruction, leave it be. 
 		--Tell ALU to ADD, Move A onto BUS1.
 		when S_ADD_4 =>
-			bus1_sel <= A;	
+			bus1_sel <= A;
+			bus3_sel <= '0';			
 			ALU_sel <= ALU_add;
 			nextState <= S_ADD_5;
 		
@@ -359,6 +366,7 @@ begin
 		--Tell ALU to SUB, move A onto BUS1.
 		when S_SUB_4 =>
 			bus1_sel <= A;
+			bus3_sel <= '0';
 			ALU_sel <= ALU_SUB;
 			nextState <= S_SUB_5;
 		
@@ -379,6 +387,7 @@ begin
 		--Tell ALU to AND, move A onto BUS1.
 		when S_AND_4 =>
 			bus1_sel <= A;
+			bus3_sel <= '0';
 			ALU_sel <= ALU_AND;
 			nextState <= S_AND_5;
 		
@@ -389,6 +398,49 @@ begin
 			
 		--load results into A and CCR.
 		when S_AND_6 =>
+			ccr_load <= '1';
+			a_load <= '1';
+			nextState <= S_Fetch_0;
+------------------------------------------------------------------------------------------------
+--								 OR
+------------------------------------------------------------------------------------------------
+		--PC is already pointing to next instruction, leave it be. 
+		--Tell ALU to OR, move A onto BUS1.
+		when S_OR_4 =>
+			bus1_sel <= A;
+			bus3_sel <= '0';
+			ALU_sel <= ALU_OR;
+			nextState <= S_OR_5;
+		
+		--Open MUX to move results onto BUS2.
+		when S_OR_5 =>
+			bus2_sel <= ALU;
+			nextState <= S_OR_6;
+			
+		--load results into A and CCR.
+		when S_OR_6 =>
+			ccr_load <= '1';
+			a_load <= '1';
+			nextState <= S_Fetch_0;
+------------------------------------------------------------------------------------------------
+--								 INCA
+------------------------------------------------------------------------------------------------
+		--PC is already pointing to next instruction, leave it be. 
+		--Tell ALU to ADD, move A onto BUS1.
+		--move One onto bus3.
+		when S_INCA_4 =>
+			bus1_sel <= A;
+			bus3_sel <= '1';
+			ALU_sel <= ALU_ADD;
+			nextState <= S_INCA_5;
+		
+		--Open MUX to move results onto BUS2.
+		when S_INCA_5 =>
+			bus2_sel <= ALU;
+			nextState <= S_INCA_6;
+			
+		--load results into A and CCR.
+		when S_INCA_6 =>
 			ccr_load <= '1';
 			a_load <= '1';
 			nextState <= S_Fetch_0;

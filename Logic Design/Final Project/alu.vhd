@@ -145,9 +145,7 @@ begin
 	
 	--assign carry flag. 
 	ccResult(3) <= adder_cOut;
-	
-	
-	
+		
 	end process;
 end architecture;
 	
