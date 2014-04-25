@@ -40,6 +40,7 @@ architecture cpu_arch of cpu is
      signal  CCR_Load  : STD_LOGIC;             
      signal  Bus1_Sel  : STD_LOGIC_VECTOR (1 downto 0);                          
      signal  Bus2_Sel  : STD_LOGIC_VECTOR (1 downto 0);
+     signal  Bus3_Sel  : STD_LOGIC;
 
 
  -- Component Declaration
@@ -59,7 +60,8 @@ architecture cpu_arch of cpu is
              CCR_Result: in  STD_LOGIC_VECTOR (3 downto 0);
              CCR_Load  : out STD_LOGIC;             
              Bus1_Sel  : out STD_LOGIC_VECTOR (1 downto 0);                          
-             Bus2_Sel  : out STD_LOGIC_VECTOR (1 downto 0));                          
+             Bus2_Sel  : out STD_LOGIC_VECTOR (1 downto 0);
+             Bus3_Sel  : out STD_LOGIC);                          
     end component;
 
     component processing_unit
@@ -79,7 +81,8 @@ architecture cpu_arch of cpu is
              CCR_Result  : out STD_LOGIC_VECTOR (3 downto 0);
              CCR_Load    : in  STD_LOGIC;             
              Bus1_Sel    : in  STD_LOGIC_VECTOR (1 downto 0);                          
-             Bus2_Sel    : in  STD_LOGIC_VECTOR (1 downto 0));                          
+             Bus2_Sel    : in  STD_LOGIC_VECTOR (1 downto 0);
+             Bus3_Sel    : in  STD_LOGIC);                          
     end component;
 
 
@@ -103,7 +106,8 @@ architecture cpu_arch of cpu is
              CCR_Result => CCR_Result,
              CCR_Load   => CCR_Load,
              Bus1_Sel   => Bus1_Sel,
-             Bus2_Sel   => Bus2_Sel);
+             Bus2_Sel   => Bus2_Sel,
+             Bus3_Sel   => Bus3_Sel);
 
  PU_1 : processing_unit
   port map ( clock       => clock,
@@ -122,6 +126,7 @@ architecture cpu_arch of cpu is
              CCR_Result  => CCR_Result,
              CCR_Load    => CCR_Load,
              Bus1_Sel    => Bus1_Sel,
-             Bus2_Sel    => Bus2_Sel);
+             Bus2_Sel    => Bus2_Sel,
+             Bus3_Sel    => Bus3_Sel);
 
 end architecture;

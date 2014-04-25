@@ -81,7 +81,7 @@ architecture control_unit_arch of control_unit is
 					S_SUB_4,		S_SUB_5,		S_SUB_6,
 					S_AND_4,		S_AND_5,		S_AND_6,
 					S_OR_4,			S_OR_5,			S_OR_6,
-					S_INCA_4		S_INCA_5,		S_INCA_6);
+					S_INCA_4,		S_INCA_5,		S_INCA_6);
 	signal currentState, nextState : state;
 
 begin
