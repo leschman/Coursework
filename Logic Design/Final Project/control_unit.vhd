@@ -334,15 +334,15 @@ begin
 --								 ADD
 ------------------------------------------------------------------------------------------------
 		--PC is already pointing to next instruction, leave it be. 
-		--Move A onto BUS1.
+		--Tell ALU to ADD, Move A onto BUS1.
 		when S_ADD_4 =>
-			bus1_sel <= A;			
+			bus1_sel <= A;	
+			ALU_sel <= ALU_add;
 			nextState <= S_ADD_5;
 		
-		--Tell ALU to ADD, open MUX to move results onto BUS2.
+		--open MUX to move results onto BUS2.
 		when S_ADD_5 =>
 			bus2_sel <= ALU;
-			ALU_sel <= ALU_add;
 			nextState <= S_ADD_6;
 			
 		--load results into A and CCR.
@@ -354,15 +354,15 @@ begin
 --								 SUB
 ------------------------------------------------------------------------------------------------
 		--PC is already pointing to next instruction, leave it be. 
-		--Move A onto BUS1.
+		--Tell ALU to SUB, move A onto BUS1.
 		when S_SUB_4 =>
-			bus1_sel <= A;			
+			bus1_sel <= A;
+			ALU_sel <= ALU_SUB;
 			nextState <= S_SUB_5;
 		
-		--Tell ALU to SUB, open MUX to move results onto BUS2.
+		--Open MUX to move results onto BUS2.
 		when S_SUB_5 =>
 			bus2_sel <= ALU;
-			ALU_sel <= ALU_SUB;
 			nextState <= S_SUB_6;
 			
 		--load results into A and CCR.
