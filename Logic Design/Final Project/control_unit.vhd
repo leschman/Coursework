@@ -28,7 +28,8 @@ entity control_unit is
              CCR_Result: in  STD_LOGIC_VECTOR (3 downto 0);
              CCR_Load  : out STD_LOGIC;             
              Bus1_Sel  : out STD_LOGIC_VECTOR (1 downto 0);                          
-             Bus2_Sel  : out STD_LOGIC_VECTOR (1 downto 0));    
+             Bus2_Sel  : out STD_LOGIC_VECTOR (1 downto 0);
+			 Bus3_Sel  : out STD_LOGIC);    
 end entity;
 
 architecture control_unit_arch of control_unit is
@@ -60,6 +61,13 @@ architecture control_unit_arch of control_unit is
 	constant BUS1	: std_logic_vector(1 downto 0)	:= "01";
 	constant FROM_MEMORY	: std_logic_vector(1 downto 0)	:= "10";
 	
+--Constants for ALU Control
+	constant ALU_ADD: std_logic_vector(2 downto 0) := "000";
+	constant ALU_SUB: std_logic_vector(2 downto 0) := "001";
+	constant ALU_AND: std_logic_vector(2 downto 0) := "010";
+	constant ALU_OR : std_logic_vector(2 downto 0) := "011";
+
+	
 
 	type state is(	S_FETCH_0, 		S_FETCH_1, 		S_FETCH_2, 		S_DECODE_3, 
 					S_LDA_IMM_4, 	S_LDA_IMM_5,	S_LDA_IMM_6,
@@ -68,7 +76,16 @@ architecture control_unit_arch of control_unit is
 					S_LDB_DIR_4,	S_LDB_DIR_5,	S_LDB_DIR_6,	S_LDB_DIR_7,	S_LDB_DIR_8,
 					S_STA_DIR_4,	S_STA_DIR_5,	S_STA_DIR_6,	S_STA_DIR_7,
 					S_STB_DIR_4,	S_STB_DIR_5,	S_STB_DIR_6,	S_STB_DIR_7,
-					S_BRA_4,		S_BRA_5,		S_BRA_6);
+					S_BRA_4,		S_BRA_5,		S_BRA_6,
+					S_BEQ_4,		S_BEQ_5,		S_BEQ_6,
+					S_ADD_4,		S_ADD_5,		S_ADD_6,
+					S_SUB_4,		S_SUB_5,		S_SUB_6,
+					S_AND_4,		S_AND_5,		S_AND_6,
+					S_OR_4,			S_OR_5,			S_OR_6,
+					S_INCA_4,		S_INCA_5,		S_INCA_6,
+					S_INCB_4,		S_INCB_5,		S_INCB_6,
+					S_DECA_4,		S_DECA_5,		S_DECA_6,
+					S_DECB_4,		S_DECB_5,		S_DECB_6);
 	signal currentState, nextState : state;
 
 begin
@@ -102,6 +119,7 @@ begin
 			CCR_Load <= '0';
 			bus1_sel <= PC;
 			bus2_sel <= BUS1;
+			bus3_sel <= '0';
 			MAR_Load <= '1';
 			nextState <= S_FETCH_1;
 			
@@ -129,6 +147,15 @@ begin
 			when STA_DIR 	=> nextState <= S_STA_DIR_4;
 			when STB_DIR 	=> nextState <= S_STB_DIR_4;
 			when BRA 		=> nextState <= S_BRA_4;
+			when BEQ 		=> nextState <= S_BEQ_4;
+			when ADD_AB		=> nextState <= S_ADD_4;
+			when SUB_AB		=> nextState <= S_SUB_4;
+			when AND_AB		=> nextState <= S_AND_4;
+			when OR_AB		=> nextState <= S_OR_4;
+			when INCA		=> nextState <= S_INCA_4;
+			when INCB		=> nextState <= S_INCB_4;
+			when DECA		=> nextState <= S_DECA_4;
+			when DECB		=> nextState <= S_DECB_4;
 			when others 	=> nextState <= S_FETCH_0;
 			end case;
 ------------------------------------------------------------------------------------------------
@@ -319,7 +346,209 @@ begin
 		when S_BRA_6 =>
 			PC_Load <= '1';
 			nextState <= S_Fetch_0;
+------------------------------------------------------------------------------------------------
+--								 BEQ
+------------------------------------------------------------------------------------------------		
+		 
+		when S_BEQ_4 =>
+			if(CCR_Result(1) = '1') then
+			--Equal, proceed with branching.
+			--PC is pointing to the address of the cell we maybe moving into IR. Move PC to MAR.
+				BUS1_SEL <= PC;
+				Bus2_sel <= BUS1;
+				MAR_Load <= '1';
+				nextState <= S_BEQ_5;
+			else
+			--Not equal, skip branching, increment PC and return.
+				pc_inc <= '1';
+				nextState <= S_FETCH_0;
+			end if;
 		
+		--Move From_Memory onto Bus2, 
+		when S_BEQ_5 =>
+			MAR_Load <= '0';
+			Bus2_sel <= from_memory;
+			PC_Inc <= '1';
+			nextState <= S_BEQ_6;
+		
+		--Address we are jumping to is on Bus2, latch into pc.
+		when S_BEQ_6 =>
+			PC_Inc <= '0';
+			PC_Load <= '1';
+			nextState <= S_FETCH_0;
+		
+------------------------------------------------------------------------------------------------
+--								 ADD
+------------------------------------------------------------------------------------------------
+		--PC is already pointing to next instruction, leave it be. 
+		--Tell ALU to ADD, Move A onto BUS1.
+		when S_ADD_4 =>
+			bus1_sel <= A;
+			bus3_sel <= '0';			
+			ALU_sel <= ALU_add;
+			nextState <= S_ADD_5;
+		
+		--open MUX to move results onto BUS2.
+		when S_ADD_5 =>
+			bus2_sel <= ALU;
+			nextState <= S_ADD_6;
+			
+		--load results into A and CCR.
+		when S_ADD_6 =>
+			ccr_load <= '1';
+			a_load <= '1';
+			nextState <= S_Fetch_0;
+------------------------------------------------------------------------------------------------
+--								 SUB
+------------------------------------------------------------------------------------------------
+		--PC is already pointing to next instruction, leave it be. 
+		--Tell ALU to SUB, move A onto BUS1.
+		when S_SUB_4 =>
+			bus1_sel <= A;
+			bus3_sel <= '0';
+			ALU_sel <= ALU_SUB;
+			nextState <= S_SUB_5;
+		
+		--Open MUX to move results onto BUS2.
+		when S_SUB_5 =>
+			bus2_sel <= ALU;
+			nextState <= S_SUB_6;
+			
+		--load results into A and CCR.
+		when S_SUB_6 =>
+			ccr_load <= '1';
+			a_load <= '1';
+			nextState <= S_Fetch_0;
+------------------------------------------------------------------------------------------------
+--								 AND
+------------------------------------------------------------------------------------------------
+		--PC is already pointing to next instruction, leave it be. 
+		--Tell ALU to AND, move A onto BUS1.
+		when S_AND_4 =>
+			bus1_sel <= A;
+			bus3_sel <= '0';
+			ALU_sel <= ALU_AND;
+			nextState <= S_AND_5;
+		
+		--Open MUX to move results onto BUS2.
+		when S_AND_5 =>
+			bus2_sel <= ALU;
+			nextState <= S_AND_6;
+			
+		--load results into A and CCR.
+		when S_AND_6 =>
+			ccr_load <= '1';
+			a_load <= '1';
+			nextState <= S_Fetch_0;
+------------------------------------------------------------------------------------------------
+--								 OR
+------------------------------------------------------------------------------------------------
+		--PC is already pointing to next instruction, leave it be. 
+		--Tell ALU to OR, move A onto BUS1.
+		when S_OR_4 =>
+			bus1_sel <= A;
+			bus3_sel <= '0';
+			ALU_sel <= ALU_OR;
+			nextState <= S_OR_5;
+		
+		--Open MUX to move results onto BUS2.
+		when S_OR_5 =>
+			bus2_sel <= ALU;
+			nextState <= S_OR_6;
+			
+		--load results into A and CCR.
+		when S_OR_6 =>
+			ccr_load <= '1';
+			a_load <= '1';
+			nextState <= S_Fetch_0;
+------------------------------------------------------------------------------------------------
+--								 INCA
+------------------------------------------------------------------------------------------------
+		--PC is already pointing to next instruction, leave it be. 
+		--Tell ALU to ADD, move A onto BUS1.
+		--move One onto bus3.
+		when S_INCA_4 =>
+			bus1_sel <= A;
+			bus3_sel <= '1';
+			ALU_sel <= ALU_ADD;
+			nextState <= S_INCA_5;
+		
+		--Open MUX to move results onto BUS2.
+		when S_INCA_5 =>
+			bus2_sel <= ALU;
+			nextState <= S_INCA_6;
+			
+		--load results into A and CCR.
+		when S_INCA_6 =>
+			ccr_load <= '1';
+			a_load <= '1';
+			nextState <= S_Fetch_0;
+------------------------------------------------------------------------------------------------
+--								 INCB
+------------------------------------------------------------------------------------------------
+		--PC is already pointing to next instruction, leave it be. 
+		--Tell ALU to ADD, move B onto BUS1.
+		--move One onto bus3.
+		when S_INCB_4 =>
+			bus1_sel <= B;
+			bus3_sel <= '1';
+			ALU_sel <= ALU_ADD;
+			nextState <= S_INCB_5;
+		
+		--Open MUX to move results onto BUS2.
+		when S_INCB_5 =>
+			bus2_sel <= ALU;
+			nextState <= S_INCB_6;
+			
+		--load results into B and CCR.
+		when S_INCB_6 =>
+			ccr_load <= '1';
+			b_load <= '1';
+			nextState <= S_Fetch_0;
+------------------------------------------------------------------------------------------------
+--								 DECA
+------------------------------------------------------------------------------------------------
+		--PC is already pointing to next instruction, leave it be. 
+		--Tell ALU to ADD, move A onto BUS1.
+		--move One onto bus3.
+		when S_DECA_4 =>
+			bus1_sel <= A;
+			bus3_sel <= '1';
+			ALU_sel <= ALU_SUB;
+			nextState <= S_DECA_5;
+		
+		--Open MUX to move results onto BUS2.
+		when S_DECA_5 =>
+			bus2_sel <= ALU;
+			nextState <= S_DECA_6;
+			
+		--load results into B and CCR.
+		when S_DECA_6 =>
+			ccr_load <= '1';
+			A_load <= '1';
+			nextState <= S_Fetch_0;
+------------------------------------------------------------------------------------------------
+--								 DECB
+------------------------------------------------------------------------------------------------
+		--PC is already pointing to next instruction, leave it be. 
+		--Tell ALU to ADD, move A onto BUS1.
+		--move One onto bus3.
+		when S_DECB_4 =>
+			bus1_sel <= B;
+			bus3_sel <= '1';
+			ALU_sel <= ALU_SUB;
+			nextState <= S_DECB_5;
+		
+		--Open MUX to move results onto BUS2.
+		when S_DECB_5 =>
+			bus2_sel <= ALU;
+			nextState <= S_DECB_6;
+			
+		--load results into B and CCR.
+		when S_DECB_6 =>
+			ccr_load <= '1';
+			B_load <= '1';
+			nextState <= S_Fetch_0;
 ------------------------------------------------------------------------------------------------
 --								 OTHERS
 ------------------------------------------------------------------------------------------------		
