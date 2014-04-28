@@ -1,0 +1,121 @@
+I added Duchess Sarah, Princess Beatrice, Princess Eugenie, Countess Sophie, Lady Louise, and Viscount James for testing to the royal.pl file that I used. 
+
+Question 1:
+	X = 'King George VI' ;
+	false.
+	
+Question2:
+	X = 'Queen Mary' ;
+	false.
+	
+Question3:
+	X = 'King George V' ;
+	false.
+
+Question 4:
+	X = 'King George V' ;
+	X = 'Queen Mary' ;
+	false.
+	
+Question 5:
+	X = 'Prince William' ;
+	X = 'Prince Henry' ;
+	X = 'Princess Eugenie' ;
+	X = 'Princess Beatrice' ;
+	X = 'Lady Louise' ;
+	X = 'Viscount James' ;
+	false.
+	
+Question 6:
+	X = 'Princess Margaret' ;
+	false.
+	
+Question 7:
+	X = 'Prince Charles' ;
+	X = 'Prince Andrew' ;
+	X = 'Prince Edward'.
+	
+Question 8:
+	X = 'Princess Anne' ;
+	false.
+	
+Question 9:
+	X = 'Princess Eugenie' ;
+	X = 'Princess Beatrice' ;
+	X = 'Lady Louise' ;
+	X = 'Viscount James' ;
+	false.
+	
+Question 10:
+	X = 'Catherine Middleton'.
+
+Question 11:
+	X = 'Prince Charles' ;
+	X = 'Lady Diana Spencer' ;
+	X = 'Queen Elizabeth II' ;
+	X = 'Prince Philip' ;
+	X = 'King George VI' ;
+	X = 'Lady Elizabeth Bowes-Lyon' ;
+	X = 'King George V' ;
+	X = 'Queen Mary' ;
+	X = 'King Edward VII' ;
+	X = 'Princess Alexandra of Denmark' ;
+	X = 'Prince Albert' ;
+	X = 'Queen Victoria' ;
+	false.
+	
+Question 12:
+	X = 'King Edward VII' ;
+	X = 'King George V' ;
+	X = 'King Edward VIII' ;
+	X = 'King George VI' ;
+	X = 'Queen Elizabeth II' ;
+	X = 'Princess Margaret' ;
+	X = 'Prince Charles' ;
+	X = 'Princess Anne' ;
+	X = 'Prince Andrew' ;
+	X = 'Prince Edward' ;
+	X = 'Prince William' ;
+	X = 'Prince Henry' ;
+	X = 'George Alexander Louis' ;
+	X = 'Princess Eugenie' ;
+	X = 'Princess Beatrice' ;
+	X = 'Lady Louise' ;
+	X = 'Viscount James' ;
+
+Question 13:
+	false.
+	
+Question 14:
+	X = 'Queen Victoria' ;
+	X = 'Princess Alexandra of Denmark' ;
+	X = 'Queen Mary' ;
+	X = 'Mrs Simpson' ;
+	X = 'Lady Elizabeth Bowes-Lyon' ;
+	X = 'Prince Albert' ;
+	X = 'King Edward VII' ;
+	X = 'King George V' ;
+	X = 'King Edward VIII' ;
+	X = 'King George VI' ;
+	X = 'Prince Philip' ;
+	false.
+
+Question 15:
+	X = 'King George V' ;
+	false.
+
+Question 16:
+	I like how Prolog figures things out, like who is the grandfather of whom. It's cool how it can deduce things. I also like how if you mistype something at the prompt it offers suggestions instead of breaking. 
+
+Question 17:
+	I dislike having to add each individual fact to the list of facts. I understand that they need to be added, but I wish there was an abbreviated method like when a constructor is called how you can just input the data all at once without needing to list the fields it fills. I also dislike needing to type out full names of data sets, like 'Queen Elizabeth II'. I wish SWI-Prolog had a auto-complete.
+	
+Question 18:
+	Overall it was a pleasant way to spend an afternoon. I enjoyed how easy Prolog was to pick up and use. I disliked needing to add in some more people to the list of facts to test things like Aunt by Marriage.
+
+Question 19:
+	About four hours. Two of which I was partially distracted by my wife playing Skyrim. 
+	
+Question 20:
+	I doubt it. It is cool and all but I don't know what I would use it for besides solving some sort of logic puzzle, and even then it seems more efficient to figure it out in my head.  
+	
