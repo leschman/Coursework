@@ -1,0 +1,27 @@
+1.	Standards are important for protocols because they state how messages should be sent between two or more entities and what those messages mean. Protocols define the various types of messages that can be sent between entities, how those messages should be formed and what to do if an entity recieves a message. Without standards for these protocols it would be very difficult for entities to communicate. Protocols could be 'extended' by anyone, and these extensions may not be good ideas. Even if they were good ideas, no one else would nesisarily understand what the extensions ment. By standardizing protocols everyone can understand everything in a protocol and various protocols can be vetted to make sure they are good ideas. 
+
+2. 
+	Application Layer   - forms the message that will be transfered, example: HTTP, SMTP, FTP, DNS. 
+	Transport Layer		- transports messages between endpoints. Gives address to Network layer. Refered to as segments. example: TCP, UDP.
+	Network Layer		- transports segments between inbetween hosts. Refered to as datagrams. example: IP, routing protocols. 
+	Link Layer 			- delivers the datagram to the next node, passes the message upto the network layer there to see which hop is next. Refered to as frames. examples: Ethernet, WiFi, DOCSIS, PPP. 
+	Physical Layer 		- move individual bits from one node to the next, defines physical levels i.e. voltage, wavelengths ect. 
+
+3a.	1000/1,200,000 (r1 serialization) + 1000/500,000(r2 serialization) + 1000/1,800,000 (r3 serialization) + 3900/250,000 (total propogation) = .83ms(r1) + 2ms(r2) + .555ms(r3) + 15.6ms (propogation) = 18.985ms
+3b.	The third packet will take the longest because it needs to wait for the first two packets. Since the question is only interested in queuing delay we can ignore propogation delay. 
+	0.00ms all three packets are waiting at the start of the first link (r1). 
+	0.83ms packet one has been serialized onto r1 and packet two exits the queue. Packet one begins serialization onto r2. 
+	1.66ms packet two has been serialized onto r1. Packet three begins serialization (Queuing so far: 1.66ms).
+	2.50ms packet three has been serialized onto r1 and is waiting for packets one and two to be serialized onto r2. 
+	2.83ms packet one has been serialized onto r2 and begins serialization onto r3. Packet two begins serialization onto r2. 
+	3.39ms packet one has been serialized onto r3 and reaches the destination. 
+	4.83ms packet two has been serialized onto r2 and begins serialization onto r3. Packet three begins serialization onto r2 (Queuing so far: 3.66ms).
+	5.39ms packet two has been serialized onto r3 and reaches the destination. 
+	6.83ms packet three has been serialized onto r2 and begins serialization onto r3 (Queuing so far: 3.66ms). 
+	7.39ms packet three has been serialized onto r3 and reaches the destination. 
+
+4a.	The download rate for any one path between a client and a server is the link with the lowest capacity on that path. 
+4b.	Since the paths are disjoint, the download rate for any collection of paths is the sum of the lowest capacity links on each path. 
+
+5a.	The probabilty that a packet will not reach the server is the sum of all links times the probabilty of a loss on each link. 
+5b. The probabilty that a packet will not need to be retransmited is one minus the probabilty of a loss for that path. The probabilty that four packets will not need to be transmited is one minus the probabilty of a loss on the path to the fourth power. 
