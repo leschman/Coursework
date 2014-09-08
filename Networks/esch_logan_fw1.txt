@@ -20,4 +20,8 @@
 	6.83ms packet three has been serialized onto r2 and begins serialization onto r3 (Queuing so far: 3.66ms). 
 	7.39ms packet three has been serialized onto r3 and reaches the destination. 
 
-4.	
+4a.	The download rate for any one path between a client and a server is the link with the lowest capacity on that path. 
+4b.	Since the paths are disjoint, the download rate for any collection of paths is the sum of the lowest capacity links on each path. 
+
+5a.	The probabilty that a packet will not reach the server is the sum of all links times the probabilty of a loss on each link. 
+5b. The probabilty that a packet will not need to be retransmited is one minus the probabilty of a loss for that path. The probabilty that four packets will not need to be transmited is one minus the probabilty of a loss on the path to the fourth power. 
