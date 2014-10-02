@@ -1,0 +1,87 @@
+body{
+	background-color: #FFFFFF;
+	font-family: 'Open Sans', 'sans-serif';
+}
+
+#wrapper{
+	width:1000px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#header ul{
+	margin-left: 0px;
+	margin-right: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+	list-style-type:none;
+}
+
+
+#header li{
+	display: inline;
+	margin-bottom: 25px;
+	margin-left: 0px;
+	margin-right: 0px;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-bottom: 5px;
+	font-size: 18px;
+	text-transform: uppercase;
+	border-bottom: solid;
+	color: #1E3242;
+	
+}
+
+img#logo{
+width:185px;
+height:auto;
+
+}
+
+#footer{
+	position: fixed;
+		bottom: 0px;
+	
+}
+	
+#footer li{
+	display: inline;
+	margin-bottom: 25px;
+	margin-left: 0px;
+	margin-right: 0px;
+	padding-right: 80px;
+	padding-left: none;
+	font-size: 15px;
+	text-transform: uppercase;
+	list-style: none;
+	
+}
+
+p{
+	margin-right: 200px;
+	text-align: center;
+	margin-left: 150px;
+}
+
+
+.clear-fix{
+clear:both;
+}
+
+/* 	a:hover must come after a:link and a:visited.
+	a:active must come after a:hover.*/
+a:link{
+text-decoration: none;
+color: #5566AE;
+font-weight: bold;
+}
+
+a:visited{
+}
+
+a:hover{
+}
+
+a:active{
+}

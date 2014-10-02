@@ -1,0 +1,37 @@
+1. Persistant server connections allow for pages to be downloaded faster in some instances, like if the page has elements that depend on SSL. Pages that contain alot of static content that could benefit from a CDN would be faster with a non-persistant connection. Non-persistant connections also free up sockets faster and thus could allow higher scalability if the trafic is particulary bursty. But persistant connections use the CPU less therefore may be able run on cheaper hardware and thus being more scalable. 
+
+2. FTP separates control and data traffic so that users can browse for more files or send other commands to the remote system while simultaniously moving data. 
+
+3. 
+	telnet esus.cs.montana.edu
+	HELO esus.cs.montana.edu
+	MAIL FROM: logan.esch@msu.montana.edu
+	RCPT TO: chenglin.fan@msu.montana.edu
+	DATA
+	SUBJECT: Networking ...
+
+	... is the best!
+	.
+
+4. Assumeing that tit-for-tat is not used, the performance of a BitTorrent swarm depends on S (the fracton of seeders) and L (the fraction of leechers).
+	DP2P becomes the max of {F/Us, F/Dmin, NF/(Us + (SUM of non leacher upload speeds) + (SUM of ((F/Leacher Download Speeds) * Leacher upload speeds)))} 
+	This is because all people wanting the file will still need to get it (Seeders, Leachers, and people who are neither). The performance change due to seeders is minimal in this instance because the given formula already acounted for their bandwidth. Seeders would give two other beniftits: they would help decrease the overhead of figuring out who had what chunks of the file, and they could serve as back up initial servers if the first were to go down. Leachers on the otherhand have a bigger impact on performance. This is because as soon as a leacher has the whole file they disconnect. This means that the only time they are sharing the file is when they are downloading it as well. This could affect the performance of a peer to peer system as download speeds on access links are typically many times faster than the upload speeds, meaning leachers would not be connected and sharing for very long. 
+
+5. 
+	Serialization delay is given by dividing the packet size by the link speed (1/10Mbs, 1/15Mbs, and 1/70Mbs).
+	Average queueing delay is given by L/R(N-1)/2 where L is the packet size, R is the link speed, and N is the number of packets in a group.
+	Thus to find the average number of packets transmited in a group over this network we can solve for N in: 1/15(N-1)/2=300 giving us N=9001.
+	If the access link is upgraded to 70Mbs this would change the average queuing delay to 1/70(9001 - 1)/2 = 64.29ms
+
+				LAN 	access 		Upgraded access
+	Prop:		2ms		6.67ms		6.67ms
+	Serial:		10ms	66.67ms		14.29ms
+	Queuing:	50ms	300ms		64.29ms
+
+	Total Delay Before upgrades: 2+10+50+6.67+66.67+300 =   435.34ms
+	Total Delay After  upgrades: 2+10+50+6.67+14.29+64.29 = 147.25ms
+
+	In order for a cache to have the same performance benfits as the new link, it would need to be:
+		435.34(1-hitRate)=147.25
+		hitRate = 1 - 147.25/435.34
+		htiRate = .662
