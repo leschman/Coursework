@@ -14,7 +14,8 @@ class Core:
 	def __init__(self, num):
 		self.number = num # core number of the processor.
 		self.job = None # currently running job of the processor.
-		self.queue = deque() # queue of jobs for the processor to run. 
+		self.queue = deque() # queue of jobs for the processor to run.
+		self.busy = False 
 
 	def work(self, time):
 		"""pretend to do work for 1ms"""
@@ -34,9 +35,10 @@ class Core:
 				# there is a job, load it and wait for the next cycle (the 1ms penelty).
 				self.job = self.queue.popleft()
 				self.job.begin_time = time
+				self.busy = True
 			else:
 				# there is no job to perform next, so idle. 
-				pass
+				self.busy = False
 
 class Job:
 	"""
@@ -65,15 +67,19 @@ class Processor:
 		self.cores = [] #declare a list of cores.
 		#loop through and initalize all cores
 		for number in range(0, core_count - 1): 
-			cores.append(Core(number))
+			self.cores.append(Core(number))
 
 		#job buffer for new jobs as they come in
 		self.jobs = deque()
+		
 
 	def update(self):
 		"""perform all functions of the processor."""
 		# update the clock.
 		self.clock += 1
+
+		# initialize busy flag to false to check if we are done working. 
+		self.busy = False
 
 		#pull in new jobs from the jobset.
 		if next_job_index < len(jobset):
@@ -90,6 +96,10 @@ class Processor:
 		# have the cores do 'work'. 
 		for core in self.cores:
 			core.work(self.clock)
+
+			# check if the core is busy, if it is then the processor is.
+			if core.busy:
+				self.busy = True
 
 class RoundRobinScheduler:
 	"""
@@ -136,6 +146,7 @@ Driver for the program.
 """
 def main():
 
+	#handle arguments. 
 	parser = argparse.ArgumentParser()
 	parser.add_argument("-s", "--scheduler", action='store_true', help="the scheduler to use in the simulation, rr or sjn")
 	parser.add_argument("-r","--randjobset", action='store_true', help="use random jobs instead of default set")
@@ -148,10 +159,49 @@ def main():
 	else:
 		jobset = default_jobset()
 
+	#initialize the processor.
+	processor = Processor(jobset)	
+
 	if args.scheduler == 'sjn':
-		scheduler = ShortestJobNextScheduler(Processor())
+		scheduler = ShortestJobNextScheduler(processor)
 	elif args.scheduler == 'rr':
-		scheduler = RoundRobinScheduler(Processor())
+		scheduler = RoundRobinScheduler(processor)
+
+	idle_count = 0
+	while idle_count < 10:
+
+		# have the processor run, equivilant of a clock tick. 
+		processor.update()
+
+		# if the processor is busy, reset the counter. otherwise increment it.
+		# counter is to ensure all jobs have cleared the queues before we pull the plug.
+		if processor.busy:
+			idle_count = 0
+		else:
+			idle_count += 1
+
+	# data collection
+	minimum = 10000000000000 # if a job takes longer than this... something is horribly wrong
+	maximum = -1
+	summation = 0
+	count = 0
+	for job in jobset:
+		# calculate the turn around time. 
+		turn_around = job.finish_time - job.arrival_time
+
+		# Capture the statistics.
+		if turn_around < minimum:
+			minimum = turn_around
+		if turn_around > maximum:
+			maximum = turn_around
+
+		summation += turn_around
+		count += 1
+
+	average = summation / count
+
+	print("Min: {0}, Max: {1}, Avg: {2}, Std Dev: ", minimum, maximum, average)
+
 
 
 def random_jobset_generator():
