@@ -1,0 +1,27 @@
+1. An Arp query is sent with a broadcast frame because the connecting host has no idea what other hosts are out there and needs to reach the DHCP server. The reply is sent directly to the connecting host because a broadcast frame would be wasted bandwidth and the message is only intended for the host. 
+
+2a. If each host is trying to communicate with an adjacent host on the same switch then the agregate throughput is all the hosts (clients and servers)= 11 * 100Mbps * 2 = 22000Mbps  (using duplex links provided by cat5). If the hosts are trying to communicate with the local servers then the agregate throughput would be 2*(300)Mbps, (again asuming duplex links). Bottlenecked at the department level switches.  
+
+2b. If the department level switches became hubs this would cap the throughput for all three departments at 100Mbps, shared between all clients. the throughput to the servers would be 600Mbps (duplex connection) or 300Mbps (symplex)
+
+2c. If all the switches were hubs then the agregate throughput would be 100Mbps for the entire network.
+
+3a. path loss is when there is a change on the path and packets are loss. i.e. someone microwaving delicious nachos. multipath propogation is when the same signal reflects and reaches the host twice. interference can occure when another host begins broadcasting and it interupts the given hosts singnal.
+
+3b. First the base station can decrease its data transmition rate, making the signals have more gap between them. second the base station can transmit with more power, making the signals bigger. 
+
+4. In mobile IP, hosts can wander between various access points. this causes datagrams to be miss switched and for latency to increase. there is also the challenge of waiting for the medium to free up from signals. 
+
+5. a packet that is recieved after its scheduled playout time is considered lost because the playback has already advanced beyond the point that the packet would have been useful. 
+
+6ab. 
+	time|	tokens	| packets in queue	|	packets on output
+	t0 	|	 2		|	1,2,3 			|		1,2
+	t1	|	 1		|	3,4 			|		3
+	t2	|	 1		|	4,5 			|		4
+	t3	|	 1 		|	5,6 			|		5
+	t4	|	 1 		|	6 				|		6
+	t5	|	 1		|					|		
+	t6	|	 2 		|	7,8 			|		7,8
+	t7	|	 1 		| 	9,10			|		9
+	t8	|	 1 		|	10 				|		10

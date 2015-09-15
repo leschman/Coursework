@@ -1,0 +1,75 @@
+1. 	The client IP is: 192.168.1.102
+		Packet:
+		     10 0.077405    192.168.1.102         128.119.245.12        TCP      1514   [TCP segment of a reassembled PDU]
+
+2.	gaia.cs.umass.edu is on 128.119.245.12:80
+		Packet:
+			10 0.077405    192.168.1.102         128.119.245.12        TCP      1514   [TCP segment of a reassembled PDU]
+			Transmission Control Protocol, Src Port: 1161 (1161), Dst Port: 80 (80), Seq: 4946, Ack: 1, Len: 1460
+
+3.	My IP and port are 192.168.1.6:49743
+		Packet:
+			13 5.480095000    192.168.1.6           128.119.245.12        TCP      1514   [TCP segment of a reassembled PDU]
+			Transmission Control Protocol, Src Port: 49743 (49743), Dst Port: 80 (80), Seq: 614, Ack: 1, Len: 1460
+
+4.	The TCP sequence number used to initiate the connection is 0.
+		Packet:
+			Transmission Control Protocol, Src Port: 1161 (1161), Dst Port: 80 (80), Seq: 0, Len: 0
+5. 	The SYNACK returned by the server has absolute sequence number 883061785 with ACK 232129013. The value in the ACK field is the sequence of the recived packet plus one. SYN and ACK bits are set
+		Packet: 2 0.023172    128.119.245.12        192.168.1.102         TCP      62     80→1161 [SYN, ACK] Seq=883061785 Ack=232129013 Win=5840 Len=0 MSS=1460 SACK_PERM=1
+
+		Frame 2: 62 bytes on wire (496 bits), 62 bytes captured (496 bits)
+		Ethernet II, Src: LinksysG_da:af:73 (00:06:25:da:af:73), Dst: Actionte_8a:70:1a (00:20:e0:8a:70:1a)
+		Internet Protocol Version 4, Src: 128.119.245.12 (128.119.245.12), Dst: 192.168.1.102 (192.168.1.102)
+		Transmission Control Protocol, Src Port: 80 (80), Dst Port: 1161 (1161), Seq: 883061785, Ack: 232129013, Len: 0
+		    Source Port: 80 (80)
+		    Destination Port: 1161 (1161)
+		    [Stream index: 0]
+		    [TCP Segment Len: 0]
+		    Sequence number: 883061785    (relative sequence number)
+		    Acknowledgment number: 232129013    (relative ack number)
+		    Header Length: 28 bytes
+		    .... 0000 0001 0010 = Flags: 0x012 (SYN, ACK)
+		        000. .... .... = Reserved: Not set
+		        ...0 .... .... = Nonce: Not set
+		        .... 0... .... = Congestion Window Reduced (CWR): Not set
+		        .... .0.. .... = ECN-Echo: Not set
+		        .... ..0. .... = Urgent: Not set
+		        .... ...1 .... = Acknowledgment: Set
+		        .... .... 0... = Push: Not set
+		        .... .... .0.. = Reset: Not set
+		        .... .... ..1. = Syn: Set
+		        .... .... ...0 = Fin: Not set
+		    Window size value: 5840
+		    [Calculated window size: 5840]
+		    Checksum: 0x774d [correct]
+		    Urgent pointer: 0
+		    Options: (8 bytes), Maximum segment size, No-Operation (NOP), No-Operation (NOP), SACK permitted
+
+6.	The POST command has sequence number 232129578. 
+		Packet: 
+			4 0.026477    192.168.1.102         128.119.245.12        TCP      619    [TCP segment of a reassembled PDU]
+			... Dp....POST /ethe ...
+
+7,8.	Sequence Numbers	Sent 				Ack recieved		RTT		EstimatedRTT	Length
+		232129013		7:44:20.596858000	7:44:20.624318000	.027460		.027460			565
+		232129578		7:44:20.612118000	7:44:20.624318000	.012200		.039278			1460
+		232131038		7:44:20.624407000	7:44:20.647675000	.022604		.062623			1460
+		232132498		7:44:20.625071000	7:44:20.694466000	.046680		.113145			1460
+		232133958		7:44:20.647786000	7:44:20.739499000	.090961		.212703			1460
+		232135418		7:44:20.648538000	7:44:20.787680000	.139142		.360043			1460
+	
+9.	The smallest window size recieved is 5840. This does not apear to cause any throttling. 
+
+10.	No. I checked for repeated sent sequence numbers. Also in the time/sequence graph there is no drop off. 
+
+11.	Typicaly one or two segments are ack'd at a time. For example, see the capture in 7 and 8. 
+
+12.	Avg MBit/sec: 0.187. Found using Statistics Summary. 
+
+13.	The slow start ends after about the first tenth of a second. The capture differs from the theoretical behavior in that the flow never drops off. 
+
+14.	My transfer was significantly different from the given sample. The slow start once again ends in about the first tenth of a second, but the window size grows and shrinks rapidly, singifying network problems. 
+
+
+My computer uses TCP Tahoe: when there are repeat acks recived the window colapses all the way. 
