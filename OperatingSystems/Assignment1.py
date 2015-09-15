@@ -42,7 +42,7 @@ class Job:
 	"""
 	class to represent a job for the processor.
 	"""
-	def __init__(self, num, arival_time, processing_time):
+	def __init__(self, num, arrival_time, processing_time):
 		self.number = num
 		self.processing_time = processing_time
 		self.worked_on_time = 0
