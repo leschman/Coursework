@@ -5,7 +5,7 @@ CSCI 460: Operating Systems, Assignment 1
 """
 
 from collections import deque
-from queue import PriorityQueue
+from Queue import PriorityQueue
 import argparse
 import random
 
@@ -17,26 +17,26 @@ class Core:
 		self.queue = deque() # queue of jobs for the processor to run. 
 
 	def work(self, time):
-	"""pretend to do work for 1ms"""
-	#if the core has a job it is working on.
-	if self.job:
-		#work on the job.
-		self.job.worked_on_time += 1
-		#check if the job is completed
-		if (self.job.worked_on_time == self.job.processing_time):
-			#job is done, mark it as such and delete it. 
-			self.job.finish_time = time
-			self.job = None
+		"""pretend to do work for 1ms"""
+		#if the core has a job it is working on.
+		if self.job:
+			#work on the job.
+			self.job.worked_on_time += 1
+			#check if the job is completed
+			if (self.job.worked_on_time == self.job.processing_time):
+				#job is done, mark it as such and delete it. 
+				self.job.finish_time = time
+				self.job = None
 
-	else: #if the core doesn't have a job it's working on.
-		#check if the processor queue has job for it to run next. 
-		if self.queue:
-			# there is a job, load it and wait for the next cycle (the 1ms penelty).
-			self.job = self.queue.popleft()
-			self.job.begin_time = time
-		else:
-			# there is no job to perform next, so idle. 
-			pass
+		else: #if the core doesn't have a job it's working on.
+			#check if the processor queue has job for it to run next. 
+			if self.queue:
+				# there is a job, load it and wait for the next cycle (the 1ms penelty).
+				self.job = self.queue.popleft()
+				self.job.begin_time = time
+			else:
+				# there is no job to perform next, so idle. 
+				pass
 
 class Job:
 	"""
@@ -79,10 +79,10 @@ class Processor:
 		if next_job_index < len(jobset):
 			#pull the next job off the jobset (ASSUMES JOBS ORDERED BY ARIVAL TIME)
 			next_job = self.jobset[self.next_job_index]
-				# if it's time to start the next job, put the job in the job queue (like it arived)
-				if next_job.arrival_time == time:
-					self.jobs.append(next_job)
-					self.next_job_index += 1 # update the index
+			# if it's time to start the next job, put the job in the job queue (like it arived)
+			if next_job.arrival_time == time:
+				self.jobs.append(next_job)
+				self.next_job_index += 1 # update the index
 
 		# schedule the arived jobs.
 		scheduler.schedule()
@@ -137,8 +137,8 @@ Driver for the program.
 def main():
 
 	parser = argparse.ArgumentParser()
-	parser.add_argument("-s", "--scheduler", help="the scheduler to use in the simulation, rr or sjn")
-	parser.add_argument("-r""--randjobset", help="use random jobs instead of default set")
+	parser.add_argument("-s", "--scheduler", action='store_true', help="the scheduler to use in the simulation, rr or sjn")
+	parser.add_argument("-r","--randjobset", action='store_true', help="use random jobs instead of default set")
 
 	args = parser.parse_args()
 	
@@ -150,7 +150,7 @@ def main():
 
 	if args.scheduler == 'sjn':
 		scheduler = ShortestJobNextScheduler(Processor())
-	elif args.scheduler == 'rr'
+	elif args.scheduler == 'rr':
 		scheduler = RoundRobinScheduler(Processor())
 
 
