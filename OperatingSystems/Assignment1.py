@@ -9,6 +9,7 @@ from Queue import PriorityQueue
 import argparse
 import random
 import math
+import csv
 
 class Core:
 	"""	class to represent a core on a processor """
@@ -29,7 +30,7 @@ class Core:
 				#job is done, mark it as such and delete it. 
 				self.job.finish_time = time
 				self.job.turn_around = time - self.job.arrival_time
-				print("Core {0} finished job {1} at time {2}, turn around time: {3}.".format(self.number, self.job.number, time, self.job.turn_around))
+				# print("Core {0} finished job {1} at time {2}, turn around time: {3}.".format(self.number, self.job.number, time, self.job.turn_around))
 				self.job = None
 				self.busy = False
 
@@ -39,7 +40,7 @@ class Core:
 				# there is a job, load it and wait for the next cycle (the 1ms penelty).
 				self.job = self.queue.popleft()
 				self.job.begin_time = time
-				print("Core {0} begining job {1} at time {2}.".format(self.number, self.job.number, time))
+				# print("Core {0} begining job {1} at time {2}.".format(self.number, self.job.number, time))
 				self.busy = True
 			else:
 				# there is no job to perform next, so idle. 
@@ -127,7 +128,7 @@ class RoundRobinScheduler:
 		#if the processor has jobs to be scheduled, put them into the core job queues. 
 		while self.processor.jobs:
 			job = self.processor.jobs.popleft()
-			print "Enqueuing job {0} on core {1}.".format(job.number, self.next_core)
+			#print "Enqueuing job {0} on core {1}.".format(job.number, self.next_core)
 			self.processor.cores[self.next_core].queue.append(job) #enqueue the job on the next core
 
 			# increment the next core to schedule. 
@@ -182,7 +183,7 @@ def main():
 	scheduler = RoundRobinScheduler(processor)	
 
 	if args.scheduler:
-		print "using Shortest Job Next scheduler"
+		# print "using Shortest Job Next scheduler"
 		scheduler = ShortestJobNextScheduler(processor)
 
 
@@ -226,7 +227,11 @@ def main():
 
 	stdev = math.sqrt(sum_deviation_squared/count)
 
-	print("Min: {0}, Max: {1}, Avg: {2}, Std Dev: {3}".format(minimum, maximum, average, stdev))
+	with open("./sjnrandom.out", 'a') as csvfile:
+		writer = csv.writer(csvfile)
+		writer.writerows([[minimum, maximum, average, stdev]])
+		csvfile.close()
+	#print("Min: {0}, Max: {1}, Avg: {2}, Std Dev: {3}".format(minimum, maximum, average, stdev))
 
 
 
