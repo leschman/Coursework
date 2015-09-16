@@ -1,0 +1,37 @@
+Enqueuing job 1 on core 0.
+Core 0 begining job 1 at time 4.
+Core 0 finished job 1 at time 13, turn around time: 9.
+Enqueuing job 2 on core 1.
+Core 1 begining job 2 at time 15.
+Core 1 finished job 2 at time 17, turn around time: 2.
+Enqueuing job 3 on core 2.
+Core 2 begining job 3 at time 18.
+Enqueuing job 4 on core 0.
+Core 0 begining job 4 at time 20.
+Core 0 finished job 4 at time 23, turn around time: 3.
+Enqueuing job 5 on core 1.
+Core 1 begining job 5 at time 26.
+Enqueuing job 6 on core 2.
+Core 2 finished job 3 at time 34, turn around time: 16.
+Enqueuing job 7 on core 0.
+Core 0 begining job 7 at time 35.
+Core 2 begining job 6 at time 35.
+Core 0 finished job 7 at time 42, turn around time: 7.
+Enqueuing job 8 on core 1.
+Core 1 finished job 5 at time 55, turn around time: 29.
+Core 1 begining job 8 at time 56.
+Enqueuing job 9 on core 2.
+Enqueuing job 10 on core 0.
+Core 0 begining job 10 at time 83.
+Enqueuing job 11 on core 1.
+Enqueuing job 12 on core 2.
+Core 1 finished job 8 at time 226, turn around time: 181.
+Core 1 begining job 11 at time 227.
+Core 2 finished job 6 at time 233, turn around time: 204.
+Core 2 begining job 9 at time 234.
+Core 0 finished job 10 at time 261, turn around time: 178.
+Core 1 finished job 11 at time 300, turn around time: 212.
+Core 2 finished job 9 at time 414, turn around time: 357.
+Core 2 begining job 12 at time 415.
+Core 2 finished job 12 at time 423, turn around time: 328.
+Min: 2, Max: 357, Avg: 127, Std Dev: 126.892999544
