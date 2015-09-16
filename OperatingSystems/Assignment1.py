@@ -31,6 +31,7 @@ class Core:
 				self.job.turn_around = time - self.job.arrival_time
 				print("Core {0} finished job {1} at time {2}, turn around time: {3}.".format(self.number, self.job.number, time, self.job.turn_around))
 				self.job = None
+				self.busy = False
 
 		else: #if the core doesn't have a job it's working on.
 			#check if the processor queue has job for it to run next. 
@@ -42,8 +43,8 @@ class Core:
 				self.busy = True
 			else:
 				# there is no job to perform next, so idle. 
-				self.busy = False
-				#print("Core {0} is idle at time {1}.".format(self.number, time))
+				print("Core {0} is idle at time {1}.".format(self.number, time))
+				pass
 
 class Job:
 	"""
@@ -57,6 +58,9 @@ class Job:
 		self.begin_time = 0
 		self.finish_time = 0
 		self.turn_around = 0
+
+	def __cmp__(self, other):
+		return cmp(self.processing_time, other.processing_time)
 
 class Processor:
 	"""
@@ -143,12 +147,16 @@ class ShortestJobNextScheduler:
 	def schedule(self):
 		#check if there are new jobs in the processors buffer, if so prioritize them. 
 		while self.processor.jobs:
-			self.priority_queue.put(self.processor.jobs.popleft())
+			job = self.processor.jobs.popleft()
+			print "Job {0} arived.".format(job.number)
+			self.priority_queue.put(job)
 
 		#check if the cores need more jobs. 
 		for core in self.processor.cores:
-			if not core.jobs:
-				core.jobs.append(self.priority_queue.get())
+			if not core.busy and not self.priority_queue.empty():
+				job = self.priority_queue.get()
+				print "Enqueuing job {0} on core {1}.".format(job.number, core.number)
+				core.queue.append(job)
 
 
 """
@@ -173,7 +181,8 @@ def main():
 	processor = Processor(jobset)
 	scheduler = RoundRobinScheduler(processor)	
 
-	if args.scheduler == 'sjn':
+	if args.scheduler:
+		print "using new scheduler"
 		scheduler = ShortestJobNextScheduler(processor)
 
 
@@ -236,22 +245,24 @@ def default_jobset():
 	""" builds and returns the default jobset given in the assignment."""
 	jobset = []
 
-	#jobset.append(Job(1,1,5))
-	#jobset.append(Job(2,2,5))
-	#jobset.append(Job(3,3,5))
+	jobset.append(Job(1,1,5))
+	jobset.append(Job(2,1,4))
+	jobset.append(Job(3,1,3))
+	jobset.append(Job(4,1,2))
+	jobset.append(Job(5,1,1))
 
-	jobset.append(Job(1,4,9))
-	jobset.append(Job(2,15,2))
-	jobset.append(Job(3,18,16))
-	jobset.append(Job(4,20,3))
-	jobset.append(Job(5,26,29))
-	jobset.append(Job(6,29,198))
-	jobset.append(Job(7,35,7))
-	jobset.append(Job(8,45,170))
-	jobset.append(Job(9,57,180))
-	jobset.append(Job(10,83,178))
-	jobset.append(Job(11,88,73))
-	jobset.append(Job(12,95,8))
+	#jobset.append(Job(1,4,9))
+	#jobset.append(Job(2,15,2))
+	#jobset.append(Job(3,18,16))
+	#jobset.append(Job(4,20,3))
+	#jobset.append(Job(5,26,29))
+	#jobset.append(Job(6,29,198))
+	#jobset.append(Job(7,35,7))
+	#jobset.append(Job(8,45,170))
+	#jobset.append(Job(9,57,180))
+	#jobset.append(Job(10,83,178))
+	#jobset.append(Job(11,88,73))
+	#jobset.append(Job(12,95,8))
 
 	return jobset
 
