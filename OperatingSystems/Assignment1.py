@@ -8,6 +8,7 @@ from collections import deque
 from Queue import PriorityQueue
 import argparse
 import random
+import math
 
 class Core:
 	"""	class to represent a core on a processor """
@@ -27,7 +28,8 @@ class Core:
 			if (self.job.worked_on_time == self.job.processing_time):
 				#job is done, mark it as such and delete it. 
 				self.job.finish_time = time
-				print("Core {0} finished job {1} at time {2}.".format(self.number, self.job.number, time))
+				self.job.turn_around = time - self.job.arrival_time
+				print("Core {0} finished job {1} at time {2}, turn around time: {3}.".format(self.number, self.job.number, time, self.job.turn_around))
 				self.job = None
 
 		else: #if the core doesn't have a job it's working on.
@@ -41,7 +43,7 @@ class Core:
 			else:
 				# there is no job to perform next, so idle. 
 				self.busy = False
-				print("Core {0} is idle at time {1}.".format(self.number, time))
+				#print("Core {0} is idle at time {1}.".format(self.number, time))
 
 class Job:
 	"""
@@ -54,6 +56,7 @@ class Job:
 		self.arrival_time = arrival_time
 		self.begin_time = 0
 		self.finish_time = 0
+		self.turn_around = 0
 
 class Processor:
 	"""
@@ -91,7 +94,7 @@ class Processor:
 			while self.jobset[self.next_job_index].arrival_time <= self.clock:
 				self.jobs.append(self.jobset[self.next_job_index])
 				self.next_job_index += 1
-				if self.next_job_index >= (len(self.jobset) -1):
+				if self.next_job_index >= (len(self.jobset)):
 					self.all_scheduled = True
 					break
 
@@ -117,10 +120,11 @@ class RoundRobinScheduler:
 		self.next_core = 0 # counter for the next core to schedule a job on.
 
 	def schedule(self):
-		#if the processor has jobs to be scheduled, put one into the core job queues. 
-		if self.processor.jobs:
-	
-			self.processor.cores[self.next_core].queue.append(self.processor.jobs.popleft()) #enqueue the job on the next core
+		#if the processor has jobs to be scheduled, put them into the core job queues. 
+		while self.processor.jobs:
+			job = self.processor.jobs.popleft()
+			print "Enqueuing job {0} on core {1}.".format(job.number, self.next_core)
+			self.processor.cores[self.next_core].queue.append(job) #enqueue the job on the next core
 
 			# increment the next core to schedule. 
 			self.next_core += 1
@@ -194,21 +198,26 @@ def main():
 	summation = 0
 	count = 0
 	for job in jobset:
-		# calculate the turn around time. 
-		turn_around = job.finish_time - job.arrival_time
 
 		# Capture the statistics.
-		if turn_around < minimum:
-			minimum = turn_around
-		if turn_around > maximum:
-			maximum = turn_around
+		if job.turn_around < minimum:
+			minimum = job.turn_around
+		if job.turn_around > maximum:
+			maximum = job.turn_around
 
-		summation += turn_around
+		summation += job.turn_around
 		count += 1
 
 	average = summation / count
 
-	print("Min: {0}, Max: {1}, Avg: {2}, Std Dev: ".format(minimum, maximum, average))
+	sum_deviation_squared = 0
+
+	for job in jobset:
+		sum_deviation_squared += math.pow((job.turn_around - average), 2)
+
+	stdev = math.sqrt(sum_deviation_squared/count)
+
+	print("Min: {0}, Max: {1}, Avg: {2}, Std Dev: {3}".format(minimum, maximum, average, stdev))
 
 
 
@@ -227,22 +236,22 @@ def default_jobset():
 	""" builds and returns the default jobset given in the assignment."""
 	jobset = []
 
-	jobset.append(Job(1,1,5))
-	jobset.append(Job(2,1,5))
-	jobset.append(Job(3,1,5))
+	#jobset.append(Job(1,1,5))
+	#jobset.append(Job(2,2,5))
+	#jobset.append(Job(3,3,5))
 
-	#jobset.append(Job(1,4,9))
-	#jobset.append(Job(2,15,2))
-	#jobset.append(Job(3,18,16))
-	#jobset.append(Job(4,20,3))
-	#jobset.append(Job(5,26,29))
-	#jobset.append(Job(6,29,198))
-	#jobset.append(Job(7,35,7))
-	#jobset.append(Job(8,45,170))
-	#jobset.append(Job(9,57,180))
-	#jobset.append(Job(10,83,178))
-	#jobset.append(Job(11,88,73))
-	#jobset.append(Job(12,95,8))
+	jobset.append(Job(1,4,9))
+	jobset.append(Job(2,15,2))
+	jobset.append(Job(3,18,16))
+	jobset.append(Job(4,20,3))
+	jobset.append(Job(5,26,29))
+	jobset.append(Job(6,29,198))
+	jobset.append(Job(7,35,7))
+	jobset.append(Job(8,45,170))
+	jobset.append(Job(9,57,180))
+	jobset.append(Job(10,83,178))
+	jobset.append(Job(11,88,73))
+	jobset.append(Job(12,95,8))
 
 	return jobset
 
