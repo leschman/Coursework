@@ -1,0 +1,26 @@
+using Shortest Job Next scheduler
+Core 0 begining job 1 at time 4.
+Core 0 finished job 1 at time 13, turn around time: 9.
+Core 0 begining job 2 at time 15.
+Core 0 finished job 2 at time 17, turn around time: 2.
+Core 0 begining job 3 at time 18.
+Core 1 begining job 4 at time 20.
+Core 1 finished job 4 at time 23, turn around time: 3.
+Core 1 begining job 5 at time 26.
+Core 2 begining job 6 at time 29.
+Core 0 finished job 3 at time 34, turn around time: 16.
+Core 0 begining job 7 at time 35.
+Core 0 finished job 7 at time 42, turn around time: 7.
+Core 0 begining job 8 at time 45.
+Core 1 finished job 5 at time 55, turn around time: 29.
+Core 1 begining job 9 at time 57.
+Core 0 finished job 8 at time 215, turn around time: 170.
+Core 0 begining job 12 at time 216.
+Core 0 finished job 12 at time 224, turn around time: 129.
+Core 0 begining job 11 at time 225.
+Core 2 finished job 6 at time 227, turn around time: 198.
+Core 2 begining job 10 at time 228.
+Core 1 finished job 9 at time 237, turn around time: 180.
+Core 0 finished job 11 at time 298, turn around time: 210.
+Core 2 finished job 10 at time 406, turn around time: 323.
+Min: 2, Max: 323, Avg: 106, Std Dev: 104.536277595
