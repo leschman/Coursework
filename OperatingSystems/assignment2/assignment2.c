@@ -10,6 +10,29 @@
 #include <stdbool.h>
 #include <time.h>
 
+const int max = 20;
+
+/*
+ * node structure for list. 
+ * contains references to next node, previous node and an int. 
+ */
+struct node{
+	int i;
+	struct node *next;
+	struct node *prev;
+};
+
+/*
+ * list struct for locking doubly linked list.
+ * contains head, tail, size.
+ */
+struct list{
+	struct node *head;
+	struct node *tail;
+	int size;
+};	
+
+
 /*
  * function to generate even or odd ints and append them to the list.
  * takes an int (should be 1 or 2).
@@ -84,4 +107,13 @@ void *evenConsumer(void *arg){
 	// TODO: print list.
 	bool success = intCon(2, list) // TODO: need pointer to list.
 	// TODO: print list.
+}
+
+int main(){
+	//create the head of the list.
+	struct node *head;
+	head = malloc(sizeof(struct node));
+	//create the tail of the list.
+	struct node *tail;
+	tail = malloc(sizeof(struct node));
 }
