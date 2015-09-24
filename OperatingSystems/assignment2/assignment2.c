@@ -127,8 +127,8 @@ bool intGen(int i, linkedList *list){
 	// initialize num to odd if even is wanted and vice versa. 
 	int num = i + 1; 
 	if(debug) printf("i: %d, num: %d\n",i, num);
-	// generate a random number between [0, 14], double it and add i, giving random number [1, 40]. 
-	num = (2*(rand()%19))+i;
+	// generate a random number between [0, 19], double it and add i, giving random number [1, 40]. 
+	num = (2*(rand()%20))+i;
 
 	// TODO: append the number to the linked list.
 	return insert(num, list);	
