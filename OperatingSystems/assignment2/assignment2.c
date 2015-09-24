@@ -11,6 +11,7 @@
 #include <time.h>
 
 const int max = 20;
+const bool debug = false;
 
 /*
  * node structure for list. 
@@ -41,31 +42,47 @@ typedef struct linkedList linkedList;
  * insert a given number into the list.
  */
 bool insert(int i, linkedList *list){
-	printf("reached insert.\n");
+	if(debug)printf("45\n");
 	// check if the list is full, if so return false. 
 	if(list->size >= 20){
 		return false;
 	}else{
 		// create the new node.
+		if(debug)printf("53\n");
 		struct node *newNode;
+		if(debug)printf("55\n");
 		newNode = malloc(sizeof(struct node));
+		if(debug)printf("57\n");
 		// assign the value to the node.
 		newNode->num = i;
 		//initialize newNode next to 0.
+		if(debug)printf("61\n");
 		newNode->next = 0;
 		// point newNode's previous to tail.
+		if(debug)printf("64\n");
 		newNode->prev = list->tail;
-		// point tail's next to newNode.
-		list->tail->next = newNode;
+		if(debug)printf("66\n");
+		if(list->size <= 0){
+			//list is empty, initialize head to current node.
+			list->head = newNode;
+		}else{
+			// point tail's next to newNode.
+			if(debug)printf("72\n");
+			list->tail->next = newNode;
+		}
+		if(debug)printf("75\n");
 		// change tail to newNode.
 		list->tail = newNode;
+		if(debug)printf("78\n");
 		// increment the size.
 		list->size++;
+		if(debug)printf("81\n");
 		return true;
 	}
 }
 
 void printList(linkedList *list){
+	if(debug)printf("printing list.\n");
 	int j = 0;
 	struct node *ptr = list->head;
 	for(j; j < list->size; j++){
@@ -167,7 +184,7 @@ int main(){
 	list = malloc(sizeof(struct linkedList));
 	list->size = 0;
 	int n = 0;
-	printf("before while.\n");
+	if(debug)printf("before while.\n");
 	while(insert(n, list)){
 		n++;
 		printList(list);
