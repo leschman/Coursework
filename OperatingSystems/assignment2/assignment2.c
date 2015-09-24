@@ -157,31 +157,40 @@ int intCon(int i, linkedList *list){
 /*
  * function for odd producer thread.
  */
-void *oddProducer(linkedList *list){
-	// Produce odd random ints < 40 and append them to linked-list.
-	printList(list);
-	bool success = intGen(1, list); 
-	if (!success){
-		// list is full generate message and wait.
-		printf("List is full. Odd Producer is waiting.\n");
-		//TODO: wait.
+void *oddProducer(void *args){
+	if(debug)printf("hello from the thread.\n");
+	struct linkedList *list = args; 
+	while(true){
+		// Produce odd random ints < 40 and append them to linked-list.
+		printList(list);
+		bool success = intGen(1, list); 
+		if (!success){
+			// list is full generate message and wait.
+			printf("List is full. Odd Producer is waiting.\n");
+			//TODO: wait.
+		}
+		printList(list);
+		sleep(1);
 	}
-	printList(list);
 }
 
 /*
  * function for even producer thread.
  */
-void *evenProducer(linkedList *list){
-	// Produce even random ints < 40 and append them to linked-list. 
-	printList(list);
-	bool success = intGen(2, list);
-	if (!success){
-		// list is full generate message and wait.
-		printf("List is full. Even Producer is waiting.\n");
-		//TODO: wait.
+void *evenProducer(void *args){
+	struct linkedList *list = args;
+	while(true){
+		// Produce even random ints < 40 and append them to linked-list. 
+		printList(list);
+		bool success = intGen(2, list);
+		if (!success){
+			// list is full generate message and wait.
+			printf("List is full. Even Producer is waiting.\n");
+			//TODO: wait.
+		}
+		printList(list);
+		sleep(1);
 	}
-	printList(list);
 }
 
 /*
@@ -234,14 +243,15 @@ int main(){
 	struct linkedList *list;
 	list = malloc(sizeof(struct linkedList));
 	list->size = 0;
-	
+
+	//pointers to threads.
+	pthread_t pOddProducer;
+	pthread_t pEvenProducer;
+		
 	//Testing stuff.
-	int n = 0;
-	for(n; n < 25; n++){
-		oddProducer(list);
-	}
-	n = 0;
-	for(n; n < 25; n++){
-		evenConsumer(list);
-	}
+	if(debug)printf("creating thread.\n");
+	//pthread_create(&pOddProducer, NULL, &oddProducer, list);
+	//pthread_join(pOddProducer, NULL);
+	pthread_create(&pEvenProducer, NULL, &evenProducer, list);
+	pthread_join(pEvenProducer, NULL);
 }
