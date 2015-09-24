@@ -40,6 +40,7 @@ typedef struct linkedList linkedList;
 
 /*
  * insert a given number into the list.
+ * return true if successful. false if list full. 
  */
 bool insert(int i, linkedList *list){
 	if(debug)printf("45\n");
@@ -81,12 +82,36 @@ bool insert(int i, linkedList *list){
 	}
 }
 
+/*
+ * delete and return the head of the list. 
+ * returns the int in the head of the list, -1 if list is empty.
+ */
+int delete(linkedList *list){
+	if (list->size <= 0){
+		return -1;
+	}else{
+		if(debug)printf("93\n");
+		//delete the head node and return the int.
+		int val = list->head->num;
+		if(debug)printf("val = %d\n", val);
+		if(debug)printf("96\n");
+		struct node *toFree = list->head;
+		if(debug)printf("98\n");
+		list->head = list->head->next;
+		if(debug)printf("100\n");
+		free(toFree);
+		if(debug)printf("102\n");
+		list->size--;
+		return val;
+	}
+}
+
 void printList(linkedList *list){
 	if(debug)printf("printing list.\n");
 	int j = 0;
 	struct node *ptr = list->head;
 	for(j; j < list->size; j++){
-		printf("%d, ",ptr->num);
+		printf("%2d, ",ptr->num);
 		ptr = ptr->next;
 	}
 	printf("\n");
@@ -185,8 +210,15 @@ int main(){
 	list->size = 0;
 	int n = 0;
 	if(debug)printf("before while.\n");
+	int count = 0;
+	for (count; count < 10; count++){
 	while(insert(n, list)){
 		n++;
 		printList(list);
 	} 	
-}
+	while(n != -1){
+		printList(list);
+		n = delete(list);
+	}
+	n = 0;
+}}
