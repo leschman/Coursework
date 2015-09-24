@@ -137,15 +137,20 @@ bool intGen(int i, linkedList *list){
 /* 
  * function to consume an even or odd int from the head of the list. 
  * takes an int [1,2]
- * checks if the head of the list mod that int is 0, if so removes it.
- * returns true if success, false otherwise. 
+ * checks if the head of the list plus that int mod 2 is even, if so removes it.
+ * takes advantage of an even+even is even, odd+odd is even. 
+ * so if the sum is even, then the head is the desired even/odd.
+ * returns 0 if list is empty, -1 if head isn't odd/even, the head if all is well. 
  */
-bool intCon(int i, linkedList *list){
+int intCon(int i, linkedList *list){
 	if(list->size <= 0){
-		return false;
-	}else if((head + i) % 2 == 0){
-		delete(list);
-		return true;
+		return 0;
+	}else if((list->head->num + i) % 2 == 0){
+		// head is odd/even. 
+		return delete(list);
+	}else{
+		// head isn't odd/even. 
+		return -1;
 	}
 }
 
@@ -185,11 +190,17 @@ void *evenProducer(linkedList *list){
 void *oddConsumer(linkedList *list){
 	// Consume odd ints at the head of the linked-list.
 	printList(list);
-	bool success = intCon(1, list);
-	if (!success){
+	int success = intCon(1, list);
+	if (success == 0){
 		// list is empty generate message and wait.
 		printf("List is empty. Odd Consumer is waiting.\n");
 		//TODO: wait.
+	}else if(success == -1){
+		// list doesn't have odd head; block.
+		printf("List has even head. Odd Consumer is waiting.\n");
+		//TODO: block.
+	}else{
+		printf("Odd consumer removed %2d.\n",success);
 	}
 	printList(list);
 }
@@ -200,23 +211,22 @@ void *oddConsumer(linkedList *list){
 void *evenConsumer(linkedList *list){
 	// Consume even ints at the head of the linked-list.
 	printList(list);
-	bool success = intCon(2, list);
-	if (!success){
+	int success = intCon(2, list);
+	if (success == 0){
 		// list is empty generate message and wait.
 		printf("List is empty. Even Consumer is waiting.\n");
 		//TODO: wait.
+	}else if(success == -1){
+		// list doesn't have odd head; block.
+		printf("List has odd head. Even Consumer is waiting.\n");
+		//TODO: block.
+	}else{
+		printf("Even consumer removed %2d.\n",success);
 	}
 	printList(list);
 }
 
 int main(){
-	//create the head of the list.
-	//struct node *head;
-	//head = malloc(sizeof(struct node));
-	//create the tail of the list.
-	//struct node *tail;
-	//tail = malloc(sizeof(struct node));
-
 	//set up random number generator.
 	srand((unsigned)time(NULL));
 	
@@ -224,12 +234,14 @@ int main(){
 	struct linkedList *list;
 	list = malloc(sizeof(struct linkedList));
 	list->size = 0;
+	
+	//Testing stuff.
 	int n = 0;
 	for(n; n < 25; n++){
 		oddProducer(list);
 	}
 	n = 0;
 	for(n; n < 25; n++){
-		oddConsumer(list);
+		evenConsumer(list);
 	}
 }
