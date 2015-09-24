@@ -45,14 +45,9 @@ typedef struct linkedList linkedList;
  */
 bool insert(int i, linkedList *list){
 	if(debug)printf("45\n");
-	
-	//Lock the mutex.
-	pthread_mutex_lock(&mutex);
 
 	// check if the list is full, if so return false. 
 	if(list->size >= 20){
-		// Unlock the mutex.
-		pthread_mutex_unlock(&mutex);
 		return false;
 	}else{
 		// create the new node.
@@ -86,8 +81,6 @@ bool insert(int i, linkedList *list){
 		list->size++;
 		if(debug)printf("81\n");
 		
-		// Unlock the mutex.
-		pthread_mutex_unlock(&mutex);
 		return true;
 	}
 }
@@ -171,6 +164,8 @@ void *oddProducer(void *args){
 	if(debug)printf("hello from the thread.\n");
 	struct linkedList *list = args; 
 	while(true){
+	// Lock mutex.
+	pthread_mutex_lock(&mutex);
 		// Produce odd random ints < 40 and append them to linked-list.
 		printList(list);
 		bool success = intGen(1, list); 
@@ -180,6 +175,8 @@ void *oddProducer(void *args){
 			//TODO: wait.
 		}
 		printList(list);
+		// Unlock the mutex.
+		pthread_mutex_unlock(&mutex);
 		sleep(1);
 	}
 }
@@ -190,6 +187,8 @@ void *oddProducer(void *args){
 void *evenProducer(void *args){
 	struct linkedList *list = args;
 	while(true){
+	// Lock mutex.
+	pthread_mutex_lock(&mutex);
 		// Produce even random ints < 40 and append them to linked-list. 
 		printList(list);
 		bool success = intGen(2, list);
@@ -199,6 +198,8 @@ void *evenProducer(void *args){
 			//TODO: wait.
 		}
 		printList(list);
+		// Unlock the mutex.
+		pthread_mutex_unlock(&mutex);
 		sleep(1);
 	}
 }
@@ -207,6 +208,8 @@ void *evenProducer(void *args){
  * function for odd consumer thread.
  */
 void *oddConsumer(linkedList *list){
+	// Lock mutex.
+	pthread_mutex_lock(&mutex);
 	// Consume odd ints at the head of the linked-list.
 	printList(list);
 	int success = intCon(1, list);
@@ -222,12 +225,16 @@ void *oddConsumer(linkedList *list){
 		printf("Odd consumer removed %2d.\n",success);
 	}
 	printList(list);
+		// Unlock the mutex.
+		pthread_mutex_unlock(&mutex);
 }
 
 /*
  * function for even consumer thread.
  */
 void *evenConsumer(linkedList *list){
+	// Lock mutex.
+	pthread_mutex_lock(&mutex);
 	// Consume even ints at the head of the linked-list.
 	printList(list);
 	int success = intCon(2, list);
@@ -243,6 +250,8 @@ void *evenConsumer(linkedList *list){
 		printf("Even consumer removed %2d.\n",success);
 	}
 	printList(list);
+		// Unlock the mutex.
+		pthread_mutex_unlock(&mutex);
 }
 
 int main(){
