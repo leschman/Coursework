@@ -141,13 +141,11 @@ bool intGen(int i, linkedList *list){
  * returns true if success, false otherwise. 
  */
 bool intCon(int i, linkedList *list){
-	// TODO: get the head of the list. 
-	int head = 0;
-	if(head % i == 0){
-		// TODO: delete the head. 
-		return true;
-	}else{
+	if(list->size <= 0){
 		return false;
+	}else if((head + i) % 2 == 0){
+		delete(list);
+		return true;
 	}
 }
 
@@ -229,5 +227,9 @@ int main(){
 	int n = 0;
 	for(n; n < 25; n++){
 		oddProducer(list);
+	}
+	n = 0;
+	for(n; n < 25; n++){
+		oddConsumer(list);
 	}
 }
