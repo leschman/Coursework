@@ -126,14 +126,12 @@ void printList(linkedList *list){
 bool intGen(int i, linkedList *list){
 	// initialize num to odd if even is wanted and vice versa. 
 	int num = i + 1; 
-	// while num isn't they type wanted, generate a new random number.
-	while(num % i != 0){
-		// generate a random number between [1, 40]
-		num = rand()%40 + 1;
-	}
+	if(debug) printf("i: %d, num: %d\n",i, num);
+	// generate a random number between [0, 14], double it and add i, giving random number [1, 40]. 
+	num = (2*(rand()%19))+i;
 
 	// TODO: append the number to the linked list.
-	return false;
+	return insert(num, list);	
 }
 
 /* 
@@ -158,9 +156,14 @@ bool intCon(int i, linkedList *list){
  */
 void *oddProducer(linkedList *list){
 	// Produce odd random ints < 40 and append them to linked-list.
-	// TODO: print list. 
-	bool success = intGen(1, list); // TODO: need pointer to list.
-	// TODO: print list.
+	printList(list);
+	bool success = intGen(1, list); 
+	if (!success){
+		// list is full generate message and wait.
+		printf("List is full. Odd Producer is waiting.\n");
+		//TODO: wait.
+	}
+	printList(list);
 }
 
 /*
@@ -168,9 +171,14 @@ void *oddProducer(linkedList *list){
  */
 void *evenProducer(linkedList *list){
 	// Produce even random ints < 40 and append them to linked-list. 
-	// TODO: print list. 
-	bool success = intGen(2, list); // TODO: need pointer to list.
-	// TODO: print list.
+	printList(list);
+	bool success = intGen(2, list);
+	if (!success){
+		// list is full generate message and wait.
+		printf("List is full. Even Producer is waiting.\n");
+		//TODO: wait.
+	}
+	printList(list);
 }
 
 /*
@@ -178,9 +186,14 @@ void *evenProducer(linkedList *list){
  */
 void *oddConsumer(linkedList *list){
 	// Consume odd ints at the head of the linked-list.
-	// TODO: print list.
-	bool success = intCon(1, list); // TODO: need pointer to list.
-	// TODO: print list.
+	printList(list);
+	bool success = intCon(1, list);
+	if (!success){
+		// list is empty generate message and wait.
+		printf("List is empty. Odd Consumer is waiting.\n");
+		//TODO: wait.
+	}
+	printList(list);
 }
 
 /*
@@ -188,9 +201,14 @@ void *oddConsumer(linkedList *list){
  */
 void *evenConsumer(linkedList *list){
 	// Consume even ints at the head of the linked-list.
-	// TODO: print list.
-	bool success = intCon(2, list); // TODO: need pointer to list.
-	// TODO: print list.
+	printList(list);
+	bool success = intCon(2, list);
+	if (!success){
+		// list is empty generate message and wait.
+		printf("List is empty. Even Consumer is waiting.\n");
+		//TODO: wait.
+	}
+	printList(list);
 }
 
 int main(){
@@ -209,16 +227,7 @@ int main(){
 	list = malloc(sizeof(struct linkedList));
 	list->size = 0;
 	int n = 0;
-	if(debug)printf("before while.\n");
-	int count = 0;
-	for (count; count < 10; count++){
-	while(insert(n, list)){
-		n++;
-		printList(list);
-	} 	
-	while(n != -1){
-		printList(list);
-		n = delete(list);
+	for(n; n < 25; n++){
+		oddProducer(list);
 	}
-	n = 0;
-}}
+}
