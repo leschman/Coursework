@@ -12,6 +12,7 @@
 
 const int max = 20;
 const bool debug = false;
+pthread_mutex_t mutex;
 
 /*
  * node structure for list. 
@@ -44,8 +45,14 @@ typedef struct linkedList linkedList;
  */
 bool insert(int i, linkedList *list){
 	if(debug)printf("45\n");
+	
+	//Lock the mutex.
+	pthread_mutex_lock(&mutex);
+
 	// check if the list is full, if so return false. 
 	if(list->size >= 20){
+		// Unlock the mutex.
+		pthread_mutex_unlock(&mutex);
 		return false;
 	}else{
 		// create the new node.
@@ -78,6 +85,9 @@ bool insert(int i, linkedList *list){
 		// increment the size.
 		list->size++;
 		if(debug)printf("81\n");
+		
+		// Unlock the mutex.
+		pthread_mutex_unlock(&mutex);
 		return true;
 	}
 }
@@ -243,6 +253,10 @@ int main(){
 	struct linkedList *list;
 	list = malloc(sizeof(struct linkedList));
 	list->size = 0;
+	if(pthread_mutex_init(&mutex, NULL) != 0){
+		printf("Mutex init failed.\n");
+		return 1;
+	}
 
 	//pointers to threads.
 	pthread_t pOddProducer;
@@ -250,7 +264,7 @@ int main(){
 		
 	//Testing stuff.
 	if(debug)printf("creating thread.\n");
-	//pthread_create(&pOddProducer, NULL, &oddProducer, list);
+	pthread_create(&pOddProducer, NULL, &oddProducer, list);
 	//pthread_join(pOddProducer, NULL);
 	pthread_create(&pEvenProducer, NULL, &evenProducer, list);
 	pthread_join(pEvenProducer, NULL);
