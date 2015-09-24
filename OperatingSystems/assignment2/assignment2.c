@@ -133,7 +133,11 @@ bool intGen(int i, linkedList *list){
 	// generate a random number between [0, 19], double it and add i, giving random number [1, 40]. 
 	num = (2*(rand()%20))+i;
 
-	// TODO: append the number to the linked list.
+	if(i % 2 == 0){
+		printf("Even Producer trying to append %2d.\n", num);
+	}else{
+		printf("Odd Producer trying to append %2d.\n",num);
+	}
 	return insert(num, list);	
 }
 
@@ -163,18 +167,21 @@ int intCon(int i, linkedList *list){
 void *oddProducer(void *args){
 	if(debug)printf("hello from the thread.\n");
 	struct linkedList *list = args; 
+
 	while(true){
-	// Lock mutex.
-	pthread_mutex_lock(&mutex);
+
+		// Lock mutex.
+		pthread_mutex_lock(&mutex);
+	
 		// Produce odd random ints < 40 and append them to linked-list.
 		printList(list);
 		bool success = intGen(1, list); 
 		if (!success){
 			// list is full generate message and wait.
 			printf("List is full. Odd Producer is waiting.\n");
-			//TODO: wait.
 		}
 		printList(list);
+
 		// Unlock the mutex.
 		pthread_mutex_unlock(&mutex);
 		sleep(1);
@@ -187,17 +194,18 @@ void *oddProducer(void *args){
 void *evenProducer(void *args){
 	struct linkedList *list = args;
 	while(true){
-	// Lock mutex.
-	pthread_mutex_lock(&mutex);
+		// Lock mutex.
+		pthread_mutex_lock(&mutex);
+	
 		// Produce even random ints < 40 and append them to linked-list. 
 		printList(list);
 		bool success = intGen(2, list);
 		if (!success){
 			// list is full generate message and wait.
 			printf("List is full. Even Producer is waiting.\n");
-			//TODO: wait.
 		}
 		printList(list);
+	
 		// Unlock the mutex.
 		pthread_mutex_unlock(&mutex);
 		sleep(1);
@@ -207,74 +215,92 @@ void *evenProducer(void *args){
 /*
  * function for odd consumer thread.
  */
-void *oddConsumer(linkedList *list){
-	// Lock mutex.
-	pthread_mutex_lock(&mutex);
-	// Consume odd ints at the head of the linked-list.
-	printList(list);
-	int success = intCon(1, list);
-	if (success == 0){
-		// list is empty generate message and wait.
-		printf("List is empty. Odd Consumer is waiting.\n");
-		//TODO: wait.
-	}else if(success == -1){
-		// list doesn't have odd head; block.
-		printf("List has even head. Odd Consumer is waiting.\n");
-		//TODO: block.
-	}else{
-		printf("Odd consumer removed %2d.\n",success);
-	}
-	printList(list);
+void *oddConsumer(void *args){
+	struct linkedList *list = args;
+	while(true){
+		// Lock mutex.
+		pthread_mutex_lock(&mutex);
+		// Consume odd ints at the head of the linked-list.
+		printList(list);
+		int success = intCon(1, list);
+		if (success == 0){
+			// list is empty generate message and wait.
+			printf("List is empty. Odd Consumer is waiting.\n");
+		}else if(success == -1){
+			// list doesn't have odd head; block.
+			printf("List has even head. Odd Consumer is waiting.\n");
+		}else{
+			printf("Odd Consumer removed %2d.\n",success);
+		}
+		printList(list);
+	
 		// Unlock the mutex.
 		pthread_mutex_unlock(&mutex);
+		sleep(1);
+	}
 }
 
 /*
  * function for even consumer thread.
  */
-void *evenConsumer(linkedList *list){
-	// Lock mutex.
-	pthread_mutex_lock(&mutex);
-	// Consume even ints at the head of the linked-list.
-	printList(list);
-	int success = intCon(2, list);
-	if (success == 0){
-		// list is empty generate message and wait.
-		printf("List is empty. Even Consumer is waiting.\n");
-		//TODO: wait.
-	}else if(success == -1){
-		// list doesn't have odd head; block.
-		printf("List has odd head. Even Consumer is waiting.\n");
-		//TODO: block.
-	}else{
-		printf("Even consumer removed %2d.\n",success);
-	}
-	printList(list);
+void *evenConsumer(void *args){
+	struct linkedList *list = args;
+	while(true){
+		// Lock mutex.
+		pthread_mutex_lock(&mutex);
+		
+		// Consume even ints at the head of the linked-list.
+		printList(list);
+		int success = intCon(2, list);
+		if (success == 0){
+			// list is empty generate message and wait.
+			printf("List is empty. Even Consumer is waiting.\n");
+		}else if(success == -1){
+			// list doesn't have odd head; block.
+			printf("List has odd head. Even Consumer is waiting.\n");
+		}else{
+			printf("Even Consumer removed %2d.\n",success);
+		}
+		printList(list);
+
 		// Unlock the mutex.
 		pthread_mutex_unlock(&mutex);
+		sleep(1);
+	}
 }
 
 int main(){
-	//set up random number generator.
+	// Set up random number generator.
 	srand((unsigned)time(NULL));
 	
-	//create the list.
+	// Create the list.
 	struct linkedList *list;
 	list = malloc(sizeof(struct linkedList));
 	list->size = 0;
+
+	// Initialize the list with three nodes. 
+	intGen(1, list);
+	intGen(2, list);
+	intGen(1, list);
+
+	// Initialize the mutex.
 	if(pthread_mutex_init(&mutex, NULL) != 0){
 		printf("Mutex init failed.\n");
 		return 1;
 	}
 
-	//pointers to threads.
+	// Pointers to threads.
 	pthread_t pOddProducer;
 	pthread_t pEvenProducer;
-		
-	//Testing stuff.
-	if(debug)printf("creating thread.\n");
+	pthread_t pOddConsumer;
+	pthread_t pEvenConsumer;		
+
+	// Create the threads.
 	pthread_create(&pOddProducer, NULL, &oddProducer, list);
-	//pthread_join(pOddProducer, NULL);
 	pthread_create(&pEvenProducer, NULL, &evenProducer, list);
+	pthread_create(&pOddConsumer, NULL, &oddConsumer, list);
+	pthread_create(&pEvenConsumer, NULL, &evenConsumer, list);
+
+	// Wait for one of the threads just so this one doesn't exit. 
 	pthread_join(pEvenProducer, NULL);
 }
