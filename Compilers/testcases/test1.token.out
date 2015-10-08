@@ -1,0 +1,8 @@
+Token Type: KEYWORD
+Value: PROGRAM
+Token Type: IDENTIFIER
+Value: test
+Token Type: KEYWORD
+Value: BEGIN
+Token Type: KEYWORD
+Value: END
