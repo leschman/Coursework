@@ -1,0 +1,39 @@
+Logan Esch, Networks Final Exam
+
+Section 1
+
+1. QoS mechanisms are primarily used to regulate bandwidth between users or classes of traffic in an attempt to garentee network quality. QoS is not useful when bandwidth is extreamly plentiful because then there is no point in regulating the bandwidth. If there is enough bandwidth available that users cannot be reasonably expected to reach the maximum capacity then there is no point in regulating their bandwidth. IF bandwith is extreamly low then QoS will not help, the point of Qos is to deliver a garenteed quality to a flow, say 1Mbps, if there is only 56kbps available then no amount of QoS will give 1Mbps. 
+
+3. A router is an Network layer device while a switch is a Link Layer device. Routers are all about IP addresses, subnets, and routing packets between various networks. They use protocols like OSPF, RIP, and BGP to map networks and forward packets between networks. Switches are all about MAC addresses and generaly use Ethernet. Packets from layer 3 are encapsulated into frames and forwarded through switches. Switches and routers are similar in that they smartly forward packets between different segments of the network as a whole, but both provide different functionality. Routers perform all the functions belonging to the network layer like TTL updates, Routing and QoS. Switches normally only switch packets from one link to another based on the mac address. 
+
+4. The most challenging network problem for live video applications is high latency. If two clients have consitently high latency, there is very little the application can do to work around; the time it takes for information to travel from one client to another simply is that. Reducing the bandwidth (compression or lower resolution) will not reduce this time. High latency will affect user experience directly, with users talking over eachother or needing to wait extra time to comunicate. High jitter is when lattency is inconsistent in the communication; it fluctuates from low to high unpredictably. When latency is high, this case devolves into the previous. When latency is low high jitter is irrelevant. Low bandwidth pressents a challenge in that only so much information can be passed between the two clients in the given time frame. Low bandith can be worked around using compression, lower quality video/audio, or by reducing frame rates or using some sort of frame update scheme. This will be tollerable for the users and still allow uninterupted conversation if the bandwith is low but not too low. If the bandwidth is too low no combination of these techniques will help enough and applications should probably just tell the user to buy higher bandwidth. QoS can be employed to prioritize this traffic over other traffic, but this will only help if the base latency between two peers is low, the available total bandwidth is sufficent and the involved networks respect QoS.  
+
+Section 2
+
+6.a
+	C1 will send an ARP frame (to address FF:FF:FF:FF:FF:FF)trying to resolve the IP of the gateway (R1) into a Mac address if it does not have the addressed cached. If it does have the addrssed cached, skip the following indented block. 
+		The packet will propogate through the local network to S1, C2, H1, S2, C3, C4, and R1. The frame will be ignored by all of these except R1.
+		R1 will repspond directly to C1 with its MAC address. This Frame will travel from R1-H1- S1 and S2, C1 (dropped at S2).
+	C1 will then send its data packet dirrectly to R1 using its MAC address. route: C1-S1-H1-S2 and R1 (dropped at S2)
+	R1 will strip the frame encapsulating the packet and examine it's destination address. If the router has built a network map, skip the following indented block.
+		The router determines what ports are have functioning connections.
+		The router floods the network with a link-state advertisement which does the following:
+			Identifies the origininating router
+			Identifies all other nodes(the other routers) the router is directly connected to.
+			Includes a sequence number that is incremented at every hop. 
+			This message is propogated through the whole network.
+		R1 will send this message to R2 and R3, both of which forward it to R4, R4 forwards the messages to R5. 
+		All of the routers also send out these messages. 
+		R1 (and all the other routers) build a network map of the shortest paths to each network based on number of hops, possibly using some kind of tie breaker (like latency) or a coin toss.
+		The routers also cache the MAC addresses of their neighbors.
+	I am going to assume that since the path from R1 to R4 has the same hops whether it goes to R2 or R3 that by coin toss it chooses R3 as being the shortest path. 
+	R1 wraps the IP packet in a frame for R3 and sends it.  
+	R3 unwraps the packet, and then wraps it for R4 and sends it.
+	R4 unwraps the packet, and then wraps it for R5 and sends it.
+	R5 unwraps the packet, sees that the packet is for its network and then, if it does not have the IP cached for C6 performs an ARP request like above.
+		The ARP goes to H2, S3, C5 and C6. (ignored by C5)
+		C6 responds directly to R5 with an ARP reply, Path: C6-S3-H2-R5
+		R5 then wraps the packet in a frame for C6 and sends it. path R5-H2-S3-C6
+		C6 recives the data packet. 
+
+6.b A DHCP server would be able to assign each node its own IP address. Inorder to find eachother's IP addresses they would need to have a DNS server, or some other kind of registrar of names and IP addresses like a SIP registrar that each host could comunicate with to find the other's IP.  
