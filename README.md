@@ -4,8 +4,9 @@ This is a portfolio of my projects from university. Please feel free to use for 
 ________________
 
 ##Courses in Progress##
-
-
+* [Compilers](Compilers/)
+* [Machine Learning](MachineLearning/)
+* [OperatingSystems](OperatingSystems/)
 
 ##Completed Course Directories##
 * [Artificial Intelligence](Previous%20Classes/Artificial%20Intelligence/)
@@ -27,5 +28,4 @@ ________________
 
 
 ##Other Directories##
-* [BattleCode 2013](BattleCode2013/)
 * [Fun](Fun/)
